@@ -1,0 +1,13 @@
+{
+  "author": "Віталій Стасовський",
+  "manifest_version": 3,
+  "name": "Мониторинг",
+  "description": "Мониторинг геолокации, запись ір адресов в базу, сверка с другими ір адресами, калькулятор вилок",
+  "short_name": "Ваша страна",
+  "version": "0.0.0",
+  "action": {
+    "default_title": "FORKMASTER",
+    "default_popup": "ui/main.html",
+    "default_icon": "/images/icon.png"
+ }
+}
