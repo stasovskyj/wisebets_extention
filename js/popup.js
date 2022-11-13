@@ -29,11 +29,40 @@ function RemainAmountCalc(amountA, amountB, coefficientA, coefficientB, factAmou
 function OverAmount(factAmount, amountB) {
     return factAmount - amountB
 }
-// Гарячі клавіші щоб перенести не закриту сумму
-$('input').on("keypress", function (e) {
+function MoveRemainAmount(mode) {
 
-    console.log(e);
+    if (mode == 1) {
+        let a = $('input[name="remainAmount"]').val()
+        $('input[name="amountA"]').val(a)
+        $('input[name="remainAmount"]').val('')
+        $('input[name="factAmount"]').val('')
+    }
+    if (mode == 2) {
+        let d = $('input[name="remainAmount"]').val()
+        let c = $('input[name="coefficientB"]').val();
+        $('input[name="amountA"]').val(d)
+        $('input[name="coefficientA"]').val(c)
+        $('input[name="remainAmount"]').val('')
+        $('input[name="factAmount"]').val('')
+    }
 
+}
+// Ctrl+Enter щоб перенести не закриту сумму
+$(document).on("keypress", function (e) {
+
+    if (e.ctrlKey && e.which == 10) {
+
+        let a = parseFloat($('input[name="factAmount"]').val())
+        let b = parseFloat($('input[name="amountB"]').val())
+
+        if (a < b) {
+            MoveRemainAmount(1)
+        } else {
+            MoveRemainAmount(2)
+        }
+
+
+    }
 });
 $("form").on("keyup", function (event) {
     event.preventDefault();
@@ -42,7 +71,6 @@ $("form").on("keyup", function (event) {
         let a = parseFloat($('input[name="amountA"]').val());
         let b = parseFloat($('input[name="coefficientA"]').val());
         let c = parseFloat($('input[name="coefficientB"]').val());
-        let d = parseFloat($('input[name="amountB"]').val());
         let e = parseFloat($('input[name="factAmount"]').val());
 
         if (isNaN(a) || isNaN(b) || isNaN(c)) {
@@ -66,12 +94,12 @@ $("form").on("keyup", function (event) {
         } else if (e < f[0]) {
 
             let r = RemainAmountCalc(a, f[0], b, c, e)
-            $('input[name="remainAmount"]').val(r);
+            $('input[name="remainAmount"]').val(r.toFixed(2));
 
         } else if (e > f[0]) {
 
             let r = OverAmount(e, f[0])
-            $('input[name="remainAmount"]').val(r);
+            $('input[name="remainAmount"]').val(r.toFixed(2));
         }
 
 
