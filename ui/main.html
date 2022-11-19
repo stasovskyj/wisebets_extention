@@ -21,7 +21,7 @@
                                 Калькулятор
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#profile" role="tab" aria-selected="false">
                                 Profile
                             </a>
@@ -31,7 +31,7 @@
                             <a class="nav-link" data-toggle="tab" href="#settings" role="tab" aria-selected="true">
                                 Settings
                             </a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <div class="card-body">
@@ -51,13 +51,14 @@
                                             inputmode="decimal">
                                     </div>
                                     <div class="col-3">
-                                        <input type="number" name="factAmount" class="form-control" step="0.01"
+                                        <input type="number" name="coefficientB" class="form-control" step="0.001"
                                             inputmode="decimal">
                                     </div>
                                 </div>
                                 <div class="form-row form-group">
+
                                     <div class="col-3">
-                                        <input type="number" name="coefficientB" class="form-control" step="0.001"
+                                        <input type="number" name="factAmount" class="form-control" step="0.01"
                                             inputmode="decimal">
                                     </div>
                                     <div class="col-3">
@@ -66,6 +67,10 @@
                                     <div class="col-3">
                                         <input type="decimal" step="0.01" class="form-control" name="remainAmount"
                                             readonly>
+
+                                    </div>
+                                    <div class="col-3 ">
+                                        <input type="decimal" step="0.01" class="form-control" name="profit" readonly>
                                     </div>
                                 </div>
                             </form>
@@ -75,10 +80,7 @@
                         </div>
 
                         <div class="tab-pane" id="settings" role="tabpanel">
-                            <p>
-                                "I will be the leader of a company that ends up being worth billions of dollars,
-                                how people, this is the level that things could be at."
-                            </p>
+
                         </div>
                     </div>
                 </div>
