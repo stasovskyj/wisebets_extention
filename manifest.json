@@ -1,13 +1,29 @@
 {
   "author": "Віталій Стасовський",
   "manifest_version": 3,
-  "name": "Мониторинг",
-  "description": "Мониторинг геолокации, запись ір адресов в базу, сверка с другими ір адресами, калькулятор вилок",
+  "name": "Arbitrage ToolBox",
+  "description": "Моніторинг геолокації, запис ір адрес в базу, перевірка з іншими ір адресами, калькулятор вилок",
   "short_name": "Ваша страна",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "action": {
     "default_title": "FORKMASTER",
     "default_popup": "ui/main.html",
     "default_icon": "/images/icon.png"
- }
+  },
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png"
+  },
+  "options_ui": {
+    "open_in_tab": true,
+    "page": "ui/options.html"
+  },
+  "permissions": [
+    "scripting",
+    "storage",
+    "activeTab",
+    "contextMenus",
+    "notifications"
+  ],
+  "host_permissions": ["<all_urls>"]
 }

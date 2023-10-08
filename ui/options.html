@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <!--
+  <link rel="stylesheet" href="../css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/options.css">
+  -->
+  <script src="../js/lib/jquery-3.6.slim.min.js"></script>
+</head>
+
+<body>
+  <!--https://www.bootdey.com/snippets/download/Register-Form-->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="card cardbox">
+          <div class="card-header">Налаштування</div>
+          <div class="card-body">
+
+            <div class="form-group">
+
+              <div class="form-group">
+                <label class="sr-only">API ключ</label>
+                <input type="text" id="api-key" class="form-control"
+                  value="f4bf9f7fcbedaba0392f108c59d8f4a38b3838efb64877380171b54475c2ade8" placeholder="API ключ">
+              </div>
+
+              <div class="form-group">
+                <label class="sr-only">ID дропа</label>
+                <div class="input-group">
+                  <input type="number" id="scapegoat-id" class="form-control" data-placement="bottom"
+                    data-toggle="popover" data-container="body" data-html="true" value="11" placeholder="ID дропа"
+                    required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <button id="save" name="submit" class="btn btn-block btn-primary d-none">Зберегти</button>
+
+              </div>
+              <div id="status" class="alert d-none" role="alert"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../js/options.js"></script>
+</body>
+
+</html>
