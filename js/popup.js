@@ -16,14 +16,14 @@ function AmountCalc(amountA, coefficientA, coefficientB) {
 
 }
 // Прорахунок недозакритої суми
-function RemainAmountCalc(amountA, amountB, coefficientA, coefficientB, factAmount) {
+function RemainAmountCalc(amountA, coefficientA, coefficientB, factAmount) {
 
     let data = Array()
 
     let amountAClosed = AmountCalc(factAmount, coefficientB, coefficientA)
-
+    //сума недозакритої ставки
     data.push(amountA - amountAClosed[0])
-
+    //маржа
     data.push(amountAClosed[1])
 
     return data
@@ -42,12 +42,14 @@ function MoveRemainAmount(mode) {
         $('input[name="remainAmount"]').val('')
         $('input[name="factAmount"]').val('')
         $('input[name="profit"]').val('')
+        $('input[name="amountB"]').val('')
     }
     if (mode == 2) {
         let d = $('input[name="remainAmount"]').val()
         let c = $('input[name="coefficientB"]').val()
         $('input[name="amountA"]').val(d)
         $('input[name="coefficientA"]').val(c)
+        $('input[name="amountB"]').val('')
         $('input[name="coefficientB"]').val('')
         $('input[name="remainAmount"]').val('')
         $('input[name="factAmount"]').val('')
@@ -59,21 +61,26 @@ function MoveRemainAmount(mode) {
 }
 // зберегти вилку
 function saveProfitOrLoss(a) {
-    if (isNaN(parseFloat(a))) {
+    if (isNaN(parseFloat(a)) || parseFloat(a) == 0) {
         return false
     } else {
-        alert(a + ' saved')
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:8080/',
+            data: { 'data': a.toFixed(2) },
+
+        });
+
     }
 
 }
-$(document).on("keypress", function (e) {
-
-    // Ctrl+Enter щоб перенести не закриту сумму
-    if (e.ctrlKey && e.key == 'Enter') {
+$('#calc').on("keyup", function (e) {
+    // Shift+Enter щоб перенести не закриту сумму
+    if (e.shiftKey && e.which == 90) {
 
         let a = parseFloat($('input[name="amountA"]').val())
-        let b = parseFloat($('input[name="coefficientA"]').val());
-        let c = parseFloat($('input[name="coefficientB"]').val());
+        let b = parseFloat($('input[name="coefficientA"]').val())
+        let c = parseFloat($('input[name="coefficientB"]').val())
         let fact = parseFloat($('input[name="factAmount"]').val())
         let amountB = parseFloat($('input[name="amountB"]').val())
         let profit = parseFloat($('input[name="profit"]').val())
@@ -89,8 +96,8 @@ $(document).on("keypress", function (e) {
         }
     }
 
-    // shift+Enter: зберегти поставлену вилку
-    if (e.shiftKey && e.key == 'Enter') {
+    // SHIFT+ENTER: зберегти поставлену вилку
+    if (e.shiftKey && e.which == 13) {
 
         let b = parseFloat($('input[name="profit"]').val())
 
@@ -130,7 +137,7 @@ $("form").on("keyup", function (event) {
 
         } else if (e < f[0]) {
 
-            let r = RemainAmountCalc(a, f[0], b, c, e)
+            let r = RemainAmountCalc(a, b, c, e, f[0])
             $('input[name="remainAmount"]').val(r[0].toFixed(2));
 
         } else if (e > f[0]) {

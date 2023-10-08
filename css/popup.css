@@ -17,3 +17,11 @@ input[type="number"] {
   font-size: large;
   text-transform: uppercase;
 }
+.minus {
+  color: brown;
+  background: crimson;
+}
+.plus {
+  color: chartreuse;
+  background: darkgreen;
+}
