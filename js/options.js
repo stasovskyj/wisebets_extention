@@ -7,6 +7,7 @@ const initOptions = () => {
             $("#scapegoat-id").val(config.scapegoatId);
             $("#api-key").prop('disabled', true);
             $("#scapegoat-id").prop('disabled', true);
+            $('#save').html('Оновити дані');
             console.log("Опції завантажено")
             console.log(config.accounts);
         } else {
@@ -56,12 +57,12 @@ const saveOptions = () => {
 
                                 $('#status').html('Збережено');
                                 $('#status').toggleClass("alert-success", "alert-danger")
-                                $('#status').removeClass('d-none');
+                                $('#save').html('Оновити дані');
                                 $('#status').fadeOut(3000);
 
                                 $("#api-key").prop('disabled', true);
                                 $("#scapegoat-id").prop('disabled', true);
-                                $("#save").addClass("d-none");
+
                             }
 
                         }
