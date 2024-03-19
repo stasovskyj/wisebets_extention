@@ -9,7 +9,7 @@ const initOptions = () => {
             $("#scapegoat-id").prop('disabled', true);
             $('#save').html('Оновити дані');
             console.log("Опції завантажено")
-            console.log(config.accounts);
+            console.log(config);
         } else {
             console.log("Відсутні опції");
             $('#save').removeClass('d-none');
@@ -27,7 +27,7 @@ const saveOptions = () => {
         $.ajax({
             method: 'GET',
             url: "https://forkmaster.pp.ua/api/scapegoat/accounts/",
-            data: { "api-key": apiKey, "scapegoat-id": scapegoatId },
+            data: { "api-key": apiKey, "id": scapegoatId },
             dataType: 'json',
             beforeSend: function () {
                 $('#status').html('');
