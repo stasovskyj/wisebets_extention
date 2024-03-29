@@ -20,10 +20,16 @@
   },
   "content_scripts": [
     {
-        "matches": ["*://www.pokerstars.com/*","*://www.favbet.com/*","*://*.22bet.com/*","*://marathonbet.com/*"],
-        "js": ["js/inject.js"]
+      "matches": [
+        "*://www.pokerstars.com/*",
+        "*://www.favbet.com/*",
+        "*://www.favbet.ua/*",
+        "*://*.22bet.com/*",
+        "*://marathonbet.com/*"
+      ],
+      "js": ["js/inject.js"]
     }
-],
+  ],
   "permissions": [
     "scripting",
     "storage",
