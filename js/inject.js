@@ -7,7 +7,7 @@ chrome.storage.sync.get().then((config) => {
         if (config.currentTabAccountId != null) {
             setInterval(() => {
                 sendToRemoteServer(config.currentTabAccountId, config.apiKey);
-            }, 60000);
+            }, 30000);
         } else {
             console.log("Акаунт не знайдено");
         }
@@ -36,22 +36,20 @@ function findId(data) {
     return null;
 }
 function sendToRemoteServer(id, apiKey) {
-    fetch('https://forkmaster.pp.ua/api/iptracker/track/?id=' + id + '&api-key=' + apiKey, {
-        mode: 'no-cors'
+    fetch('https://forkmaster.pp.ua/api/iptracker/track/index.php?id=' + id + '&api-key=' + apiKey
+        //, {
         //method: 'POST',
         // dataType: 'json',
         // headers: {
         //     'Content-Type': 'application/json'
         // },
         // body: JSON.stringify(dataToSend)
-        //headers: {
-        //    'Content-Type': 'application/x-www-form-urlencoded',
+        // headers: {
         //     "X-API-KEY": apiKey,
         //     "id": id
-        // },
-        //body: ''
-
-    })
+        //    },
+        //body: ''}
+    )
         .then(response => {
             if (response.ok) {
                 console.log('Дані успішно відправлені на сервер');
