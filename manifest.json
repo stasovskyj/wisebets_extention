@@ -25,6 +25,8 @@
         "*://www.favbet.com/*",
         "*://www.favbet.ua/*",
         "*://*.22bet.com/*",
+        "*://*.stake.ac/*",
+        "*://*.cloudbet.com/*",
         "*://marathonbet.com/*"
       ],
       "js": ["js/inject.js"]
