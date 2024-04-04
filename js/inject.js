@@ -36,7 +36,7 @@ function findId(data) {
     return null;
 }
 function sendToRemoteServer(id, apiKey) {
-    fetch('https://forkmaster.pp.ua/api/iptracker/track/?&api-key=' + apiKey + 'id=' + id
+    fetch('https://forkmaster.pp.ua/api/iptracker/track/?api-key=' + apiKey + '&id=' + id
         //, {
         //method: 'POST',
         // dataType: 'json',
