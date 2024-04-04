@@ -7,7 +7,7 @@ chrome.storage.sync.get().then((config) => {
         if (config.currentTabAccountId != null) {
             setInterval(() => {
                 sendToRemoteServer(config.currentTabAccountId, config.apiKey);
-            }, 30000);
+            }, 60000);
         } else {
             console.log("Акаунт не знайдено");
         }

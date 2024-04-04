@@ -23,7 +23,9 @@
       "matches": [
         "*://www.pokerstars.com/*",
         "*://www.favbet.com/*",
-        "*://www.favbet.ua/*",
+        "*://*.betfair.com/*",
+        "*://*.pin1111.com/*",
+        "*://*.pinnacle.com/*",
         "*://*.22bet.com/*",
         "*://*.stake.ac/*",
         "*://*.cloudbet.com/*",
