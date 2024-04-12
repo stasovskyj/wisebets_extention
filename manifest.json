@@ -22,6 +22,7 @@
     {
       "matches": [
         "*://www.pokerstars.com/*",
+        "*://www.pokerstars-01.com/*",
         "*://www.favbet.com/*",
         "*://*.betfair.com/*",
         "*://*.pin1111.com/*",
@@ -30,7 +31,10 @@
         "*://*.stake.ac/*",
         "*://*.stake.com/*",
         "*://*.cloudbet.com/*",
-        "*://marathonbet.com/*"
+        "*://*.marathonbet.com/*",
+        "*://*.betonline.ag/*",
+        "*://sportsbet.io/*",
+        "*://*.sportsbetting.ag/*"
       ],
       "js": ["js/inject.js"]
     }
@@ -40,6 +44,9 @@
     "storage",
     "activeTab",
     "contextMenus",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "declarativeNetRequestWithHostAccess",
     "notifications"
   ],
   "host_permissions": ["<all_urls>"],

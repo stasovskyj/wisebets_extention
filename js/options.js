@@ -58,6 +58,7 @@ const saveOptions = () => {
                                 $('#status').html('Збережено');
                                 $('#status').toggleClass("alert-success", "alert-danger")
                                 $('#save').html('Оновити дані');
+                                $('#status').removeClass('d-none');
                                 $('#status').fadeOut(3000);
                                 $("#api-key").prop('disabled', true);
                                 $("#scapegoat-id").prop('disabled', true);
