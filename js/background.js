@@ -4,13 +4,13 @@ fetch(configURL)
     .then(config => {
         configData = config;
     });
-chrome.contextMenus.create(
-    {
-        "id": "send",
-        "title": "Відправити баланс",
-        "contexts": ["selection"]
-    }
-);
+// chrome.contextMenus.create(
+//     {
+//         "id": "send",
+//         "title": "Відправити баланс",
+//         "contexts": ["selection"]
+//     }
+// );
 chrome.contextMenus.onClicked.addListener(function (clickData) {
 
     let data = [clickData.selectionText];
@@ -83,3 +83,10 @@ chrome.contextMenus.onClicked.addListener(function (clickData) {
 //     const currency = document.querySelector(currencySelector).textContent;
 //     return [balance, currency];
 // }
+chrome.runtime.onInstalled.addListener(({reason}) => {
+    if (reason === 'install') {
+      chrome.tabs.create({
+        url: "ui/options.html"
+      });
+    }
+  });
