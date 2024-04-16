@@ -26,7 +26,7 @@ chrome.contextMenus.onClicked.addListener(function (clickData) {
        
         chrome.notifications.create('errorNotification', {
             type: 'basic',
-            iconUrl: '/images/icon.png',
+            iconUrl: './images/icon.png',
             title: 'Помилка в запиті',
             message: 'Помилка HTTP.' + response.status,
         })
@@ -90,3 +90,17 @@ chrome.runtime.onInstalled.addListener(({reason}) => {
       });
     }
   });
+  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    switch(request.action){
+        case "notification":
+        chrome.notifications.create({
+            type: "basic",
+            title: "Arbitrage ToolBox",
+            message: request.message,
+            iconUrl: "../images/icon.png"
+        })
+        break;
+    }
+    console.log(request);
+    sendResponse({response:sender});
+  })

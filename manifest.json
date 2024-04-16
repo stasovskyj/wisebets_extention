@@ -20,6 +20,7 @@
   },
   "content_scripts": [
     {
+      "run_at": "document_start",
       "matches": [
         "*://*.pokerstars.com/*",
         "*://*.pokerstars-01.com/*",
@@ -45,6 +46,7 @@
     "scripting",
     "storage",
     "activeTab",
+    "tabs",
     "contextMenus",
     "declarativeNetRequest",
     "declarativeNetRequestFeedback",

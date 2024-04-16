@@ -80,19 +80,19 @@ function cleanup() {
 }
 //
 chrome.storage.sync.get().then((config) => {
-    if (config) {
+    if (Object.keys(config).length !== 0) {
+        
         config.currentTabAccountId = findId(config.accounts)
-        //console.log(config)
-        //console.log(id)
+
         if (config.currentTabAccountId != null) {
             setInterval(() => {
                 sendToRemoteServer(config.currentTabAccountId, config.apiKey);
-            }, 60000);
+                }, 60000);
         } else {
-            console.log("Акаунт не знайдено");
+            sendMessageToServiceWorker({action: "notification", message:"Акаунт до сайту "+ window.location.hostname +" не знайдено. Виконайте синхронізацію акаунтів та оновіть сторінку"});
         }
     } else {
-        console.log("Відсутні опції");
+        sendMessageToServiceWorker({action: "notification", message:"Акаунти та опції відсутні. Отримайте API ключ на сайті та збережіть налаштування"})
     }
 });
 function findId(data) {
@@ -108,7 +108,7 @@ function findId(data) {
                 return data[i].id;
             }
         } catch (error) {
-            console.error('Помилка парсингу JSON:', error);
+            sendMessageToServiceWorker({action: "notification", message:error})
         }
 
     }
@@ -116,15 +116,20 @@ function findId(data) {
     return null;
 }
 function sendToRemoteServer(id, apiKey) {
-    fetch('https://forkmaster.pp.ua/api/iptracker/track/?api-key=' + apiKey + '&id=' + id
-    ).then(response => {
-        if (response.ok) {
-            console.log('Дані успішно відправлені на сервер');
-        } else {
-            console.error('Помилка під час відправки даних на сервер');
-        }
-    })
+    fetch('https://forkmaster.pp.ua/api/iptracker/track/?api-key=' + apiKey + '&id=' + id)
+        .then(response => {
+            if (!response.ok) {
+                sendMessageToServiceWorker({action: "notification", message:"Помилка під час відправки даних на сервер"})
+            }else{
+                console.log("Дані успішно відправлено")
+            }
+        })
         .catch(error => {
             console.error('Помилка під час відправки даних на сервер:', error);
         });
 };
+
+// повідомлення в service worker
+function sendMessageToServiceWorker(data){
+    chrome.runtime.sendMessage(data);
+}
