@@ -51,14 +51,15 @@ input::-webkit-inner-spin-button {
 }
 
 .calc-container input {
+  background-color: #fcfcfc;
+  color: #666666;
   text-align: center;
   font-size: large;
   text-transform: uppercase;
   padding: 5px;
 }
 .calc-container input[readonly] {
-  /* Застосовуємо властивості, коли елемент має атрибут readonly */
-  background-color: #cbc9c9; /* Задаємо фоновий колір */
+  background-color: #cbc9c9; 
   color: #666666; 
   cursor: not-allowed;
 } 
