@@ -1,3 +1,44 @@
+let calc = document.createElement('div');
+
+calc.innerHTML = CALC_CONTENT;
+
+document.body.append(calc);
+
+const calcForm = document.getElementById('calc-container');
+
+// Відключення перетягування, коли клікнуто на поле вводу
+calcForm.addEventListener('mousedown', function (event) {
+    if (event.target.tagName === 'INPUT') {
+        isDragging = false;
+    }
+});
+
+// Увімкнення перетягування, коли клікнуто поза полями вводу
+calcForm.addEventListener('mouseup', function (event) {
+    isDragging = true;
+});
+
+let isDragging = true;
+let offsetX, offsetY;
+
+calcForm.addEventListener('mousedown', function (e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    offsetX = e.clientX - calcForm.getBoundingClientRect().left;
+    offsetY = e.clientY - calcForm.getBoundingClientRect().top;
+    window.addEventListener('mousemove', moveHandler);
+    window.addEventListener('mouseup', cleanup);
+});
+
+function moveHandler(e) {
+    calcForm.style.left = e.clientX - offsetX + 'px';
+    calcForm.style.top = e.clientY - offsetY + 'px';
+}
+
+function cleanup() {
+    window.removeEventListener('mousemove', moveHandler);
+    window.removeEventListener('mouseup', cleanup);
+}
 // прорахунок закриття вилки
 function AmountCalc(amountA, coefficientA, coefficientB) {
 
@@ -60,20 +101,20 @@ function MoveRemainAmount(mode) {
 
 }
 // зберегти вилку
-function saveProfitOrLoss(a) {
-    if (isNaN(parseFloat(a)) || parseFloat(a) == 0) {
-        return false
-    } else {
-        $.ajax({
-            type: "POST",
-            url: 'http://localhost:8080/',
-            data: { 'data': a.toFixed(2) },
+// function saveProfitOrLoss(a) {
+//     if (isNaN(parseFloat(a)) || parseFloat(a) == 0) {
+//         return false
+//     } else {
+//         $.ajax({
+//             type: "POST",
+//             url: 'http://localhost:8080/',
+//             data: { 'data': a.toFixed(2) },
 
-        });
+//         });
 
-    }
+//     }
 
-}
+// }
 $('#calc').on("keyup", function (e) {
     // Shift+Enter щоб перенести не закриту сумму
     if (e.shiftKey && e.which == 90) {

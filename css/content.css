@@ -1,5 +1,5 @@
 .calc-container {
-  max-width: 340px;
+  max-width: 300px;
   left: 10px;
   top: 10px;
   margin: 0 auto;
@@ -13,7 +13,7 @@
   text-align: center;
 }
 
-.card {
+.calc-card {
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 10px;
@@ -27,12 +27,12 @@
   column-gap: 5px;
 }
 
-.form-row {
+.calc-form-row {
   display: flex;
   flex-direction: column;
 }
 
-.form-control {
+.calc-form-control {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -41,7 +41,7 @@
   width: 100%;
 }
 
-label {
+.calc-container label {
   font-size: 12px;
 }
 input::-webkit-outer-spin-button,
@@ -54,4 +54,11 @@ input::-webkit-inner-spin-button {
   text-align: center;
   font-size: large;
   text-transform: uppercase;
+  padding: 5px;
 }
+.calc-container input[readonly] {
+  /* Застосовуємо властивості, коли елемент має атрибут readonly */
+  background-color: #cbc9c9; /* Задаємо фоновий колір */
+  color: #666666; 
+  cursor: not-allowed;
+} 

@@ -1,9 +1,3 @@
-const configURL = chrome.runtime.getURL("config.json");
-fetch(configURL)
-    .then(response => response.json())
-    .then(config => {
-        configData = config;
-    });
 // chrome.contextMenus.create(
 //     {
 //         "id": "send",
@@ -11,27 +5,27 @@ fetch(configURL)
 //         "contexts": ["selection"]
 //     }
 // );
-chrome.contextMenus.onClicked.addListener(function (clickData) {
+// chrome.contextMenus.onClicked.addListener(function (clickData) {
 
-    let data = [clickData.selectionText];
+//     let data = [clickData.selectionText];
 
-    let response = fetch(configData.masterServer + "api/account/", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    })
-    if (!response.ok) {
+//     let response = fetch(API_ROOT + ACCOUNT_URI, {
+//         method: "GET",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(data),
+//     })
+//     if (!response.ok) {
        
-        chrome.notifications.create('errorNotification', {
-            type: 'basic',
-            iconUrl: './images/icon.png',
-            title: 'Помилка в запиті',
-            message: 'Помилка HTTP.' + response.status,
-        })
-    }
-})
+//         chrome.notifications.create('errorNotification', {
+//             type: 'basic',
+//             iconUrl: './images/icon.png',
+//             title: 'Помилка в запиті',
+//             message: 'Помилка HTTP.' + response.status,
+//         })
+//     }
+// })
 
 // chrome.commands.onCommand.addListener(function (command) {
 //     if (command === "send_balance") {

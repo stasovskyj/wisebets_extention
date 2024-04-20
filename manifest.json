@@ -4,7 +4,7 @@
   "name": "Arbitrage ToolBox",
   "description": "Моніторинг геолокації, запис ip адрес в базу, перевірка з іншими ip адресами, вбудований в сторінку калькулятор вилок",
   "short_name": "Arbitrage ToolBox",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "action": {
     "default_title": "Arbitrage ToolBox",
     "default_popup": "ui/main.html",
@@ -37,7 +37,7 @@
         "*://sportsbet.io/*",
         "*://*.sportsbetting.ag/*"
       ],
-      "js": ["js/lib/jquery-3.6.slim.min.js", "js/inject.js", "js/calc.js"],
+      "js": ["js/constant.js","js/lib/jquery-3.6.slim.min.js", "js/inject.js", "js/calc.js"],
       "css": ["css/content.css"]
     }
   ],

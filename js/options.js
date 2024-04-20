@@ -26,7 +26,7 @@ const saveOptions = () => {
 
         $.ajax({
             method: 'GET',
-            url: "https://forkmaster.pp.ua/api/scapegoat/accounts/",
+            url: API_ROOT + IPTRACKER_URI,
             data: { "api-key": apiKey, "id": scapegoatId },
             dataType: 'json',
             beforeSend: function () {
