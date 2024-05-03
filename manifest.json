@@ -20,6 +20,7 @@
   },
   "content_scripts": [
     {
+      "run_at": "document_end",
       "matches": [
         "*://*.pokerstars.com/sports/*",
         "*://*.pokerstars-01.com/sports/*",
@@ -27,7 +28,7 @@
         "*://*.favbet.ua/*",
         "*://*.betfair.com/*",
         "*://*.pin1111.com/*",
-        "*://*.pinnacle.com/*",
+        "*://www.pinnacle.com/*",
         "*://*.22bet.com/*",
         "*://*.stake.ac/*",
         "*://*.stake.com/*",
@@ -38,7 +39,7 @@
         "*://*.sportsbetting.ag/*",
         "*://*.betvictor.com/*"
       ],
-      "js": ["js/constant.js","js/lib/jquery-3.6.slim.min.js", "js/inject.js", "js/calc.js"],
+      "js": ["js/constant.js","js/lib/jquery-3.6.slim.min.js", "js/inject.js", "js/calc.js", "js/calc-helper.js"],
       "css": ["css/content.css"]
     }
   ],
