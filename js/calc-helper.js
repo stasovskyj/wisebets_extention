@@ -178,35 +178,41 @@ function getCurrentSite() {
 =======
 function setupBetslipTracking() {
     const betslipConfig = setupSiteConfig();
-    //console.log(betslipConfig)
   
 // Створюємо MutationObserver для спостереження за змінами контенту betslip
-    const observer = new MutationObserver((mutationsList) => {
-        for (const mutation of mutationsList) {
-           console.log(mutation);
-            if (mutation.type === 'childList' && mutation.target.matches(betslipConfig.betSlipElement)) {
-                // Викликаємо функцію обробки при зміні контенту betslip
-               
-                processBetslipContent(mutation.target, betslipConfig);
-            } 
-          
+const observer = new MutationObserver((mutationList) => {
+    for (const mutation of mutationList) {
+      const betSlipElement = document.querySelector(betslipConfig.rootElement);
+  
+      if ((mutation.type === 'attributes' || mutation.type === 'childList') && betSlipElement) {
+        const odds = betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText;
+        const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
+        if (stake || odds) {
+            updateCalcContent(stake, odds, betslipConfig);
         }
-    });
-
-    // Запускаємо спостереження за змінами тільки в елементі betslip
-    observer.observe(betslipConfig.rootElement, { childList: true, subtree: true, attributes: true, attributeFilter:[], characterData: true });
+      }
+    }
+  });
+  
+  observer.observe(document.body, { attributes: true, childList: true, subtree: true });
 }
 
 // Функція для обробки контенту betslip
-function processBetslipContent(betslipNode, betslipConfig) {
-    const amountInput = betslipNode.querySelector(betslipConfig.amountInputElement);
-    const amount = amountInput ? amountInput.value : 'Невідомо';
+// mode 1 = відкриття, mode 2 = закриття
+function updateCalcContent(stake = '', odds = '', betslipConfig, mode = 2) {
+    const oddsAInput = document.getElementById('coefficientA');
+    const oddsBInput = document.getElementById('coefficientB');
+    const amountAInput = document.getElementById('amountA');
+    const amountBInput = document.getElementById('amountB');
 
-    const oddsElement = betslipNode.querySelector(betslipConfig.oddsElement);
-    const odds = oddsElement ? oddsElement.textContent : 'Невідомо';
+    if(mode == 1){
+        oddsAInput.value = odds;
+        amountAInput.value = stake;
+    }else if (mode == 2){
+        oddsBInput.value = odds;
+    }
 
-    console.log('Amount:', amount);
-    console.log('Odds:', odds);
+
 }
 
 // Встановлюємо відслідковування елементів для кожного сайту
@@ -228,10 +234,12 @@ function setupSiteConfig() {
     // Перевіряємо, чи є конфігурація для поточного сайту
     if (currentSite in SITES_CONFIG) {
         return SITES_CONFIG[currentSite].betslip;
+        
     } else {
         return false;
     }
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 function fixValue(v) {
     return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : false;
@@ -241,3 +249,6 @@ let a = new Calculator();
 =======
 setupBetslipTracking()
 >>>>>>> 43f80e6 (Зібрав селектори з основних сайтів)
+=======
+setupBetslipTracking()
+>>>>>>> bf011ae (Відслідковуються зміни в купоні)
