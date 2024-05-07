@@ -4,79 +4,81 @@ const ACCOUNT_URI = "account/";
 const IPTRACKER_URI = "iptracker/track/";
 const SITES_CONFIG = {
     'pinnacle': {
+        currentAmountElement:'span[data-test-id="QuickCashier-BankRoll"]',
         betslip: {
-            rootElement: document.body, // Кореневий елемент для відслідковування
+            rootElement: '#unified-betslip', // Кореневий елемент для відслідковування
             betSlipElement: 'div.collapse-content', // Селектор елементу betslip
-            amountInputElement: '.style_inputBox___VsYU input', // Сума
+            amountInputElement: '[placeholder="Stake"]', // Сума
             oddsElement: 'div[data-test-id="SelectionDetails-Odds"] span', // коефіцієнт
-            placeBetElement: 'button[data-test-id="Betslip-ConfirmBetButton"]',
-            cancelBetElement:'.betslip-close-button', // закрити купон
-            currentAmountElement:'span[data-test-id="QuickCashier-BankRoll"]' // залишок на рахунку
+            placeBetElement: 'button[data-test-id="Betslip-ConfirmBetButton"]', // кнопка розміщення ставки
+            cancelBetElement:'.betslip-close-button' // закрити купон
         }
     },
     'favbet': {
+        currentAmountElement:'',
         betslip: {
             rootElement: document.body,
             betSlipElement: 'div[data-role="c-betSlip"]',
             amountInputElement: 'input[data-role="betslip-bet-sum-input"]',
             oddsElement: 'span[data-role="betslip-outcome-coef"]',
             placeBetElement: 'button[data-test-id="Betslip-ConfirmBetButton"]',
-            cancelBetElement:'',
-            currentAmountElement:''
+            cancelBetElement:''
         }
     },
     'sportsbet': {
+        currentAmountElement:'span[data-testid="balance-amount"]',
         betslip: {
-            rootElement: document.body,
-            betSlipElement: 'div.BetslipContents__StyledWrapper-sc-w4swdg-0',
-            amountInputElement: 'input[data-test-id="betslip-moneyInputField"]',
-            oddsElement: '.BetslipContents__StyledInner-sc-w4swdg-1 span.FormattedOdds__OddsWrapper-sc-dio9ku-0',
+            rootElement: 'div.BetslipContents__StyledWrapper-sc-w4swdg-0',
+            betSlipElement: 'div.BetslipContents__StyledWrapper-sc-w4swdg-0', // +
+            amountInputElement: 'input[data-test-id="betslip-moneyInputField"]', // +
+            oddsElement: '',
+           // oddsElement: '.BetslipContents__StyledInner-sc-w4swdg-1 span.FormattedOdds__OddsWrapper-sc-dio9ku-0',
             placeBetElement: 'button.wrappers__MultilineButton-sc-caw8ue-2',
-            cancelBetElement:'',
-            currentAmountElement:'span[data-testid="balance-amount"]',
+            cancelBetElement:''
         }
     },
-    'betonline': {
+    'pokerstars-01': {
+        currentAmountElement:'',
         betslip: {
-            rootElement: document.body,
-            betSlipElement: '', 
-            amountInputElement: '',
-            oddsElement: '',
-            placeBetElement: '',
-            cancelBetElement:'',
-            currentAmountElement:''
+            rootElement: 'div[data-testid="bet-slip-opportunity"]',
+            betSlipElement: 'div[data-testid="bet-slip-opportunity"]', 
+            amountInputElement: 'div[data-testid="bet-slip-opportunity"] div div div div input',
+            oddsElement: 'div[data-testid="bet-slip-opportunity"] div div div div',
+            placeBetElement: 'div[data-testid="bet-slip-footer"]',
+            cancelBetElement:''                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         }
     },
     'sportsbetting': {
+        currentAmountElement:'button.userBalance',
         betslip: {
             rootElement: document.body,
             betSlipElement: '',
             amountInputElement: '',
             oddsElement: '',
             placeBetElement: '',
-            cancelBetElement:'',
-            currentAmountElement:'button.userBalance'
+            cancelBetElement:''
         }
     },
     'stake': {
+        currentAmountElement:'.currency span span',
         betslip: {
+            rootElement: 'div[data-test="betslip-bet"]',
             betSlipElement: 'div[data-test="betslip-bet"]',
             amountInputElement: 'input[data-test="input-bet-amount"]',
             oddsElement: 'span.odds-payout div.odds span',
             placeBetElement: '',
-            cancelBetElement:'',
-            currentAmountElement:'.currency span span'
+            cancelBetElement:''
         }
     },
     'cloudbet': {
+        currentAmountElement:'p[data-dd-action-name="AccountButton balance"]',
         betslip: {
-            rootElement: document.body,
+            rootElement: 'div[data-component="quick-betslip-card"]',
             betSlipElement: 'div[data-component="quick-betslip-card"]',
             amountInputElement: 'input[data-component="betslip-input-field"]',
             oddsElement: 'div[data-component="quick-betslip-odds"]',
             placeBetElement: '',
-            cancelBetElement:'',
-            currentAmountElement:'p[data-dd-action-name="AccountButton balance"]'
+            cancelBetElement:''
         }
     },
 };
