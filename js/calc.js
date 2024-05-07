@@ -14,7 +14,7 @@ calcForm.addEventListener('mousedown', function (event) {
 });
 
 // Увімкнення перетягування, коли клікнуто поза полями вводу
-calcForm.addEventListener('mouseup', function (event) {
+calcForm.addEventListener('mouseup', ()=> {
     isDragging = true;
 });
 
