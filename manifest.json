@@ -38,7 +38,14 @@
         "*://sportsbet.io/*",
         "*://*.sportsbetting.ag/*"
       ],
-      "js": ["js/constant.js","js/lib/jquery-3.6.slim.min.js", "js/inject.js", "js/calc.js", "js/calc-helper.js"],
+      "js": [
+        "js/constant.js",
+        "js/lib/jquery-3.6.slim.min.js",
+        "js/inject.js",
+        "js/calc.js",
+        "js/calc-helper.js",
+        "js/ws.js"
+      ],
       "css": ["css/content.css"]
     }
   ],
