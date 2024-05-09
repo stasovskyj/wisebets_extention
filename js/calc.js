@@ -6,22 +6,27 @@ document.body.append(calc);
 
 const calcForm = document.getElementById('calc-container');
 
+const calcAmountAElement = document.getElementById('amountA');
+const calcAmountBElement = document.getElementById('amountB');
+const calcOddsAElement = document.getElementById('coefficientA');
+const calcOddsBElement = document.getElementById('coefficientB');
+
 // Відключення перетягування, коли клікнуто на поле вводу
-calcForm.addEventListener('mousedown', function (event) {
+calcForm.addEventListener('mousedown', (event) => {
     if (event.target.tagName === 'INPUT') {
         isDragging = false;
     }
 });
 
 // Увімкнення перетягування, коли клікнуто поза полями вводу
-calcForm.addEventListener('mouseup', ()=> {
+calcForm.addEventListener('mouseup', () => {
     isDragging = true;
 });
 
 let isDragging = true;
 let offsetX, offsetY;
 
-calcForm.addEventListener('mousedown', function (e) {
+calcForm.addEventListener('mousedown', (e) => {
     if (!isDragging) return;
     e.preventDefault();
     offsetX = e.clientX - calcForm.getBoundingClientRect().left;
@@ -148,7 +153,11 @@ $('#calc').on("keyup", function (e) {
 
     }
 });
+<<<<<<< HEAD
 $("form").on("keyup", (event) => {
+=======
+$("form").on("change", (event) => {
+>>>>>>> b59ccf4 (Прикрутив Websocket)
     event.preventDefault();
     if (event.which > 47 && event.which < 58 || event.which > 95 && event.which < 106 || event.which == 8) {
 
