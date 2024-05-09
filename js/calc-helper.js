@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 let mode = 1;
 let calc = document.createElement('div');
 
@@ -176,46 +177,66 @@ function getCurrentSite() {
     }
     return null;
 =======
+=======
+let mode = 1;
+>>>>>>> 04d41e1 (Прикрутив Websocket)
 function setupBetslipTracking() {
     const betslipConfig = setupSiteConfig();
-  
-// Створюємо MutationObserver для спостереження за змінами контенту betslip
-const observer = new MutationObserver((mutationList) => {
-    for (const mutation of mutationList) {
-      const betSlipElement = document.querySelector(betslipConfig.rootElement);
-  
-      if ((mutation.type === 'attributes' || mutation.type === 'childList') && betSlipElement) {
-        const odds = betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText;
-        const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
-        if (stake || odds) {
-            updateCalcContent(stake, odds, betslipConfig);
+
+    const observer = new MutationObserver((mutationList) => {
+        for (const mutation of mutationList) {
+            const betSlipElement = document.querySelector(betslipConfig.rootElement);
+
+            if ((mutation.type === 'attributes' || mutation.type === 'childList') && betSlipElement) {
+                const odds = betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText;
+                const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
+
+                if (stake || odds) {
+                    updateCalcContent(stake, odds, mode);
+
+                    let confirmBetButton = document.querySelector(betslipConfig.betSlipElement);
+                    //let confirmBetButton = document.querySelector(betslipConfig.placeBetElement);
+                    if (mode == 1) {
+                        confirmBetButton.addEventListener('dblclick', () => {
+                            sendDataViaWebSocket(odds, stake, mode);
+                            mode = 2;
+                            //sendCommandViaWebSocket(2)
+                            console.log("Імітація ставки")
+                        });
+                    } else {
+                        sendCommandViaWebSocket(1)
+                    }
+
+                }
+
+            }
         }
-      }
-    }
-  });
-  
-  observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+    });
+
+    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
 }
 
 // Функція для обробки контенту betslip
 // mode 1 = відкриття, mode 2 = закриття
-function updateCalcContent(stake = '', odds = '', betslipConfig, mode = 2) {
+function updateCalcContent(stake = '', odds = '', mode = 1) {
     const oddsAInput = document.getElementById('coefficientA');
     const oddsBInput = document.getElementById('coefficientB');
     const amountAInput = document.getElementById('amountA');
-    const amountBInput = document.getElementById('amountB');
 
-    if(mode == 1){
-        oddsAInput.value = odds;
-        amountAInput.value = stake;
-    }else if (mode == 2){
-        oddsBInput.value = odds;
+    if (mode == 1) {
+        oddsAInput.value = odds.replace(',', '.');
+        amountAInput.value = stake.replace(',', '.');
+    } else if (mode == 2) {
+        oddsBInput.value = odds.replace(',', '.');
     }
 
 
 }
+function updateSiteAmountBInput() {
 
-// Встановлюємо відслідковування елементів для кожного сайту
+}
+
+// Отримуємо назву для поточного сайту
 function getCurrentSite() {
     const hostname = window.location.hostname;
     let cleanURL = hostname.replace('www.', '');
@@ -234,11 +255,12 @@ function setupSiteConfig() {
     // Перевіряємо, чи є конфігурація для поточного сайту
     if (currentSite in SITES_CONFIG) {
         return SITES_CONFIG[currentSite].betslip;
-        
+
     } else {
         return false;
     }
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 function fixValue(v) {
@@ -252,3 +274,6 @@ setupBetslipTracking()
 =======
 setupBetslipTracking()
 >>>>>>> bf011ae (Відслідковуються зміни в купоні)
+=======
+setupBetslipTracking()
+>>>>>>> 04d41e1 (Прикрутив Websocket)
