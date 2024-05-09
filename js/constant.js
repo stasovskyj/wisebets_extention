@@ -62,6 +62,7 @@ const SITES_CONFIG = {
             betSlipElement: '',
             amountInputElement: '',
             oddsElement: '',
+            placeBetElement: '',
             cancelBetElement: ''
         }
     },
