@@ -154,10 +154,14 @@ $('#calc').on("keyup", function (e) {
     }
 });
 <<<<<<< HEAD
+<<<<<<< HEAD
 $("form").on("keyup", (event) => {
 =======
 $("form").on("change", (event) => {
 >>>>>>> b59ccf4 (Прикрутив Websocket)
+=======
+$("form").on("keyup", (event) => {
+>>>>>>> ddd5d0f (Виправлений не правильний endpoint)
     event.preventDefault();
     if (event.which > 47 && event.which < 58 || event.which > 95 && event.which < 106 || event.which == 8) {
 
