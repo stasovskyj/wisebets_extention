@@ -108,22 +108,21 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
-                <label for="factAmount">Закрив B:</label>
-                <input type="number" id="factAmount" name="factAmount" class="calc-form-control" step="0.01"
+                <label for="incorrectStake">Закрив B:</label>
+                <input type="number" id="incorrectStake" name="incorrectStake" class="calc-form-control" step="0.01"
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
                 <label for="stakeB">Сума B:</label>
-                <input type="decimal" id="stakeB" step="0.01" class="calc-form-control" name="stakeB" readonly>
+                <input type="decimal" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
             </div>
             <div class="calc-form-row">
-                <label for="remainAmount">Відкрито</label>
-                <input type="decimal" id="remainAmount" step="0.01" class="calc-form-control" name="remainAmount"
-                    readonly>
+                <label for="stakeOnRisk">Відкрито</label>
+                <input type="decimal" id="stakeOnRisk" name="stakeOnRisk" step="0.01" class="calc-form-control" readonly>
             </div>
             <div class="calc-form-row">
                 <label for="profit">Прибуток:</label>
-                <input type="decimal" id="profit" step="0.01" class="calc-form-control" name="profit" readonly>
+                <input type="decimal" id="profit" name="profit" step="0.01" class="calc-form-control" readonly>
             </div>
         </form>
     </div>
