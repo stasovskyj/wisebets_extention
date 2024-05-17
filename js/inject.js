@@ -20,15 +20,14 @@ function findId(data) {
 
     for (let i = 0; i < data.length; i++) {
         try {
-            let domains = JSON.parse(data[i].domains);
+            let name = data[i].name.toLowerCase();
 
-            if (domains.includes(currentDomain)) {
+            if (currentDomain.indexOf(name) !== -1) {
                 return data[i].id;
             }
         } catch (error) {
             sendMessageToServiceWorker({ action: "notification", message: error })
         }
-
     }
 
     return null;
