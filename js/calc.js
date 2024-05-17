@@ -153,7 +153,7 @@ $('#calc').on("keyup", function (e) {
 
     }
 });
-$("form").on("change", (event) => {
+$("form").on("keyup", (event) => {
     event.preventDefault();
     if (event.which > 47 && event.which < 58 || event.which > 95 && event.which < 106 || event.which == 8) {
 

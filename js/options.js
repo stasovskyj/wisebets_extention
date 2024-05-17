@@ -26,7 +26,7 @@ const saveOptions = () => {
 
         $.ajax({
             method: 'GET',
-            url: API_ROOT + IPTRACKER_URI,
+            url: API_ROOT + ACCOUNTS_URI,
             data: { "api-key": apiKey, "id": scapegoatId },
             dataType: 'json',
             beforeSend: function () {
