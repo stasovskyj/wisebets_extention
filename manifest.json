@@ -21,8 +21,8 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.pokerstars.com/*",
-        "*://*.pokerstars-01.com/*",
+        "*://*.pokerstars.com/sports/*",
+        "*://*.pokerstars-01.com/sports/*",
         "*://*.favbet.com/*",
         "*://*.favbet.ua/*",
         "*://*.betfair.com/*",
