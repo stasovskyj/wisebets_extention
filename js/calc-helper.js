@@ -228,21 +228,39 @@ function setupBetslipTracking() {
             if ((mutation.type === 'attributes' || mutation.type === 'childList') && betSlipElement) {
                 const odds = betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText;
                 const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
-
-                if (stake || odds) {
+                //console.log (mutation)
+                if (stake || fixOdds(odds)) {
+                    
                     updateCalcContent(stake, odds, mode);
 
-                    let confirmBetButton = document.querySelector(betslipConfig.betSlipElement);
-                    //let confirmBetButton = document.querySelector(betslipConfig.placeBetElement);
+                  //  let confirmBetButton = document.querySelector(betslipConfig.placeBetElement);
                     if (mode == 1) {
-                        confirmBetButton.addEventListener('dblclick', () => {
-                            sendDataViaWebSocket(odds, stake, mode);
-                            mode = 2;
-                            //sendCommandViaWebSocket(2)
-                            console.log("Імітація ставки")
-                        });
-                    } else {
-                        sendCommandViaWebSocket(1)
+                   //     confirmBetButton.addEventListener("click", () => {
+                            
+                           // перевірка чи прийнята ставка
+                          
+                                        console.log('Ставку прийнято')
+                                        console.log (mutation)
+                                        sendDataViaWebSocket(odds, stake, mode);
+                                        
+                                        mode = 2;
+                        
+                           
+                            //confirmBetButton.removeEventListener("click", () => {});
+
+                            //sendDataViaWebSocket(odds, stake, mode);
+                           // mode = 2;
+                           //sendCommandViaWebSocket(2)
+                           // confirmBetButton.removeEventListener("click", () => {});
+                            
+                       // });
+                    } else if (mode == 2) {
+                       //betSlipElement.querySelector(betslipConfig.amountInputElement).value = updateSiteAmountBInput();
+                       
+                    //  sendCommandViaWebSocket(1)
+                    //  mode = 1
+                     // calcForm.reset()
+                      // confirmBetButton.removeEventListener("click", () => {});
                     }
 
                 }
@@ -257,13 +275,13 @@ function setupBetslipTracking() {
 // Функція для обробки контенту betslip
 // mode 1 = відкриття, mode 2 = закриття
 function updateCalcContent(stake = '', odds = '', mode = 1) {
-    const oddsAInput = document.getElementById('coefficientA');
-    const oddsBInput = document.getElementById('coefficientB');
-    const amountAInput = document.getElementById('amountA');
+    const oddsAInput = document.getElementById('oddsA');
+    const oddsBInput = document.getElementById('oddsB');
+    const stakeAInput = document.getElementById('stakeA');
 
     if (mode == 1) {
         oddsAInput.value = odds.replace(',', '.');
-        amountAInput.value = stake.replace(',', '.');
+        stakeAInput.value = stake.replace(',', '.');
     } else if (mode == 2) {
         oddsBInput.value = odds.replace(',', '.');
     }
@@ -271,20 +289,23 @@ function updateCalcContent(stake = '', odds = '', mode = 1) {
 
 }
 function updateSiteAmountBInput() {
-
+    let stakeBInput = document.getElementById('stakeB');
+    return stakeBInput.value;
 }
 
 // Отримуємо назву для поточного сайту
 function getCurrentSite() {
     const hostname = window.location.hostname;
-    let cleanURL = hostname.replace('www.', '');
-    let parts = cleanURL.split('.');
-    if (parts.length == 3) {
-        return parts[1];
-    } else {
-        return parts[0];
+    for (const site in SITES_CONFIG) {
+        if (hostname.indexOf(site) !== -1) {
+            return site;
+        }
     }
+<<<<<<< HEAD
 >>>>>>> 43f80e6 (Зібрав селектори з основних сайтів)
+=======
+    return null;
+>>>>>>> 119fa6f (Заховав в коміт)
 }
 
 function setupSiteConfig() {
@@ -293,11 +314,11 @@ function setupSiteConfig() {
     // Перевіряємо, чи є конфігурація для поточного сайту
     if (currentSite in SITES_CONFIG) {
         return SITES_CONFIG[currentSite].betslip;
-
     } else {
         return false;
     }
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -315,3 +336,10 @@ setupBetslipTracking()
 =======
 setupBetslipTracking()
 >>>>>>> 04d41e1 (Прикрутив Websocket)
+=======
+function fixOdds(v) {
+    
+    return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : false;
+}
+setupBetslipTracking()
+>>>>>>> 119fa6f (Заховав в коміт)
