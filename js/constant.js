@@ -12,7 +12,8 @@ const SITES_CONFIG = {
             amountInputElement: '[placeholder="Stake"]', // Сума
             oddsElement: 'div[data-test-id="SelectionDetails-Odds"] span', // коефіцієнт
             placeBetElement: 'button[data-test-id="Betslip-ConfirmBetButton"]', // кнопка розміщення ставки
-            cancelBetElement: '.betslip-close-button' // закрити купон
+            cancelBetElement: '.betslip-close-button', // закрити купон
+            betAcceptedElement:'[data-test-id="Betslip-CardMessage"] .style_acceptedBet__3uM8I' // Елемент прийнятої ставки
         }
     },
     'favbet': {
@@ -23,7 +24,7 @@ const SITES_CONFIG = {
             amountInputElement: 'input[data-role="betslip-bet-sum-input"]',
             oddsElement: 'span[data-role="betslip-outcome-coef"]',
             placeBetElement: 'button[data-test-id="Betslip-ConfirmBetButton"]',
-            cancelBetElement: ''
+            cancelBetElement: '',
         }
     },
     'sportsbet': {
@@ -32,10 +33,10 @@ const SITES_CONFIG = {
             rootElement: 'div.BetslipContents__StyledWrapper-sc-w4swdg-0',
             betSlipElement: 'div.BetslipContents__StyledWrapper-sc-w4swdg-0', // +
             amountInputElement: 'input[data-test-id="betslip-moneyInputField"]', // +
-            oddsElement: '',
-            // oddsElement: '.BetslipContents__StyledInner-sc-w4swdg-1 span.FormattedOdds__OddsWrapper-sc-dio9ku-0',
+            oddsElement: '.BetslipContents__StyledInner-sc-w4swdg-1 span.FormattedOdds__OddsWrapper-sc-dio9ku-0',
             placeBetElement: 'button.wrappers__MultilineButton-sc-caw8ue-2',
-            cancelBetElement: ''
+            cancelBetElement: '',
+            betAcceptedElement:'.FullReceiptHeader__StyledMetaFullReceipt-sc-1ikf716-0'
         }
     },
     'pokerstars-01': {
@@ -78,28 +79,29 @@ const SITES_CONFIG = {
             betSlipElement: 'div[data-component="quick-betslip-card"]',
             amountInputElement: 'input[data-component="betslip-input-field"]',
             oddsElement: 'div[data-component="quick-betslip-odds"]',
-            placeBetElement: '',
-            cancelBetElement: ''
+            placeBetElement: 'button[data-component="quick-betslip-place-bet"]',
+            cancelBetElement: '',
+            betAcceptedElement:'data-component="quick-betslip-place-bet-again"'
         }
     },
 };
 const CALC_CONTENT = `<div id="calc-container" class="calc-container">
 <div class="calc-card">
     <div class="card-body">
-        <form class="calc">
+        <form class="calc" id="calc">
             <div class="calc-form-row">
-                <label for="amountA">Сума:</label>
-                <input type="number" id="amountA" name="amountA" class="calc-form-control" step="0.01"
+                <label for="stakeA">Сума:</label>
+                <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01"
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
-                <label for="coefficientA">Коеф A:</label>
-                <input type="number" id="coefficientA" name="coefficientA" class="calc-form-control" step="0.001"
+                <label for="oddsA">Коеф A:</label>
+                <input type="number" id="oddsA" name="oddsA" class="calc-form-control" step="0.001"
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
-                <label for="coefficientB">Коеф B:</label>
-                <input type="number" id="coefficientB" name="coefficientB" class="calc-form-control" step="0.001"
+                <label for="oddsB">Коеф B:</label>
+                <input type="number" id="oddsB" name="oddsB" class="calc-form-control" step="0.001"
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
@@ -108,8 +110,8 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
-                <label for="amountB">Сума B:</label>
-                <input type="decimal" id="amountB" step="0.01" class="calc-form-control" name="amountB" readonly>
+                <label for="stakeB">Сума B:</label>
+                <input type="decimal" id="stakeB" step="0.01" class="calc-form-control" name="stakeB" readonly>
             </div>
             <div class="calc-form-row">
                 <label for="remainAmount">Відкрито</label>
