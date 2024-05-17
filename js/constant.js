@@ -91,20 +91,20 @@ const SITES_CONFIG = {
 const CALC_CONTENT = `<div id="calc-container" class="calc-container">
 <div class="calc-card">
     <div class="card-body">
-        <form class="calc">
+        <form class="calc" id="calc">
             <div class="calc-form-row">
-                <label for="amountA">Сума:</label>
-                <input type="number" id="amountA" name="amountA" class="calc-form-control" step="0.01"
+                <label for="stakeA">Сума:</label>
+                <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01"
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
-                <label for="coefficientA">Коеф A:</label>
-                <input type="number" id="coefficientA" name="coefficientA" class="calc-form-control" step="0.001"
+                <label for="oddsA">Коеф A:</label>
+                <input type="number" id="oddsA" name="oddsA" class="calc-form-control" step="0.001"
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
-                <label for="coefficientB">Коеф B:</label>
-                <input type="number" id="coefficientB" name="coefficientB" class="calc-form-control" step="0.001"
+                <label for="oddsB">Коеф B:</label>
+                <input type="number" id="oddsB" name="oddsB" class="calc-form-control" step="0.001"
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
@@ -113,8 +113,8 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
                     inputmode="decimal">
             </div>
             <div class="calc-form-row">
-                <label for="amountB">Сума B:</label>
-                <input type="decimal" id="amountB" step="0.01" class="calc-form-control" name="amountB" readonly>
+                <label for="stakeB">Сума B:</label>
+                <input type="decimal" id="stakeB" step="0.01" class="calc-form-control" name="stakeB" readonly>
             </div>
             <div class="calc-form-row">
                 <label for="remainAmount">Відкрито</label>
