@@ -49,62 +49,42 @@ function setupBetslipTracking() {
 
             const betSlipElement = document.querySelector(betslipConfig.rootElement);
 
-            if (betSlipElement) {
+            if ((mutation.type === 'attributes' || mutation.type === 'childList') && betSlipElement) {
+                const odds = betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText;
+                const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
+                // Перевірка чи прийнята ставка.
+                if(betSlipElement.querySelector(betslipConfig.betAcceptedElement)){
+                   if(mode == 1){
+                    sendDataViaWebSocket(odds, stake, mode);
+                    mode = 2;
+                    console.log('Ставка відкрита')
+                   }else{
+                    sendCommandViaWebSocket(1)
+                    console.log('Ставка закрита')
+                   } 
 
-                switch (mutation.type) {
-                    case 'childList':
-                        //  console.log('================================')
-                        console.log(mutation);
-
-                        for (const node of mutation.addedNodes) {
-                            //console.log(node)
-                            if (node.nodeType === Node.ELEMENT_NODE) {
-                                // Якщо доданий елемент є елементом з атрибутом data-cy="stake-input"
-                                console.log(node)
-                                if (node.matches(betslipConfig.betSlipDataElement)) {
-                                    // Викликаємо вашу функцію або виконуємо потрібні дії
-                                    a.setOddsA(fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText))
-
-                                }
-                            }
-                        }
-                        // Перевірка чи прийнята ставка
-                        if (betSlipElement.querySelector(betslipConfig.betAcceptedElement)) {
-                            if (mode == 1) {
-                                sendDataViaWebSocket(a.oddsA, a.stakeA, mode);
-                                mode = 2;
-
-                                observer.disconnect();
-                            } else if (mode == 2) {
-                                sendCommandViaWebSocket(1)
-                                console.log('Ставка закрита')
-                                //console.log(mutationList);
-                                observer.disconnect();
-                            }
-                            // Отримання коефіцієнту під час відкриття купону
-
-
-
-                        }
-                        break;
-                    case 'attributes':
-
-                        break;
-                    case 'characterData':
-
-                        break;
                 }
-                if (betSlipElement.querySelector(betslipConfig.betAcceptedElement)) {
+                if (stake || fixOdds(odds)) {
+                 
                     if (mode == 1) {
-                        sendDataViaWebSocket(a.oddsA, a.stakeA, mode);
-                        mode = 2;
-                        // console.log('Ставка відкрита')
-                        // observer.disconnect();
-                    } else if (mode == 2) {
-                        sendCommandViaWebSocket(1)
-                        console.log('Ставка закрита')
-                        //console.log(mutationList);
-                        // observer.disconnect();
+                   //     confirmBetButton.addEventListener("click", () => {
+                            
+                   updateCalc(stake, odds, mode);
+                            //confirmBetButton.removeEventListener("click", () => {});
+
+                            //sendDataViaWebSocket(odds, stake, mode);
+                           // mode = 2;
+                           //sendCommandViaWebSocket(2)
+                           // confirmBetButton.removeEventListener("click", () => {});
+                            
+                       // });
+                    } else {
+                       //betSlipElement.querySelector(betslipConfig.amountInputElement).value = updateSiteAmountBInput();
+                       updateCalc(stake, odds, mode);
+                    //  sendCommandViaWebSocket(1)
+                    //  mode = 1
+                     // calcForm.reset()
+                      // confirmBetButton.removeEventListener("click", () => {});
                     }
 
 
@@ -148,15 +128,13 @@ function setupBetslipTracking() {
 
 // Функція для оновлення калькулятора
 // mode 1 = відкриття, mode 2 = закриття
-function updateCalc(stake = '', odds = '', currency = '', mode = 1) {
+function updateCalc(stake = '', odds = '', mode = 1) {
 
     if (mode == 1) {
         a.setOddsA(odds);
         a.setStakeA(stake);
-        a.setStakeACurrency(currency)
     } else if (mode == 2) {
         a.setOddsB(odds);
-        // updateSiteStakeInput();
     }
 
 
@@ -187,7 +165,7 @@ function setupSiteConfig() {
         return false;
     }
 }
-function fixValue(v) {
+function fixOdds(v) {
     return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : false;
 }
 setupBetslipTracking()
