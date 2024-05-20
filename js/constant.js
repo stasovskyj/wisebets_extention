@@ -91,7 +91,7 @@ const SITES_CONFIG = {
 const CALC_CONTENT = `<div id="calc-container" class="calc-container">
 <div class="calc-card">
     <div class="card-body">
-        <form class="calc" id="calc">
+        <form class="calc" id="calc-form">
             <div class="calc-form-row">
                 <label for="stakeA">Сума:</label>
                 <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01"

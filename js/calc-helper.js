@@ -1,4 +1,46 @@
 let mode = 1;
+let calc = document.createElement('div');
+
+calc.innerHTML = CALC_CONTENT;
+
+document.body.append(calc);
+
+const calcContainer = document.getElementById('calc-container');
+const calcForm = document.getElementById('calc-form');
+
+// Відключення перетягування, коли клікнуто на поле вводу
+calcContainer.addEventListener('mousedown', (event) => {
+    if (event.target.tagName === 'INPUT') {
+        isDragging = false;
+    }
+});
+
+// Увімкнення перетягування, коли клікнуто поза полями вводу
+calcContainer.addEventListener('mouseup', () => {
+    isDragging = true;
+});
+
+let isDragging = true;
+let offsetX, offsetY;
+
+calcContainer.addEventListener('mousedown', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    offsetX = e.clientX - calcContainer.getBoundingClientRect().left;
+    offsetY = e.clientY - calcContainer.getBoundingClientRect().top;
+    window.addEventListener('mousemove', moveHandler);
+    window.addEventListener('mouseup', cleanup);
+});
+
+function moveHandler(e) {
+    calcContainer.style.left = e.clientX - offsetX + 'px';
+    calcContainer.style.top = e.clientY - offsetY + 'px';
+}
+
+function cleanup() {
+    window.removeEventListener('mousemove', moveHandler);
+    window.removeEventListener('mouseup', cleanup);
+}
 function setupBetslipTracking() {
     const betslipConfig = setupSiteConfig();
 
@@ -9,24 +51,24 @@ function setupBetslipTracking() {
             if ((mutation.type === 'attributes' || mutation.type === 'childList') && betSlipElement) {
                 const odds = betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText;
                 const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
-                //console.log (mutation)
-                if (stake || fixOdds(odds)) {
-                    
-                    updateCalcContent(stake, odds, mode);
+                // Перевірка чи прийнята ставка.
+                if(betSlipElement.querySelector(betslipConfig.betAcceptedElement)){
+                   if(mode == 1){
+                    sendDataViaWebSocket(odds, stake, mode);
+                    mode = 2;
+                    console.log('Ставка відкрита')
+                   }else{
+                    sendCommandViaWebSocket(1)
+                    console.log('Ставка закрита')
+                   } 
 
-                  //  let confirmBetButton = document.querySelector(betslipConfig.placeBetElement);
+                }
+                if (stake || fixOdds(odds)) {
+                 
                     if (mode == 1) {
                    //     confirmBetButton.addEventListener("click", () => {
                             
-                           // перевірка чи прийнята ставка
-                          
-                                        console.log('Ставку прийнято')
-                                        console.log (mutation)
-                                        sendDataViaWebSocket(odds, stake, mode);
-                                        
-                                        mode = 2;
-                        
-                           
+                   updateCalc(stake, odds, mode);
                             //confirmBetButton.removeEventListener("click", () => {});
 
                             //sendDataViaWebSocket(odds, stake, mode);
@@ -35,9 +77,9 @@ function setupBetslipTracking() {
                            // confirmBetButton.removeEventListener("click", () => {});
                             
                        // });
-                    } else if (mode == 2) {
+                    } else {
                        //betSlipElement.querySelector(betslipConfig.amountInputElement).value = updateSiteAmountBInput();
-                       
+                       updateCalc(stake, odds, mode);
                     //  sendCommandViaWebSocket(1)
                     //  mode = 1
                      // calcForm.reset()
@@ -55,16 +97,13 @@ function setupBetslipTracking() {
 
 // Функція для обробки контенту betslip
 // mode 1 = відкриття, mode 2 = закриття
-function updateCalcContent(stake = '', odds = '', mode = 1) {
-    const oddsAInput = document.getElementById('oddsA');
-    const oddsBInput = document.getElementById('oddsB');
-    const stakeAInput = document.getElementById('stakeA');
+function updateCalc(stake = '', odds = '', mode = 1) {
 
     if (mode == 1) {
-        oddsAInput.value = odds.replace(',', '.');
-        stakeAInput.value = stake.replace(',', '.');
+        a.setOddsA(odds);
+        a.setStakeA(stake);
     } else if (mode == 2) {
-        oddsBInput.value = odds.replace(',', '.');
+        a.setOddsB(odds);
     }
 
 
@@ -96,7 +135,7 @@ function setupSiteConfig() {
     }
 }
 function fixOdds(v) {
-    
     return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : false;
 }
 setupBetslipTracking()
+let a = new Calculator();
