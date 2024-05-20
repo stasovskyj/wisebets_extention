@@ -9,13 +9,11 @@ class Calculator {
         this.stakeOnRisk = null;
         this.bindEvents();
     }
-
     setStakeA(v) {
         this.stakeA = v;
         this.updateForm();
         this.checkCalculation()
     }
-
     setStakeB(v) {
         this.stakeB = v;
         this.updateForm();
@@ -58,9 +56,9 @@ class Calculator {
         } else {
             return (this.incorrectStake - this.stakeB).toFixed(2);
         }
-
     }
 
+    // Якщо є мінімальна кількість даних викликати методи розрахунків
     checkCalculation() {
         if (this.oddsA !== null && this.oddsB !== null && this.stakeA !== null) {
 
@@ -73,12 +71,11 @@ class Calculator {
             } else {
                 this.setStakeOnRisk(null);
             }
-
         }
     }
+
     moveStakeOnRisk(m) {
         if (m == 1) {
-
             this.setStakeA(this.stakeOnRisk)
             this.setStakeB(null)
             this.setOddsB(null)
@@ -86,20 +83,17 @@ class Calculator {
             this.setProfit(null);
             this.setIncorrectStake(null);
             this.setStakeOnRisk(null);
-        }
-        if (m == 2) {
+        }else{
             this.setStakeA(this.stakeOnRisk)
-            this.setOddsA(this.stakeOddsA);
+            this.setOddsA(this.oddsA);
             this.setStakeB(null)
             this.setOddsB(null)
             this.setProfit(null);
             this.setIncorrectStake(null);
             this.setStakeOnRisk(null);
-            form.querySelector('#oddsB').focus();
-
         }
-
     }
+    
     reset() {
         this.stakeA = null;
         this.stakeB = null;
@@ -110,6 +104,7 @@ class Calculator {
         this.profit = null;
         this.updateForm();
     }
+    
     // Оновлення веб-форми на основі властивостей калькулятора
     updateForm() {
         const form = document.getElementById('calc-form');
@@ -127,14 +122,10 @@ class Calculator {
         const form = document.getElementById('calc-form');
         form.addEventListener('input', (e) => {
             const { id, value } = e.target;
-            const numericValue = parseFloat(value) || null;
-
             if (id in this) {
-                this[id] = numericValue;
+                this[id] = parseFloat(value) || null;
                 this.checkCalculation();
             }
         });
     }
-
 }
-let a = new Calculator();

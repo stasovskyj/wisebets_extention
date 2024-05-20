@@ -40,9 +40,9 @@
       ],
       "js": [
         "js/constant.js",
+        "js/calc-pro.js",
         "js/lib/jquery-3.6.slim.min.js",
         "js/inject.js",
-        "js/calc.js",
         "js/calc-helper.js",
         "js/ws.js"
       ],

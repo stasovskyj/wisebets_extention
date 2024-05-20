@@ -21,7 +21,7 @@ socket.onerror = () => {
 };
 
 function sendDataViaWebSocket(odds, stake) {
-    socket.send(JSON.stringify({ action: "updateCalcContent", odds: odds, stake: stake }));
+    socket.send(JSON.stringify({ action: "updateCalc", odds: odds, stake: stake }));
 }
 
 function sendCommandViaWebSocket(mode) {
@@ -33,10 +33,9 @@ function actionOnDataReceived(e) {
     const data = JSON.parse(e.data);
 
     switch (data.action) {
-        case "updateCalcContent":
-            //{"action":"updateCalcContent","odds":"1.90","stake":"120"}
-            updateCalcContent(data.stake, data.odds, 1);
-            mode = 2;
+        case "updateCalc":
+            //{"action":"updateCalc","odds":"1.90","stake":"120"}
+            updateCalc(data.stake, data.odds, 1);
             break;
         case "switchMode":
             //{"action":"switchMode","mode":1}
