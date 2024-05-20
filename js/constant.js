@@ -11,9 +11,7 @@ const SITES_CONFIG = {
             betSlipElement: 'div.collapse-content', // Селектор елементу betslip
             amountInputElement: '[placeholder="Stake"]', // Сума
             oddsElement: 'div[data-test-id="SelectionDetails-Odds"] span', // коефіцієнт
-            placeBetElement: 'button[data-test-id="Betslip-ConfirmBetButton"]', // кнопка розміщення ставки
-            cancelBetElement: '.betslip-close-button', // закрити купон
-            betAcceptedElement:'[data-test-id="Betslip-CardMessage"] .style_acceptedBet__3uM8I' // Елемент прийнятої ставки
+            betAcceptedElement:'[class^="style_acceptedBet"]' // Елемент прийнятої ставки
         }
     },
     'betvictor': {
@@ -34,8 +32,7 @@ const SITES_CONFIG = {
             betSlipElement: 'div[data-role="c-betSlip"]',
             amountInputElement: 'input[data-role="betslip-bet-sum-input"]',
             oddsElement: 'span[data-role="betslip-outcome-coef"]',
-            placeBetElement: 'button[data-test-id="Betslip-ConfirmBetButton"]',
-            cancelBetElement: '',
+            betAcceptedElement:''
         }
     },
     'sportsbet': {
@@ -45,9 +42,7 @@ const SITES_CONFIG = {
             betSlipElement: '[class^=BetslipContents]', // +
             amountInputElement: 'data-test-id="betslip-moneyInputField"', // +
             oddsElement: '.BetslipContents__StyledInner-sc-w4swdg-1 span.FormattedOdds__OddsWrapper-sc-dio9ku-0',
-            placeBetElement: 'button.wrappers__MultilineButton-sc-caw8ue-2',
-            cancelBetElement: '',
-            betAcceptedElement:'.FullReceiptHeader__StyledMetaFullReceipt-sc-1ikf716-0'
+            betAcceptedElement:'[class^=FullReceiptHeaderStyles__BetPlacedContainer]'
         }
     },
     'pokerstars-01': {
@@ -57,8 +52,7 @@ const SITES_CONFIG = {
             betSlipElement: 'div[data-testid="bet-slip-opportunity"]',
             amountInputElement: 'div[data-testid="bet-slip-opportunity"] div div div div input',
             oddsElement: 'div[data-testid="bet-slip-opportunity"] div div div div',
-            placeBetElement: 'div[data-testid="bet-slip-footer"]',
-            cancelBetElement: ''
+            betAcceptedElement:''
         }
     },
     'sportsbetting': {
@@ -89,16 +83,14 @@ const SITES_CONFIG = {
             betSlipElement: 'div[data-component="quick-betslip-card"]',
             amountInputElement: 'input[data-component="betslip-input-field"]',
             oddsElement: 'div[data-component="quick-betslip-odds"]',
-            placeBetElement: 'button[data-component="quick-betslip-place-bet"]',
-            cancelBetElement: '',
-            betAcceptedElement:'data-component="quick-betslip-place-bet-again"'
+            betAcceptedElement:'[data-component="quick-betslip-place-bet-again"]' //+
         }
     },
 };
 const CALC_CONTENT = `<div id="calc-container" class="calc-container">
 <div class="calc-card">
     <div class="card-body">
-        <form class="calc" id="calc">
+        <form class="calc" id="calc-form">
             <div class="calc-form-row">
                 <label for="stakeA">Сума:</label>
                 <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01"
