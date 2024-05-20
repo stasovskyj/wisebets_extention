@@ -43,6 +43,7 @@ function cleanup() {
     window.removeEventListener('mousemove', moveHandler);
     window.removeEventListener('mouseup', cleanup);
 }
+<<<<<<< HEAD
 function setupBetslipTracking() {
     const betslipConfig = setupSiteConfig();
 
@@ -218,6 +219,8 @@ function getCurrentSite() {
 =======
 let mode = 1;
 >>>>>>> 04d41e1 (Прикрутив Websocket)
+=======
+>>>>>>> 40ce954 (Додано відслідковування прийняття ставки)
 function setupBetslipTracking() {
     const betslipConfig = setupSiteConfig();
 
@@ -228,24 +231,24 @@ function setupBetslipTracking() {
             if ((mutation.type === 'attributes' || mutation.type === 'childList') && betSlipElement) {
                 const odds = betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText;
                 const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
-                //console.log (mutation)
-                if (stake || fixOdds(odds)) {
-                    
-                    updateCalcContent(stake, odds, mode);
+                // Перевірка чи прийнята ставка.
+                if(betSlipElement.querySelector(betslipConfig.betAcceptedElement)){
+                   if(mode == 1){
+                    sendDataViaWebSocket(odds, stake, mode);
+                    mode = 2;
+                    console.log('Ставка відкрита')
+                   }else{
+                    sendCommandViaWebSocket(1)
+                    console.log('Ставка закрита')
+                   } 
 
-                  //  let confirmBetButton = document.querySelector(betslipConfig.placeBetElement);
+                }
+                if (stake || fixOdds(odds)) {
+                 
                     if (mode == 1) {
                    //     confirmBetButton.addEventListener("click", () => {
                             
-                           // перевірка чи прийнята ставка
-                          
-                                        console.log('Ставку прийнято')
-                                        console.log (mutation)
-                                        sendDataViaWebSocket(odds, stake, mode);
-                                        
-                                        mode = 2;
-                        
-                           
+                   updateCalc(stake, odds, mode);
                             //confirmBetButton.removeEventListener("click", () => {});
 
                             //sendDataViaWebSocket(odds, stake, mode);
@@ -254,9 +257,9 @@ function setupBetslipTracking() {
                            // confirmBetButton.removeEventListener("click", () => {});
                             
                        // });
-                    } else if (mode == 2) {
+                    } else {
                        //betSlipElement.querySelector(betslipConfig.amountInputElement).value = updateSiteAmountBInput();
-                       
+                       updateCalc(stake, odds, mode);
                     //  sendCommandViaWebSocket(1)
                     //  mode = 1
                      // calcForm.reset()
@@ -274,16 +277,13 @@ function setupBetslipTracking() {
 
 // Функція для обробки контенту betslip
 // mode 1 = відкриття, mode 2 = закриття
-function updateCalcContent(stake = '', odds = '', mode = 1) {
-    const oddsAInput = document.getElementById('oddsA');
-    const oddsBInput = document.getElementById('oddsB');
-    const stakeAInput = document.getElementById('stakeA');
+function updateCalc(stake = '', odds = '', mode = 1) {
 
     if (mode == 1) {
-        oddsAInput.value = odds.replace(',', '.');
-        stakeAInput.value = stake.replace(',', '.');
+        a.setOddsA(odds);
+        a.setStakeA(stake);
     } else if (mode == 2) {
-        oddsBInput.value = odds.replace(',', '.');
+        a.setOddsB(odds);
     }
 
 
@@ -338,8 +338,11 @@ setupBetslipTracking()
 >>>>>>> 04d41e1 (Прикрутив Websocket)
 =======
 function fixOdds(v) {
-    
     return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : false;
 }
 setupBetslipTracking()
+<<<<<<< HEAD
 >>>>>>> 119fa6f (Заховав в коміт)
+=======
+let a = new Calculator();
+>>>>>>> 40ce954 (Додано відслідковування прийняття ставки)

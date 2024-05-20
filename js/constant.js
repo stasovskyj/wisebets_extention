@@ -91,7 +91,11 @@ const SITES_CONFIG = {
 const CALC_CONTENT = `<div id="calc-container" class="calc-container">
 <div class="calc-card">
     <div class="card-body">
+<<<<<<< HEAD
         <form class="calc">
+=======
+        <form class="calc" id="calc-form">
+>>>>>>> 40ce954 (Додано відслідковування прийняття ставки)
             <div class="calc-form-row">
                 <label for="amountA">Сума:</label>
                 <input type="number" id="amountA" name="amountA" class="calc-form-control" step="0.01"

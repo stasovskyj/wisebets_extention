@@ -68,6 +68,7 @@ class Calculator {
         }
     }
 
+    // Якщо є мінімальна кількість даних викликати методи розрахунків
     checkCalculation() {
         if (this.oddsA !== null && this.oddsB !== null && this.stakeA !== null) {
 
@@ -80,6 +81,7 @@ class Calculator {
             } else {
                 this.setStakeOnRisk(null);
             }
+<<<<<<< HEAD
         } else {
             this.profit = null
             this.stakeB = null
@@ -103,9 +105,31 @@ class Calculator {
             this.oddsB = null;
             this.updateForm();
             this.checkCalculation()
+=======
         }
-
     }
+
+    moveStakeOnRisk(m) {
+        if (m == 1) {
+            this.setStakeA(this.stakeOnRisk)
+            this.setStakeB(null)
+            this.setOddsB(null)
+            this.setOddsA(null);
+            this.setProfit(null);
+            this.setIncorrectStake(null);
+            this.setStakeOnRisk(null);
+        }else{
+            this.setStakeA(this.stakeOnRisk)
+            this.setOddsA(this.oddsA);
+            this.setStakeB(null)
+            this.setOddsB(null)
+            this.setProfit(null);
+            this.setIncorrectStake(null);
+            this.setStakeOnRisk(null);
+>>>>>>> 40ce954 (Додано відслідковування прийняття ставки)
+        }
+    }
+    
     reset() {
         this.stakeA = null;
         this.stakeB = null;
@@ -116,6 +140,7 @@ class Calculator {
         this.profit = null;
         this.updateForm();
     }
+    
     // Оновлення веб-форми на основі властивостей калькулятора
     updateForm() {
         const form = document.getElementById('calc-form');
@@ -132,9 +157,12 @@ class Calculator {
         const form = document.getElementById('calc-form');
         form.addEventListener('input', (e) => {
             const { id, value } = e.target;
+<<<<<<< HEAD
             const numericValue = parseFloat(value) || null;
+=======
+>>>>>>> 40ce954 (Додано відслідковування прийняття ставки)
             if (id in this) {
-                this[id] = numericValue;
+                this[id] = parseFloat(value) || null;
                 this.checkCalculation();
             }
         });
