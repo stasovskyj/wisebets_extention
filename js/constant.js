@@ -88,46 +88,39 @@ const SITES_CONFIG = {
     },
 };
 const CALC_CONTENT = `<div id="calc-container" class="calc-container">
-<div class="calc-card">
-    <div class="card-body">
-<<<<<<< HEAD
-        <form class="calc">
-=======
+    <div class="calc-card">
+      <div class="card-body">
         <form class="calc" id="calc-form">
->>>>>>> 40ce954 (Додано відслідковування прийняття ставки)
-            <div class="calc-form-row">
-                <label for="amountA">Сума:</label>
-                <input type="number" id="amountA" name="amountA" class="calc-form-control" step="0.01"
-                    inputmode="decimal">
-            </div>
-            <div class="calc-form-row">
-                <label for="coefficientA">Коеф A:</label>
-                <input type="number" id="coefficientA" name="coefficientA" class="calc-form-control" step="0.001"
-                    inputmode="decimal">
-            </div>
-            <div class="calc-form-row">
-                <label for="coefficientB">Коеф B:</label>
-                <input type="number" id="coefficientB" name="coefficientB" class="calc-form-control" step="0.001"
-                    inputmode="decimal">
-            </div>
-            <div class="calc-form-row">
-                <label for="factAmount">Закрив B:</label>
-                <input type="number" id="factAmount" name="factAmount" class="calc-form-control" step="0.01"
-                    inputmode="decimal">
-            </div>
-            <div class="calc-form-row">
-                <label for="amountB">Сума B:</label>
-                <input type="decimal" id="amountB" step="0.01" class="calc-form-control" name="amountB" readonly>
-            </div>
-            <div class="calc-form-row">
-                <label for="remainAmount">Відкрито</label>
-                <input type="decimal" id="remainAmount" step="0.01" class="calc-form-control" name="remainAmount"
-                    readonly>
-            </div>
-            <div class="calc-form-row">
-                <label for="profit">Прибуток:</label>
-                <input type="decimal" id="profit" step="0.01" class="calc-form-control" name="profit" readonly>
-            </div>
+          <div class="calc-form-row">
+            <label for="stakeA">Сума:</label>
+            <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
+          </div>
+          <div class="calc-form-row">
+            <label for="oddsA">Коеф A:</label>
+            <input type="number" id="oddsA" name="oddsA" class="calc-form-control" step="0.01" inputmode="decimal">
+          </div>
+          <div class="calc-form-row">
+            <label for="oddsB">Коеф B:</label>
+            <input type="number" id="oddsB" name="oddsB" class="calc-form-control" step="0.01" inputmode="decimal">
+          </div>
+          <div class="calc-form-row">
+            <label for="incorrectStake">Закрив B:</label>
+            <input type="number" id="incorrectStake" name="incorrectStake" class="calc-form-control" step="0.01"
+              inputmode="decimal">
+          </div>
+          <div class="calc-form-row">
+            <label for="stakeB">Сума B:</label>
+            <input type="number" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
+          </div>
+          <div class="calc-form-row">
+            <label for="stakeOnRisk">Відкрито</label>
+            <input type="number" id="stakeOnRisk" name="stakeOnRisk" step="0.01" class="calc-form-control" readonly>
+          </div>
+          <div class="calc-form-row">
+            <label for="profit">Прибуток:</label>
+            <input type="number" id="profit" name="profit" step="0.01" class="calc-form-control" readonly>
+          </div>
+
         </form>
         <div class="calc-buttons">
           <button onclick="a.moveStakeOnRisk()" class="calc-button">Перенести</button>
