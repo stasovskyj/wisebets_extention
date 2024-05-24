@@ -41,7 +41,7 @@ function actionOnDataReceived(e) {
             //{"action":"switchMode","mode":1}
             mode = data.mode;
             console.log("Switched to mode: " + data.mode);
-
+            
             break;
         default:
             console.log("%cWebSocket: Невідомі дані " + data, "background: red; color: white; display: block;");
