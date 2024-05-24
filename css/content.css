@@ -57,10 +57,29 @@ input::-webkit-inner-spin-button {
   font-size: large;
   text-transform: uppercase;
   padding: 5px;
-  height:35px
+  height: 35px;
 }
 .calc-container input[readonly] {
-  background-color: #cbc9c9; 
-  color: #666666; 
+  background-color: #cbc9c9;
+  color: #666666;
   cursor: not-allowed;
-} 
+}
+.calc-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.calc-button {
+  padding: 10px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #5a5959;
+  color: white;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.calc-button:hover {
+  background-color: #4e4e4e;
+}
