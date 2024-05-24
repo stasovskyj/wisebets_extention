@@ -129,6 +129,8 @@ class Calculator {
 
     // Відслідковування вводу даних в форму
     bindEvents() {
+        const moveStakeOnRiskButton = document.getElementById('move-stake-on-risk');
+        const resetButton = document.getElementById('reset-calc');
         const form = document.getElementById('calc-form');
         form.addEventListener('input', (e) => {
             const { id, value } = e.target;
@@ -137,6 +139,13 @@ class Calculator {
                 this[id] = numericValue;
                 this.checkCalculation();
             }
+        });
+        moveStakeOnRiskButton.addEventListener('click', () => {
+            this.moveStakeOnRisk();
+        });
+
+        resetButton.addEventListener('click', () => {
+            this.reset();
         });
     }
 }
