@@ -44,9 +44,8 @@
 .calc-container label {
   font-size: 12px;
 }
-.calc-container label span {
+.calc-container b {
   color: rgb(65, 115, 207);
-  font-weight: bold;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
