@@ -39,10 +39,11 @@ function actionOnDataReceived(e) {
             break;
         case "switchMode":
             //{"action":"switchMode","mode":1}
-            console.log("switchMode: " + data.mode);
             mode = data.mode;
+            console.log("Switched to mode: " + data.mode);
+            
             break;
         default:
-            console.log("%cWebSocket: Невідома дія!", "background: red; color: white; display: block;");
+            console.log("%cWebSocket: Невідомі дані " + data, "background: red; color: white; display: block;");
     }
 }
