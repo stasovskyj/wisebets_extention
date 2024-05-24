@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 let mode = 1;
 let calc = document.createElement('div');
 
@@ -43,7 +41,6 @@ function cleanup() {
     window.removeEventListener('mousemove', moveHandler);
     window.removeEventListener('mouseup', cleanup);
 }
-<<<<<<< HEAD
 function setupBetslipTracking() {
     const betslipConfig = setupSiteConfig();
 
@@ -177,97 +174,6 @@ function getCurrentSite() {
         }
     }
     return null;
-=======
-=======
-let mode = 1;
->>>>>>> 04d41e1 (Прикрутив Websocket)
-=======
->>>>>>> 40ce954 (Додано відслідковування прийняття ставки)
-function setupBetslipTracking() {
-    const betslipConfig = setupSiteConfig();
-
-    const observer = new MutationObserver((mutationList) => {
-        for (const mutation of mutationList) {
-            const betSlipElement = document.querySelector(betslipConfig.rootElement);
-
-            if ((mutation.type === 'attributes' || mutation.type === 'childList') && betSlipElement) {
-                const odds = betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText;
-                const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
-                // Перевірка чи прийнята ставка.
-                if(betSlipElement.querySelector(betslipConfig.betAcceptedElement)){
-                   if(mode == 1){
-                    sendDataViaWebSocket(odds, stake, mode);
-                    mode = 2;
-                    console.log('Ставка відкрита')
-                   }else{
-                    sendCommandViaWebSocket(1)
-                    console.log('Ставка закрита')
-                   } 
-
-                }
-                if (stake || fixOdds(odds)) {
-                 
-                    if (mode == 1) {
-                   //     confirmBetButton.addEventListener("click", () => {
-                            
-                   updateCalc(stake, odds, mode);
-                            //confirmBetButton.removeEventListener("click", () => {});
-
-                            //sendDataViaWebSocket(odds, stake, mode);
-                           // mode = 2;
-                           //sendCommandViaWebSocket(2)
-                           // confirmBetButton.removeEventListener("click", () => {});
-                            
-                       // });
-                    } else {
-                       //betSlipElement.querySelector(betslipConfig.amountInputElement).value = updateSiteAmountBInput();
-                       updateCalc(stake, odds, mode);
-                    //  sendCommandViaWebSocket(1)
-                    //  mode = 1
-                     // calcForm.reset()
-                      // confirmBetButton.removeEventListener("click", () => {});
-                    }
-
-                }
-
-            }
-        }
-    });
-
-    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
-}
-
-// Функція для обробки контенту betslip
-// mode 1 = відкриття, mode 2 = закриття
-function updateCalc(stake = '', odds = '', mode = 1) {
-
-    if (mode == 1) {
-        a.setOddsA(odds);
-        a.setStakeA(stake);
-    } else if (mode == 2) {
-        a.setOddsB(odds);
-    }
-
-
-}
-function updateSiteAmountBInput() {
-    let stakeBInput = document.getElementById('stakeB');
-    return stakeBInput.value;
-}
-
-// Отримуємо назву для поточного сайту
-function getCurrentSite() {
-    const hostname = window.location.hostname;
-    for (const site in SITES_CONFIG) {
-        if (hostname.indexOf(site) !== -1) {
-            return site;
-        }
-    }
-<<<<<<< HEAD
->>>>>>> 43f80e6 (Зібрав селектори з основних сайтів)
-=======
-    return null;
->>>>>>> 119fa6f (Заховав в коміт)
 }
 
 function setupSiteConfig() {
@@ -280,31 +186,8 @@ function setupSiteConfig() {
         return false;
     }
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 function fixValue(v) {
     return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : false;
 }
 setupBetslipTracking()
 let a = new Calculator();
-=======
-setupBetslipTracking()
->>>>>>> 43f80e6 (Зібрав селектори з основних сайтів)
-=======
-setupBetslipTracking()
->>>>>>> bf011ae (Відслідковуються зміни в купоні)
-=======
-setupBetslipTracking()
->>>>>>> 04d41e1 (Прикрутив Websocket)
-=======
-function fixOdds(v) {
-    return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : false;
-}
-setupBetslipTracking()
-<<<<<<< HEAD
->>>>>>> 119fa6f (Заховав в коміт)
-=======
-let a = new Calculator();
->>>>>>> 40ce954 (Додано відслідковування прийняття ставки)
