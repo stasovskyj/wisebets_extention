@@ -92,9 +92,9 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
       <div class="card-body">
         <form class="calc" id="calc-form">
           <div class="calc-form-row">
-            <label for="stakeA">Сума:</label>
+            <label id="stakeA-label" for="stakeA">Сума:</label>
             <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
-          </div>
+            </div>
           <div class="calc-form-row">
             <label for="oddsA">Коеф A:</label>
             <input type="number" id="oddsA" name="oddsA" class="calc-form-control" step="0.01" inputmode="decimal">
@@ -109,7 +109,7 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
               inputmode="decimal">
           </div>
           <div class="calc-form-row">
-            <label for="stakeB">Сума B:</label>
+            <label id="stakeB-label" for="stakeB">Сума B:</label>
             <input type="number" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
           </div>
           <div class="calc-form-row">

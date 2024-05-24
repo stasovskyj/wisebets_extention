@@ -4,7 +4,7 @@
   "name": "Arbitrage ToolBox",
   "description": "Моніторинг геолокації, запис ip адрес в базу, перевірка з іншими ip адресами, вбудований в сторінку калькулятор вилок",
   "short_name": "Arbitrage ToolBox",
-  "version": "0.2.1",
+  "version": "0.4.2",
   "action": {
     "default_title": "Arbitrage ToolBox",
     "default_popup": "ui/main.html",

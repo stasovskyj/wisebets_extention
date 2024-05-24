@@ -34,14 +34,14 @@ function actionOnDataReceived(e) {
 
     switch (data.action) {
         case "updateCalc":
-            //{"action":"updateCalc","odds":"1.90","stake":"120"}
-            updateCalc(data.stake, data.odds, 1);
+            //{"action":"updateCalc","odds":"1.90","stake":"120","currency":"USD"}
+            updateCalc(data.stake, data.odds, data.currency);
             break;
         case "switchMode":
             //{"action":"switchMode","mode":1}
             mode = data.mode;
             console.log("Switched to mode: " + data.mode);
-            
+
             break;
         default:
             console.log("%cWebSocket: Невідомі дані " + data, "background: red; color: white; display: block;");
