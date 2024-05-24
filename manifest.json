@@ -36,7 +36,8 @@
         "*://*.marathonbet.com/*",
         "*://*.betonline.ag/*",
         "*://sportsbet.io/*",
-        "*://*.sportsbetting.ag/*"
+        "*://*.sportsbetting.ag/*",
+        "*://*.betvictor.com/*"
       ],
       "js": [
         "js/constant.js",

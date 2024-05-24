@@ -16,6 +16,17 @@ const SITES_CONFIG = {
             betAcceptedElement:'[data-test-id="Betslip-CardMessage"] .style_acceptedBet__3uM8I' // Елемент прийнятої ставки
         }
     },
+    'betvictor': {
+        currentAmountElement: '.site-header-balance__main-balance span',
+        betslip: {
+            rootElement: '[id="full-betslip"]',
+            betSlipDataElement: '.betslip_bet-list',
+            amountInputElement: 'data-cy="stake-input"',
+            oddsElement: '.odds-price',
+            placeBetElement: '[data-testid="betslip-submit"]',
+            betAcceptedElement: '.betslip__button-reuse'
+        }
+    },
     'favbet': {
         currentAmountElement: '',
         betslip: {
@@ -30,9 +41,9 @@ const SITES_CONFIG = {
     'sportsbet': {
         currentAmountElement: 'span[data-testid="balance-amount"]',
         betslip: {
-            rootElement: 'div.BetslipContents__StyledWrapper-sc-w4swdg-0',
-            betSlipElement: 'div.BetslipContents__StyledWrapper-sc-w4swdg-0', // +
-            amountInputElement: 'input[data-test-id="betslip-moneyInputField"]', // +
+            rootElement: '[class^=BetslipContents]',
+            betSlipElement: '[class^=BetslipContents]', // +
+            amountInputElement: 'data-test-id="betslip-moneyInputField"', // +
             oddsElement: '.BetslipContents__StyledInner-sc-w4swdg-1 span.FormattedOdds__OddsWrapper-sc-dio9ku-0',
             placeBetElement: 'button.wrappers__MultilineButton-sc-caw8ue-2',
             cancelBetElement: '',
@@ -57,7 +68,6 @@ const SITES_CONFIG = {
             betSlipElement: '',
             amountInputElement: '',
             oddsElement: '',
-            placeBetElement: '',
             cancelBetElement: ''
         }
     },
