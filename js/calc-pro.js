@@ -9,6 +9,15 @@ class Calculator {
         this.profit = null;
         this.incorrectStake = null;
         this.stakeOnRisk = null;
+        this.conversionRates = {
+            'USD': {
+                'EUR': 0.92
+            },
+            'EUR': {
+                'USD': 1.09
+            }
+
+        };
         this.bindEvents();
     }
     setStakeA(v) {
@@ -17,15 +26,14 @@ class Calculator {
     }
     setStakeB(v) {
         this.stakeB = parseFloat(v) || null;
-        this.updateForm();
     }
     setStakeBCurrency(v) {
         this.stakeBCurrency = v;
-        this.updateForm();
+        this.showCurrency();
     }
     setStakeACurrency(v) {
         this.stakeACurrency = v;
-        this.updateForm();
+        this.showCurrency();
     }
     setOddsA(v) {
         this.oddsA = parseFloat(v) || null;
@@ -67,11 +75,24 @@ class Calculator {
             return (this.incorrectStake - this.stakeB).toFixed(2);
         }
     }
-
+    currencyConvert(amount, fromCurrency, toCurrency) {
+        if (fromCurrency && toCurrency && fromCurrency !== toCurrency) {
+            const conversionRate = this.conversionRates[fromCurrency][toCurrency];
+            if (conversionRate) {
+                return (amount * conversionRate).toFixed(2);
+            }
+        }
+        return amount;
+    }
     checkCalculation() {
         if (this.oddsA !== null && this.oddsB !== null && this.stakeA !== null) {
 
-            this.setStakeB(this.stakeBCalc(this.stakeA, this.oddsA, this.oddsB))
+            let stakeB = this.stakeBCalc(this.stakeA, this.oddsA, this.oddsB);
+            // конвертація якщо різні валюти
+            if (this.stakeACurrency && this.stakeBCurrency && this.stakeACurrency !== this.stakeBCurrency) {
+                stakeB = this.currencyConvert(stakeB, this.stakeACurrency, this.stakeBCurrency);
+            }
+            this.setStakeB(stakeB);
 
             this.setProfit(this.profitCalc(this.stakeA, this.oddsA, this.oddsB))
 
@@ -108,7 +129,9 @@ class Calculator {
     }
     reset() {
         this.stakeA = null;
+        this.setStakeACurrency(null);
         this.stakeB = null;
+        this.setStakeBCurrency(null);
         this.oddsA = null;
         this.oddsB = null;
         this.incorrectStake = null;
@@ -127,11 +150,11 @@ class Calculator {
         });
     }
 
-    // Відслідковування вводу даних в форму
     bindEvents() {
         const moveStakeOnRiskButton = document.getElementById('move-stake-on-risk');
         const resetButton = document.getElementById('reset-calc');
         const form = document.getElementById('calc-form');
+        // Відслідковування вводу даних в форму
         form.addEventListener('input', (e) => {
             const { id, value } = e.target;
             const numericValue = parseFloat(value) || null;
@@ -140,6 +163,7 @@ class Calculator {
                 this.checkCalculation();
             }
         });
+        // Дії для кнопок управління
         moveStakeOnRiskButton.addEventListener('click', () => {
             this.moveStakeOnRisk();
         });
@@ -147,5 +171,12 @@ class Calculator {
         resetButton.addEventListener('click', () => {
             this.reset();
         });
+    }
+    showCurrency() {
+        const stakeACurrencyElement = document.getElementById('stakeA-label');
+        const stakeBCurrencyElement = document.getElementById('stakeB-label');
+        stakeACurrencyElement.innerHTML = "Сума A: <b>" + (this.stakeACurrency ?? "") + "</b>";
+        stakeBCurrencyElement.innerHTML = "Сума B: <b>" + (this.stakeBCurrency ?? "") + "</b>";
+
     }
 }
