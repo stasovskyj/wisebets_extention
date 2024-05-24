@@ -88,48 +88,20 @@ const SITES_CONFIG = {
     },
 };
 const CALC_CONTENT = `<div id="calc-container" class="calc-container">
-<div class="calc-card">
-    <div class="card-body">
+    <div class="calc-card">
+      <div class="card-body">
         <form class="calc" id="calc-form">
-            <div class="calc-form-row">
-                <label for="stakeA">Сума:</label>
-                <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01"
-                    inputmode="decimal">
-            </div>
-            <div class="calc-form-row">
-                <label for="oddsA">Коеф A:</label>
-                <input type="number" id="oddsA" name="oddsA" class="calc-form-control" step="0.001"
-                    inputmode="decimal">
-            </div>
-            <div class="calc-form-row">
-                <label for="oddsB">Коеф B:</label>
-                <input type="number" id="oddsB" name="oddsB" class="calc-form-control" step="0.001"
-                    inputmode="decimal">
-            </div>
-            <div class="calc-form-row">
-                <label for="incorrectStake">Закрив B:</label>
-                <input type="number" id="incorrectStake" name="incorrectStake" class="calc-form-control" step="0.01"
-                    inputmode="decimal">
-            </div>
-            <div class="calc-form-row">
-                <label for="stakeB">Сума B:</label>
-                <input type="decimal" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
-            </div>
-            <div class="calc-form-row">
-                <label for="stakeOnRisk">Відкрито</label>
-                <input type="decimal" id="stakeOnRisk" name="stakeOnRisk" step="0.01" class="calc-form-control" readonly>
-            </div>
-            <div class="calc-form-row">
-                <label for="profit">Прибуток:</label>
-                <input type="decimal" id="profit" name="profit" step="0.01" class="calc-form-control" readonly>
-            </div>
+          <div class="calc-form-row">
+            <label for="stakeA">Сума:</label>
+            <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
+          </div>
           <div class="calc-form-row">
             <label for="oddsA">Коеф A:</label>
-            <input type="number" id="oddsA" name="oddsA" min="1" class="calc-form-control" step="0.01" inputmode="decimal">
+            <input type="number" id="oddsA" name="oddsA" class="calc-form-control" step="0.01" inputmode="decimal">
           </div>
           <div class="calc-form-row">
             <label for="oddsB">Коеф B:</label>
-            <input type="number" id="oddsB" name="oddsB" min="1" class="calc-form-control" step="0.01" inputmode="decimal">
+            <input type="number" id="oddsB" name="oddsB" class="calc-form-control" step="0.01" inputmode="decimal">
           </div>
           <div class="calc-form-row">
             <label for="incorrectStake">Закрив B:</label>
@@ -137,21 +109,22 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
               inputmode="decimal">
           </div>
           <div class="calc-form-row">
-            <label for="stakeB">Сума B:<span id="stake-b-currency"></span></label>
+            <label for="stakeB">Сума B:</label>
             <input type="number" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
           </div>
           <div class="calc-form-row">
-            <label for="stakeOnRisk">Відкрито: <span id="stake-on-risk-currency"></span></label>
+            <label for="stakeOnRisk">Відкрито</label>
             <input type="number" id="stakeOnRisk" name="stakeOnRisk" step="0.01" class="calc-form-control" readonly>
           </div>
           <div class="calc-form-row">
             <label for="profit">Прибуток:</label>
             <input type="number" id="profit" name="profit" step="0.01" class="calc-form-control" readonly>
           </div>
+
         </form>
         <div class="calc-buttons">
-          <button id="move-stake-on-risk" class="calc-button">Перенести</button>
-          <button id="reset-calc" class="calc-button">Скинути</button>
+          <button onclick="a.moveStakeOnRisk()" class="calc-button">Перенести</button>
+          <button onclick="a.reset()" class="calc-button">Скинути</button>
         </div>
       </div>
     </div>

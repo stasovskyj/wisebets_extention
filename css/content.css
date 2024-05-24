@@ -61,7 +61,7 @@ input::-webkit-inner-spin-button {
   font-size: large;
   text-transform: uppercase;
   padding: 5px;
-  height:35px
+  height: 35px;
 }
 .calc-container input[readonly] {
   background-color: #cbc9c9;
