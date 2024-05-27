@@ -9,9 +9,10 @@ class Calculator {
         this.profit = null;
         this.incorrectStake = null;
         this.stakeOnRisk = null;
+        this.stakeOnRiskCurrency = null;
         this.conversionRates = {
             'USD': {
-                'EUR': 0.92
+                'EUR': 0.91
             },
             'EUR': {
                 'USD': 1.09
@@ -29,6 +30,10 @@ class Calculator {
     }
     setStakeBCurrency(v) {
         this.stakeBCurrency = v;
+        this.showCurrency();
+    }
+    setStakeOnRiskCurrency(v) {
+        this.stakeOnRiskCurrency = v;
         this.showCurrency();
     }
     setStakeACurrency(v) {
@@ -55,6 +60,7 @@ class Calculator {
     }
     setStakeOnRisk(v) {
         this.stakeOnRisk = parseFloat(v) || null;
+        this.setStakeOnRiskCurrency(this.getStakeOnRiskCurrency());
         this.updateForm();
     }
     stakeBCalc(stakeA, oddsA, oddsB) {
@@ -68,12 +74,16 @@ class Calculator {
 
     // Розрахунок відкритої суми ставки
     stakeOnRiskCalc(stakeA, stakeB, oddsA, oddsB, incorrectStake) {
+        let incorrectStakeInStakeACurrency = this.isSameCurrency() ? incorrectStake : this.currencyConvert(incorrectStake, this.stakeBCurrency, this.stakeACurrency)
         if (stakeB > incorrectStake) {
-            let stakeAClosed = this.stakeBCalc(incorrectStake, oddsB, oddsA);
-            return ((stakeA - stakeAClosed)).toFixed(2)
+            let stakeAClosed = this.stakeBCalc(incorrectStakeInStakeACurrency, oddsB, oddsA);
+            return (stakeA - stakeAClosed).toFixed(2)
         } else {
-            return (this.incorrectStake - this.stakeB).toFixed(2);
+            return (incorrectStake - this.stakeB).toFixed(2);
         }
+    }
+    getStakeOnRiskCurrency() {
+        return this.incorrectStake && this.stakeB > this.incorrectStake ? this.stakeACurrency : this.stakeBCurrency;
     }
     currencyConvert(amount, fromCurrency, toCurrency) {
         if (fromCurrency && toCurrency && fromCurrency !== toCurrency) {
@@ -84,16 +94,18 @@ class Calculator {
         }
         return amount;
     }
+    isSameCurrency() {
+        return this.stakeACurrency == this.stakeBCurrency;
+    }
     checkCalculation() {
         if (this.oddsA !== null && this.oddsB !== null && this.stakeA !== null) {
 
             let stakeB = this.stakeBCalc(this.stakeA, this.oddsA, this.oddsB);
             // конвертація якщо різні валюти
-            if (this.stakeACurrency && this.stakeBCurrency && this.stakeACurrency !== this.stakeBCurrency) {
+            if (this.stakeACurrency && this.stakeBCurrency && !this.isSameCurrency()) {
                 stakeB = this.currencyConvert(stakeB, this.stakeACurrency, this.stakeBCurrency);
             }
             this.setStakeB(stakeB);
-
             this.setProfit(this.profitCalc(this.stakeA, this.oddsA, this.oddsB))
 
             if (this.incorrectStake !== null) {
@@ -115,7 +127,10 @@ class Calculator {
             this.stakeOnRisk = null;
             this.checkCalculation()
         } else {
-            this.stakeA = this.stakeOnRisk
+            this.setStakeBCurrency(this.stakeACurrency);
+            this.setStakeACurrency(this.stakeOnRiskCurrency);
+            this.setStakeOnRiskCurrency(null);
+            this.stakeA = this.stakeOnRisk;
             this.oddsA = this.oddsB;
             this.profit = null;
             this.incorrectStake = null;
@@ -128,15 +143,11 @@ class Calculator {
 
     }
     reset() {
-        this.stakeA = null;
-        this.setStakeACurrency(null);
-        this.stakeB = null;
-        this.setStakeBCurrency(null);
-        this.oddsA = null;
-        this.oddsB = null;
-        this.incorrectStake = null;
-        this.stakeOnRisk = null;
-        this.profit = null;
+        for (let key of Object.keys(this)) {
+            if (key === 'conversionRates') continue;
+            this[key] = null;
+            this.showCurrency()
+        }
         this.updateForm();
     }
     // Оновлення веб-форми на основі властивостей калькулятора
@@ -167,16 +178,16 @@ class Calculator {
         moveStakeOnRiskButton.addEventListener('click', () => {
             this.moveStakeOnRisk();
         });
-
         resetButton.addEventListener('click', () => {
             this.reset();
         });
     }
     showCurrency() {
-        const stakeACurrencyElement = document.getElementById('stakeA-label');
-        const stakeBCurrencyElement = document.getElementById('stakeB-label');
-        stakeACurrencyElement.innerHTML = "Сума A: <b>" + (this.stakeACurrency ?? "") + "</b>";
-        stakeBCurrencyElement.innerHTML = "Сума B: <b>" + (this.stakeBCurrency ?? "") + "</b>";
-
+        const stakeACurrencyElement = document.getElementById('stake-a-currency');
+        const stakeBCurrencyElement = document.getElementById('stake-b-currency');
+        const stakeOnRiskCurrencyElement = document.getElementById('stake-on-risk-currency');
+        stakeACurrencyElement.innerText = this.stakeACurrency ?? "";
+        stakeBCurrencyElement.innerText = this.stakeBCurrency ?? "";
+        stakeOnRiskCurrencyElement.innerText = this.stakeOnRiskCurrency ?? "";
     }
 }

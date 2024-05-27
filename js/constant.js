@@ -92,16 +92,16 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
       <div class="card-body">
         <form class="calc" id="calc-form">
           <div class="calc-form-row">
-            <label id="stakeA-label" for="stakeA">Сума:</label>
+            <label for="stakeA">Сума: <span id="stake-a-currency"></span></label>
             <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
             </div>
           <div class="calc-form-row">
             <label for="oddsA">Коеф A:</label>
-            <input type="number" id="oddsA" name="oddsA" class="calc-form-control" step="0.01" inputmode="decimal">
+            <input type="number" id="oddsA" name="oddsA" min="1" class="calc-form-control" step="0.01" inputmode="decimal">
           </div>
           <div class="calc-form-row">
             <label for="oddsB">Коеф B:</label>
-            <input type="number" id="oddsB" name="oddsB" class="calc-form-control" step="0.01" inputmode="decimal">
+            <input type="number" id="oddsB" name="oddsB" min="1" class="calc-form-control" step="0.01" inputmode="decimal">
           </div>
           <div class="calc-form-row">
             <label for="incorrectStake">Закрив B:</label>
@@ -109,18 +109,17 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
               inputmode="decimal">
           </div>
           <div class="calc-form-row">
-            <label id="stakeB-label" for="stakeB">Сума B:</label>
+            <label for="stakeB">Сума B:<span id="stake-b-currency"></span></label>
             <input type="number" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
           </div>
           <div class="calc-form-row">
-            <label for="stakeOnRisk">Відкрито</label>
+            <label for="stakeOnRisk">Відкрито: <span id="stake-on-risk-currency"></span></label>
             <input type="number" id="stakeOnRisk" name="stakeOnRisk" step="0.01" class="calc-form-control" readonly>
           </div>
           <div class="calc-form-row">
             <label for="profit">Прибуток:</label>
             <input type="number" id="profit" name="profit" step="0.01" class="calc-form-control" readonly>
           </div>
-
         </form>
         <div class="calc-buttons">
           <button id="move-stake-on-risk" class="calc-button">Перенести</button>
