@@ -54,14 +54,14 @@ function setupBetslipTracking() {
                 switch (mutation.type) {
                     case 'childList':
                         //  console.log('================================')
-                        console.log(mutation);
+                       // console.log(mutation);
 
                         for (const node of mutation.addedNodes) {
                             //console.log(node)
                             if (node.nodeType === Node.ELEMENT_NODE) {
                                 // Якщо доданий елемент є елементом з атрибутом data-cy="stake-input"
                                 console.log(node)
-                                if (node.matches(betslipConfig.betSlipDataElement)) {
+                                if (node.querySelector(betslipConfig.betSlipDataElement)) {
                                     // Викликаємо вашу функцію або виконуємо потрібні дії
                                     a.setOddsA(fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText))
 
