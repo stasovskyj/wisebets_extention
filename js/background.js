@@ -1,100 +1,27 @@
-// chrome.contextMenus.create(
-//     {
-//         "id": "send",
-//         "title": "Відправити баланс",
-//         "contexts": ["selection"]
-//     }
-// );
-// chrome.contextMenus.onClicked.addListener(function (clickData) {
+chrome.runtime.onInstalled.addListener(({ reason }) => {
+  if (reason === 'install') {
+    chrome.tabs.create({
+      url: "ui/options.html"
+    });
+  }
+});
 
-//     let data = [clickData.selectionText];
-
-//     let response = fetch(API_ROOT + ACCOUNT_URI, {
-//         method: "GET",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(data),
-//     })
-//     if (!response.ok) {
-       
-//         chrome.notifications.create('errorNotification', {
-//             type: 'basic',
-//             iconUrl: './images/icon.png',
-//             title: 'Помилка в запиті',
-//             message: 'Помилка HTTP.' + response.status,
-//         })
-//     }
-// })
-
-// chrome.commands.onCommand.addListener(function (command) {
-//     if (command === "send_balance") {
-
-//         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//             const tab = tabs[0];
-//             const hostname = new URL(tab.url).hostname;
-//             
-
-//             fetch(configUrl)
-//                 .then(response => response.json())
-//                 .then(config => {
-//                     const siteConfig = config.sites[hostname];
-
-//                     if (siteConfig) {
-//                         chrome.scripting.executeScript(
-//                             {
-//                                 target: { tabId: tab.id },
-//                                 function: parseBalance,
-//                                 args: [siteConfig.balanceSelector, siteConfig.currencySelector],
-//                             },
-//                             function (result) {
-//                                 const [balance, currency] = result;
-//                                 const data = {
-//                                     site: hostname,
-//                                     balance: balance,
-//                                     currency: currency,
-//                                 };
-//                                 console.log(data)
-// fetch("https://forkmaster.pp.ua/api/account/", {
-//     method: "POST",
-//     headers: {
-//         "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(data),
-// })
-//     .then(response => console.log(response))
-//     .catch(error => console.error(error));
-// }
-//                         );
-//                     }
-//                 })
-//                 .catch(error => console.error(error));
-//         });
-//     }
-// });
-// function parseBalance(balanceSelector, currencySelector) {
-//     const balance = document.querySelector(balanceSelector).textContent.trim();
-//     const currency = document.querySelector(currencySelector).textContent;
-//     return [balance, currency];
-// }
-chrome.runtime.onInstalled.addListener(({reason}) => {
-    if (reason === 'install') {
-      chrome.tabs.create({
-        url: "ui/options.html"
-      });
-    }
-  });
-  chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    switch(request.action){
-        case "notification":
-        chrome.notifications.create({
-            type: "basic",
-            title: "Arbitrage ToolBox",
-            message: request.message,
-            iconUrl: "../images/icon.png"
-        })
-        break;
-    }
-    console.log(request);
-    sendResponse({response:sender});
-  })
+chrome.runtime.onMessage.addListener((request, sender, sendResponse)=> {
+  switch (request.action) {
+    case "notification":
+      chrome.notifications.create({
+        type: "basic",
+        title: "Arbitrage ToolBox",
+        message: request.message,
+        iconUrl: "../images/icon.png"
+      })
+      break;
+  }
+  console.log(request);
+  sendResponse({ response: sender });
+})
+// відправка команд в content_scripts
+chrome.commands.onCommand.addListener(async (command) => {
+  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+  chrome.tabs.sendMessage(tab.id, { action: command });
+});

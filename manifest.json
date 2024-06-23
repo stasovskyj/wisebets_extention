@@ -4,7 +4,7 @@
   "name": "Arbitrage ToolBox",
   "description": "Моніторинг геолокації, запис ip адрес в базу, перевірка з іншими ip адресами, вбудований в сторінку калькулятор вилок",
   "short_name": "Arbitrage ToolBox",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "action": {
     "default_title": "Arbitrage ToolBox",
     "default_popup": "ui/main.html",
@@ -18,6 +18,7 @@
     "open_in_tab": true,
     "page": "ui/options.html"
   },
+  "default_locale": "uk",
   "content_scripts": [
     {
       "run_at": "document_end",
@@ -41,28 +42,39 @@
       ],
       "js": [
         "js/constant.js",
+        "js/base.js",
+        "js/init.js",
+        "js/ws.js",
+        "js/calc-ui.js",
         "js/calc-pro.js",
-        "js/lib/jquery-3.6.slim.min.js",
-        "js/inject.js",
+        "js/tracker.js",
         "js/calc-helper.js",
-        "js/ws.js"
+        "js/parser.js"
       ],
       "css": ["css/content.css"]
     }
   ],
-  "permissions": [
-    "scripting",
-    "storage",
-    "activeTab",
-    "tabs",
-    "contextMenus",
-    "declarativeNetRequest",
-    "declarativeNetRequestFeedback",
-    "declarativeNetRequestWithHostAccess",
-    "notifications"
-  ],
+  "permissions": ["scripting", "storage", "activeTab", "tabs", "notifications"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "js/background.js"
+  },
+  "commands": {
+    "parse_balance": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y",
+        "linux": "Ctrl+Shift+Y"
+      },
+      "description": "Зберегти залишок коштів"
+    },
+    "parse_unsettled_bets": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U",
+        "linux": "Ctrl+U"
+      },
+      "description": "Парсити нерозраховані ставки"
+    }
   }
 }

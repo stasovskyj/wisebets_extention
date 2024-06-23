@@ -169,10 +169,15 @@ class Calculator {
         form.addEventListener('input', (e) => {
             const { id, value } = e.target;
             const numericValue = parseFloat(value) || null;
-            if (id in this) {
-                this[id] = numericValue;
-                this.checkCalculation();
+            const regex = /^(?:\d+\.(?:0)?)$/
+            if (!regex.test(value)) {
+                if (id in this) {
+
+                    this[id] = numericValue;
+                    this.checkCalculation();
+                }
             }
+
         });
         // Дії для кнопок управління
         moveStakeOnRiskButton.addEventListener('click', () => {

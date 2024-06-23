@@ -1,49 +1,69 @@
-let socket = new WebSocket(WSS);
-
-socket.onopen = () => {
-    console.log("%cWebSocket - OK!", "background: green; color: white; display: block;");
-};
-
-socket.onmessage = (e) => {
-    actionOnDataReceived(e);
-};
-
-socket.onclose = (e) => {
-    if (e.wasClean) {
-        console.log("%cWebSocket відключено, причина=${e.reason}", "background: red; color: white; display: block;");
-    } else {
-        console.log("%cWebSocket DOWN!", "background: red; color: white; display: block;");
+class WebSocketClient extends Base {
+    constructor() {
+        super();
+        this.WSS = WSS;
+        this.reconnectInterval = 5000; // 5 seconds
+        this.connect();
     }
-};
+    connect() {
+        this.socket = new WebSocket(this.WSS);
+        this.socket.onopen = () => {
+            console.log(`%c${this.getTranslation("websocket_ok")}`, "background: green; color: white; display: block;")
+        };
 
-socket.onerror = () => {
-    console.log("%cWebSocket DOWN!", "background: red; color: white; display: block;");
-};
+        this.socket.onmessage = (e) => {
+            this.actionOnDataReceived(e);
+        };
 
-function sendDataViaWebSocket(odds, stake) {
-    socket.send(JSON.stringify({ action: "updateCalc", odds: odds, stake: stake }));
-}
+        this.socket.onclose = (e) => {
+            if (e.wasClean) {
+                console.log(`%c${this.getTranslation("websocket_disconnected_clean")}`, "background: red; color: white; display: block;", { reason: e.reason });
+            } else {
+                console.log(`%c${this.getTranslation("websocket_disconnected_unclean")}`, "background: red; color: white; display: block;");
+            }
+            this.reconnect();
+        };
 
-function sendCommandViaWebSocket(mode) {
-    socket.send(JSON.stringify({ action: "switchMode", mode: mode }));
-}
-
-function actionOnDataReceived(e) {
-
-    const data = JSON.parse(e.data);
-
-    switch (data.action) {
-        case "updateCalc":
-            //{"action":"updateCalc","odds":"1.90","stake":"120","currency":"USD"}
-            updateCalc(data.stake, data.odds, data.currency);
-            break;
-        case "switchMode":
-            //{"action":"switchMode","mode":1}
-            mode = data.mode;
-            console.log("Switched to mode: " + data.mode);
-
-            break;
-        default:
-            console.log("%cWebSocket: Невідомі дані " + data, "background: red; color: white; display: block;");
+        this.socket.onerror = () => {
+            console.log(`%c${this.getTranslation("websocket_error")}`, "background: red; color: white; display: block;");
+            this.reconnect();
+        };
     }
+
+    reconnect() {
+        setTimeout(() => {
+            console.log(`%c${this.getTranslation("websocket_reconnect")}`, "background: orange; color: white; display: block;");
+            this.connect();
+        }, this.reconnectInterval);
+    }
+    sendDataViaWebSocket(odds, stake) {
+        if (this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(JSON.stringify({ action: "updateCalc", odds, stake }));
+        } else {
+            console.log(`%c${this.getTranslation("websocket_not_open")}`, "background: red; color: white; display: block;");
+        }
+    }
+    sendCommandViaWebSocket(mode) {
+        if (this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(JSON.stringify({ action: "switchMode", mode }));
+        } else {
+            console.log(`%c${this.getTranslation("websocket_not_open")}`, "background: red; color: white; display: block;");
+        }
+    }
+    actionOnDataReceived(e) {
+        const data = JSON.parse(e.data);
+
+        switch (data.action) {
+            case "updateCalc":
+                this.updateCalc(data.stake, data.odds, data.currency);
+                break;
+            case "switchMode":
+                this.mode = data.mode;
+                console.log("switched_mode", "", { mode: data.mode });
+                break;
+            default:
+                console.log(`%c${this.getTranslation("unknown_data")}`, "background: red; color: white; display: block;", { data: e.data });
+        }
+    }
+    
 }

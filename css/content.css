@@ -11,7 +11,8 @@
   z-index: 9999;
   cursor: move;
   text-align: center;
-}
+  display: none;
+ }
 
 .calc-card {
   border-radius: 20px;

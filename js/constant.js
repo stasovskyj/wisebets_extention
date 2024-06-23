@@ -5,11 +5,12 @@ const IPTRACKER_URI = "iptracker/track/";
 const WSS = "wss://wisebets.pp.ua/ws/";
 const SITES_CONFIG = {
   'pinnacle': {
-    currentAmountElement: 'span[data-test-id="QuickCashier-BankRoll"]',
+    currentAmountElement: '[data-test-id="QuickCashier-BankRoll"]',//+
+    unsettledBetsElement: '[data-test-id="betCard"]',//+
     betslip: {
-      betSlipElement: 'div.collapse-content', // Селектор елементу betslip
+      betSlipElement: '[data-test-id="Betslip-ScrollContainer"]', // Селектор елементу betslip
       amountInputElement: '[placeholder="Stake"]', // Сума
-      oddsElement: 'div[data-test-id="SelectionDetails-Odds"] span', // коефіцієнт
+      oddsElement: '[data-test-id="SelectionDetails-Odds"] span', // коефіцієнт
       betAcceptedElement: '[class^="style_acceptedBet"]' // Елемент прийнятої ставки
     }
   },
@@ -24,7 +25,8 @@ const SITES_CONFIG = {
     }
   },
   'favbet': {
-    currentAmountElement: '',
+    currentAmountElement: '[data-role="user-balance-header"]',
+    unsettledBetsElement: '',
     betslip: {
       betSlipElement: 'div[data-role="c-betSlip"]',
       amountInputElement: 'input[data-role="betslip-bet-sum-input"]',
@@ -32,26 +34,20 @@ const SITES_CONFIG = {
       betAcceptedElement: ''
     }
   },
-  '10bet': {
-    currentAmountElement: '[class^="MyAccountMenuButton"]',
-    betslip: {
-      betSlipElement: '.sc-eZkCL.emPETK',
-      amountInputElement: 'input[data-testid="betslip.stakes.stake"]',
-      oddsElement: 'span[data-variant="neutral"]',
-      betAcceptedElement: ''
-    }
-  },
   'sportsbet': {
-    currentAmountElement: 'span[data-testid="balance-amount"]',
+    unsettledBetsElement: '', // не підтримується
+    currentAmountElement: '[data-testid="balance-amount"]', //+
     betslip: {
       betSlipElement: '[class^=BetslipContents]', // +
-      amountInputElement: 'data-test-id="betslip-moneyInputField"', // +
-      oddsElement: '.BetslipContents__StyledInner-sc-w4swdg-1 span.FormattedOdds__OddsWrapper-sc-dio9ku-0',
+      amountInputElement: '[data-test-id="betslip-moneyInputField"]', // +
+      oddsElement: '[class^="BetslipContents"] [class^="FormattedOdds"] [class^="FormattedOdds"]',
       betAcceptedElement: '[class^=FullReceiptHeaderStyles__BetPlacedContainer]'
     }
+    
   },
-  'pokerstars-01': {
-    currentAmountElement: '',
+  'pokerstars': {
+    currentAmountElement: '._22a225b',//+
+    unsettledBetsElement: '[data-testid=sports-expandable-accordion]',
     betslip: {
       betSlipElement: 'div[data-testid="bet-slip-opportunity"]',
       amountInputElement: 'div[data-testid="bet-slip-opportunity"] div div div div input',
@@ -62,6 +58,7 @@ const SITES_CONFIG = {
   'sportsbetting': {
     currentAmountElement: 'button.userBalance',
     betslip: {
+      rootElement: document.body,
       betSlipElement: '',
       amountInputElement: '',
       oddsElement: '',
@@ -79,7 +76,8 @@ const SITES_CONFIG = {
     }
   },
   'cloudbet': {
-    currentAmountElement: 'p[data-dd-action-name="AccountButton balance"]',
+    currentAmountElement: '[data-dd-action-name="AccountButton balance"]', // +
+    unsettledBetsElement: '.bet-position-summary', // +
     betslip: {
       betSlipElement: 'div[data-component="quick-betslip-card"]',
       amountInputElement: 'input[data-component="betslip-input-field"]',
@@ -88,44 +86,3 @@ const SITES_CONFIG = {
     }
   },
 };
-const CALC_CONTENT = `<div id="calc-container" class="calc-container">
-    <div class="calc-card">
-      <div class="card-body">
-        <form class="calc" id="calc-form">
-          <div class="calc-form-row">
-            <label for="stakeA">Сума: <span id="stake-a-currency"></span></label>
-            <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
-            </div>
-          <div class="calc-form-row">
-            <label for="oddsA">Коеф A:</label>
-            <input type="number" id="oddsA" name="oddsA" min="1" class="calc-form-control" step="0.01" inputmode="decimal">
-          </div>
-          <div class="calc-form-row">
-            <label for="oddsB">Коеф B:</label>
-            <input type="number" id="oddsB" name="oddsB" min="1" class="calc-form-control" step="0.01" inputmode="decimal">
-          </div>
-          <div class="calc-form-row">
-            <label for="incorrectStake">Закрив B:</label>
-            <input type="number" id="incorrectStake" name="incorrectStake" class="calc-form-control" step="0.01"
-              inputmode="decimal">
-          </div>
-          <div class="calc-form-row">
-            <label for="stakeB">Сума B:<span id="stake-b-currency"></span></label>
-            <input type="number" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
-          </div>
-          <div class="calc-form-row">
-            <label for="stakeOnRisk">Відкрито: <span id="stake-on-risk-currency"></span></label>
-            <input type="number" id="stakeOnRisk" name="stakeOnRisk" step="0.01" class="calc-form-control" readonly>
-          </div>
-          <div class="calc-form-row">
-            <label for="profit">Прибуток:</label>
-            <input type="number" id="profit" name="profit" step="0.01" class="calc-form-control" readonly>
-          </div>
-        </form>
-        <div class="calc-buttons">
-          <button id="move-stake-on-risk" class="calc-button">Перенести</button>
-          <button id="reset-calc" class="calc-button">Скинути</button>
-        </div>
-      </div>
-    </div>
-  </div>`;
