@@ -1,0 +1,41 @@
+{
+  "websocket_ok": {
+    "message": "WebSocket - OK!"
+  },
+  "websocket_disconnected_clean": {
+    "message": "WebSocket disconnected, reason=${reason}"
+  },
+  "websocket_disconnected_unclean": {
+    "message": "WebSocket DOWN!"
+  },
+  "websocket_error": {
+    "message": "WebSocket DOWN!"
+  },
+  "websocket_reconnect": {
+    "message": "Attempting to reconnect..."
+  },
+  "websocket_not_open": {
+    "message": "WebSocket is not open. Can't send data."
+  },
+  "unknown_data": {
+    "message": "WebSocket: Unknown data ${data}"
+  },
+  "switched_mode": {
+    "message": "Switched to mode: ${mode}"
+  },
+  "account_not_found": {
+    "message": "Account for site ${hostname} not found."
+  },
+  "elements_not_found": {
+    "message": "Elements for ${hostname} not found."
+  },
+  "no_accounts_options": {
+    "message": "Accounts and options are missing. Get the API key on the site and save the settings."
+  },
+  "send_error": {
+    "message": "Error sending data to server."
+  },
+  "send_success": {
+    "message": "Data successfully sent."
+  }
+}

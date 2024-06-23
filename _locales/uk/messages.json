@@ -1,0 +1,41 @@
+{
+  "websocket_ok": {
+    "message": "WebSocket - OK!"
+  },
+  "websocket_disconnected_clean": {
+    "message": "WebSocket сервер розірвав з'єднання"
+  },
+  "websocket_disconnected_unclean": {
+    "message": "WebSocket DOWN!"
+  },
+  "websocket_error": {
+    "message": "WebSocket DOWN!"
+  },
+  "websocket_reconnect": {
+    "message": "Спроба перепідключення..."
+  },
+  "websocket_not_open": {
+    "message": "WebSocket не підключений. Не вдалося надіслати дані."
+  },
+  "unknown_data": {
+    "message": "WebSocket: Невідомі дані ${data}"
+  },
+  "switched_mode": {
+    "message": "Перемкнуто на режим: ${mode}"
+  },
+  "account_not_found": {
+    "message": "Акаунт до сайту ${hostname} не знайдено."
+  },
+  "elements_not_found": {
+    "message": "Елементи для ${hostname} не знайдено."
+  },
+  "no_accounts_options": {
+    "message": "Акаунти та опції відсутні. Отримайте API ключ на сайті та збережіть налаштування."
+  },
+  "send_error": {
+    "message": "Помилка під час відправки даних на сервер."
+  },
+  "send_success": {
+    "message": "Дані успішно відправлено."
+  }
+}
