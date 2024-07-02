@@ -28,10 +28,10 @@ const SITES_CONFIG = {
     currentAmountElement: '[data-role="user-balance-header"]',
     unsettledBetsElement: '',
     betslip: {
-      betSlipElement: 'div[data-role="c-betSlip"]',
+      betSlipElement: '[class^="ActiveStep"]',
       amountInputElement: 'input[data-role="betslip-bet-sum-input"]',
       oddsElement: 'span[data-role="betslip-outcome-coef"]',
-      betAcceptedElement: ''
+      betAcceptedElement: 'bet accepted'
     }
   },
   'sportsbet': {
@@ -43,22 +43,21 @@ const SITES_CONFIG = {
       oddsElement: '[class^="BetslipContents"] [class^="FormattedOdds"] [class^="FormattedOdds"]',
       betAcceptedElement: '[class^=FullReceiptHeaderStyles__BetPlacedContainer]'
     }
-    
+
   },
   'pokerstars': {
     currentAmountElement: '._22a225b',//+
     unsettledBetsElement: '[data-testid=sports-expandable-accordion]',
     betslip: {
-      betSlipElement: 'div[data-testid="bet-slip-opportunity"]',
+      betSlipElement: '[data-testid="bet-slip-opportunity"]',
       amountInputElement: 'div[data-testid="bet-slip-opportunity"] div div div div input',
-      oddsElement: 'div[data-testid="bet-slip-opportunity"] div div div div',
-      betAcceptedElement: ''
+      oddsElement: '._2fedc7e',
+      betAcceptedElement: '[data-testid="ЗАМІНИТИ"]'
     }
   },
   'sportsbetting': {
     currentAmountElement: 'button.userBalance',
     betslip: {
-      rootElement: document.body,
       betSlipElement: '',
       amountInputElement: '',
       oddsElement: '',

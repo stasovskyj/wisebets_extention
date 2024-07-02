@@ -2,7 +2,7 @@ class WebSocketClient extends Base {
     constructor() {
         super();
         this.WSS = WSS;
-        this.reconnectInterval = 5000; // 5 seconds
+        this.reconnectInterval = 1000;
         this.connect();
     }
     connect() {
