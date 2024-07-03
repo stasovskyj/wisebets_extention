@@ -9,7 +9,7 @@ const SITES_CONFIG = {
     unsettledBetsElement: '[data-test-id="betCard"]',//+
     betslip: {
       betSlipElement: '[data-test-id="Betslip-ScrollContainer"]', // Селектор елементу betslip
-      amountInputElement: '[placeholder="Stake"]', // Сума
+      amountInputElement: '[data-test-id="Betslip-StakeWinInput"] div div input', // Сума
       oddsElement: '[data-test-id="SelectionDetails-Odds"] span', // коефіцієнт
       betAcceptedElement: '[class^="style_acceptedBet"]' // Елемент прийнятої ставки
     }

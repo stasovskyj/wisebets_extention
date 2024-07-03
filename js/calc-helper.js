@@ -68,11 +68,12 @@ class CalcHelper extends Base {
                                     // Перевірка чи прийнята ставка
                                     if (node.querySelector(betslipConfig.betAcceptedElement)) {
                                         if (this.state == 1) {
+                                            this.WSClient.sendCommandViaWebSocket(mode)
                                             this.WSClient.sendDataViaWebSocket(this.calc.oddsA, this.calc.stakeA, this.state);
                                             this.state = 2;
                                             observer.disconnect();
                                         } else if (this.state == 2) {
-                                            sendCommandViaWebSocket(1)
+                                            this.WSClient.sendCommandViaWebSocket(1)
                                             console.log('Ставка закрита')
                                             observer.disconnect();
                                         }
@@ -92,7 +93,7 @@ class CalcHelper extends Base {
                             //c.appendChild(mutation.target.parentNode)
 
                             // if (c.querySelector(betslipConfig.oddsElement)) {
-                            console.log(mutation)
+                            //console.log(mutation)
                             let odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
 
                             this.updateCalc(null, odds, betSlipElement.querySelector(betslipConfig.amountInputElement)?.value);

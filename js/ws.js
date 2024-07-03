@@ -36,9 +36,9 @@ class WebSocketClient extends Base {
             this.connect();
         }, this.reconnectInterval);
     }
-    sendDataViaWebSocket(odds, stake) {
+    sendDataViaWebSocket(odds, stake, currency) {
         if (this.socket.readyState === WebSocket.OPEN) {
-            this.socket.send(JSON.stringify({ action: "updateCalc", odds, stake }));
+            this.socket.send(JSON.stringify({ action: "updateCalc", odds, stake, currency}));
         } else {
             console.log(`%c${this.getTranslation("websocket_not_open")}`, "background: red; color: white; display: block;");
         }
@@ -55,7 +55,7 @@ class WebSocketClient extends Base {
 
         switch (data.action) {
             case "updateCalc":
-                this.updateCalc(data.stake, data.odds, data.currency);
+                this.updateCalc(data.odds, data.stake, data.currency);
                 break;
             case "switchMode":
                 this.mode = data.mode;
