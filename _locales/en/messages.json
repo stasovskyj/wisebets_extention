@@ -32,8 +32,14 @@
   "no_accounts_options": {
     "message": "Accounts and options are missing. Get the API key on the site and save the settings."
   },
-  "send_error": {
-    "message": "Error sending data to server."
+  "unable_ip_tracking": {
+    "message": "Ip tracking disabled due no account for this site."
+  },
+  "send_error_server_side": {
+    "message": "A server-side error has occurred."
+  },
+  "send_error_client_side": {
+    "message": "Unable to send data to server."
   },
   "send_success": {
     "message": "Data successfully sent."

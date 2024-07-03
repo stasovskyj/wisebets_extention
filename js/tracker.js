@@ -6,12 +6,14 @@ class IpTracker extends Base {
         this.track();
     }
     track() {
-        setInterval(() => {
-            this.sendToRemoteServer(this.initInstance.currentSiteData.id, this.initInstance.config.apiKey);
-        }, this.requestTimeout);
-    }
-    check() {
-        
+        if (this.initInstance.currentSiteData) {
+            setInterval(() => {
+                this.sendToRemoteServer(this.initInstance.currentSiteData.id, this.initInstance.config.apiKey);
+            }, this.requestTimeout);
+        } else {
+            console.log(this.getTranslation('unable_ip_tracking'));
+        }
+
     }
 
     async sendToRemoteServer(id, apiKey) {
@@ -21,13 +23,17 @@ class IpTracker extends Base {
             if (!response.ok) {
                 this.initInstance.sendMessageToServiceWorker({
                     action: 'notification',
-                    message: this.getTranslation('send_error')
+                    message: this.getTranslation('send_error_server_side')
                 });
             } else {
                 console.log(this.getTranslation('send_success'));
             }
         } catch (error) {
-            console.error(this.getTranslation('send_error'), error);
+            this.initInstance.sendMessageToServiceWorker({
+                action: 'notification',
+                message: this.getTranslation('send_error_client_side')
+            });
+
         }
     }
 }

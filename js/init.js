@@ -7,16 +7,16 @@ class Initialization extends Base {
         this.currentSiteData = undefined;
         this.nodeElements = undefined;
         this.parser = null;
-        
+
     }
 
     getCurrentSiteData(data) {
-        // Знаходимо елемент або викликаємо sendMessageToServiceWorker, якщо не знайдено
-        return data.find(item => this.hostname.includes(item.name.toLowerCase())) ||
-            this.sendMessageToServiceWorker({
-                action: 'notification',
-                message: this.getTranslation('account_not_found'),
-            });
+        const result = data.find(item => this.hostname.includes(item.name.toLowerCase()));
+
+        return result || (this.sendMessageToServiceWorker({
+            action: 'notification',
+            message: this.getTranslation('account_not_found'),
+        }), null);
     }
 
     getCurrentSiteElements() {
@@ -42,7 +42,7 @@ class Initialization extends Base {
                     break;
             }
 
-           //sendResponse({ response: 'Команда отримана' });
+            //sendResponse({ response: 'Команда отримана' });
 
             //return true;
         });
