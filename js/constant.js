@@ -66,12 +66,12 @@ const SITES_CONFIG = {
   },
   'stake': {
     currentAmountElement: '.currency span span',
+    unsettledBetsElement: '.d',
     betslip: {
       betSlipElement: 'div[data-test="betslip-bet"]',
       amountInputElement: 'input[data-test="input-bet-amount"]',
-      oddsElement: 'span.odds-payout div.odds span',
-      placeBetElement: '',
-      cancelBetElement: ''
+      oddsElement: 'div.odds span',
+      betAcceptedElement: '.d'
     }
   },
   'cloudbet': {

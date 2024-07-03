@@ -33,12 +33,16 @@ class CalcHelper extends Base {
     }
 
     fixValue(v) {
-        return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : false;
+        if (v) {
+            v = v.replace(',', '.');
+        }
+
+
+        return (!isNaN(v)) ? (Number.isInteger(v) ? parseInt(v) : parseFloat(v)) : null;
     }
 
     // Відслідковування змін в купоні та синхронізація даних купону та калькулятора
     setupBetslipTracking() {
-        let previousOdds = null;
         const betslipConfig = this.InitInstanse.nodeElements.betslip
         const observer = new MutationObserver((mutationList) => {
             for (const mutation of mutationList) {
@@ -54,11 +58,12 @@ class CalcHelper extends Base {
                                     // Оновлення калькулятора під час відкриття купону
 
                                     if (node.querySelector(betslipConfig.betSlipElement)) {
-
-                                        let odds = document.querySelector(betslipConfig.oddsElement)?.innerText;
+                                        //console.log(node)
                                         let currency = this.InitInstanse.currentSiteData.currency;
+                                        let odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
+
                                         this.updateCalc(currency, odds);
-                                        // console.log('спрацював childlist')
+                                        console.log('спрацював childlist')
                                     }
                                     // Перевірка чи прийнята ставка
                                     if (node.querySelector(betslipConfig.betAcceptedElement)) {
@@ -80,19 +85,18 @@ class CalcHelper extends Base {
 
                             let stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
                             this.updateCalc(null, null, stake);
-                            //console.log(stake)
-
+                            console.log('спрацював attributes')
                             break;
                         case 'characterData':
-                            let c = document.createElement('div');
-                            c.appendChild(mutation.target.parentNode)
+                            // let c = document.createElement('div');
+                            //c.appendChild(mutation.target.parentNode)
 
-                            if (c.querySelector(betslipConfig.oddsElement)) {
+                            // if (c.querySelector(betslipConfig.oddsElement)) {
+                            console.log(mutation)
+                            let odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
 
-                                let odds = this.fixValue(mutation.target.data);
-
-                                this.updateCalc(null, odds);
-                            }
+                            this.updateCalc(null, odds, betSlipElement.querySelector(betslipConfig.amountInputElement)?.value);
+                            //}
                             break;
                     }
 
