@@ -24,10 +24,10 @@
     "message": "Switched to mode: ${mode}"
   },
   "account_not_found": {
-    "message": "Account for site ${hostname} not found."
+    "message": "Account for this site  not found."
   },
   "elements_not_found": {
-    "message": "Elements for ${hostname} not found."
+    "message": "Elements for this site not found."
   },
   "no_accounts_options": {
     "message": "Accounts and options are missing. Get the API key on the site and save the settings."

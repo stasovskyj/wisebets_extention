@@ -34,6 +34,16 @@ const SITES_CONFIG = {
       betAcceptedElement: 'bet accepted'
     }
   },
+  'goldenpalace': {
+    currentAmountElement: '[data-testid="top-balance-amount"]',
+    unsettledBetsElement: '.d',
+    betslip: {
+      betSlipElement: '[class^="BetSlipstyled__BetSlipContainer]',
+      amountInputElement: 'input[data-role="betslip-bet-sum-input"]',
+      oddsElement: '[class^="BetSlipSelectionBoxstyled__OddValue"]',
+      betAcceptedElement: 'bet accepted'
+    }
+  },
   'sportsbet': {
     unsettledBetsElement: '', // не підтримується
     currentAmountElement: '[data-testid="balance-amount"]', //+

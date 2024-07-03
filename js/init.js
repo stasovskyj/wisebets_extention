@@ -11,32 +11,20 @@ class Initialization extends Base {
     }
 
     getCurrentSiteData(data) {
-        const result = data.find((item) => {
-            const name = item.name.toLowerCase();
-
-            return this.hostname.includes(name);
-        });
-
-        if (result) {
-            return result;
-        }
-
-        this.sendMessageToServiceWorker({
-            action: 'notification',
-            message: this.getTranslation(account_not_found),
-        });
+        // Знаходимо елемент або викликаємо sendMessageToServiceWorker, якщо не знайдено
+        return data.find(item => this.hostname.includes(item.name.toLowerCase())) ||
+            this.sendMessageToServiceWorker({
+                action: 'notification',
+                message: this.getTranslation('account_not_found'),
+            });
     }
 
     getCurrentSiteElements() {
-        const siteKey = Object.keys(SITES_CONFIG).find((item) => this.hostname.includes(item));
-
-        if (siteKey in SITES_CONFIG) {
-            return SITES_CONFIG[siteKey];
-        }
-
-        this.sendMessageToServiceWorker({
+        return SITES_CONFIG[
+            Object.keys(SITES_CONFIG).find(item => this.hostname.includes(item))
+        ] || this.sendMessageToServiceWorker({
             action: 'notification',
-            message: this.getTranslation(elements_not_found),
+            message: this.getTranslation('elements_not_found'),
         });
     }
 
