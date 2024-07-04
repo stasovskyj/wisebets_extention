@@ -77,7 +77,7 @@ class CalcHelper extends Base {
                                     }
                                     if (node.querySelector(betslipConfig.betAcceptedElement)) {
                                         if (this.state == 1) {
-                                            this.WSClient.sendDataViaWebSocket(this.calc.oddsA, this.calc.stakeA, this.calc.setStakeACurrency);
+                                            this.WSClient.sendDataViaWebSocket(this.calc.oddsA, this.calc.stakeA, this.calc.stakeACurrency);
                                             this.state = 2;
                                             observer.disconnect();
                                         } else if (this.state == 2) {
