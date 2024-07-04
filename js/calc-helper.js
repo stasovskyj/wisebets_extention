@@ -6,19 +6,17 @@ class CalcHelper extends Base {
         this.WSClient = new WebSocketClient();
         this.calc = new Calculator();
         this.setupBetslipTracking(this.InitInstanse);
-
-        // Встановлення обробника повідомлень для WebSocketClient
         this.WSClient.socket.onmessage = (e) => this.actionOnDataReceived(e);
     }
 
     actionOnDataReceived(e) {
-        console.log(e)
         try {
             const data = JSON.parse(e.data);
-
+            console.log(data)
             switch (data.action) {
                 case "updateCalc":
                     this.updateCalc(data.currency, data.odds, data.stake);
+                    this.state = 2;
                     break;
                 case "switchState":
                     this.state = data.state;
@@ -38,13 +36,16 @@ class CalcHelper extends Base {
         } else if (this.state == 2) {
             currency && this.calc.setStakeBCurrency(currency);
             odds && this.calc.setOddsB(odds);
-            stake && this.updateSiteStakeBInput();
+            stake && this.updateSiteStakeBInput(this.InitInstanse.nodeElements.betslip.amountInputElement);
         }
     }
 
     updateSiteStakeBInput(stakeElement) {
-        let StakeBSiteInput = document.getElementById(stakeElement);
-        StakeBSiteInput.value = this.calc.stakeB;
+        console.log(stakeElement)
+        console.log(this.calc.stakeB)
+
+        const StakeBSiteInput = document.getElementById(stakeElement);
+        this.calc.stakeB && (StakeBSiteInput.value = this.calc.stakeB);
     }
 
     fixValue(v) {
@@ -75,9 +76,7 @@ class CalcHelper extends Base {
                                     }
                                     if (node.querySelector(betslipConfig.betAcceptedElement)) {
                                         if (this.state == 1) {
-
                                             this.WSClient.sendDataViaWebSocket(this.calc.oddsA, this.calc.stakeA, this.state);
-                                            this.WSClient.sendCommandViaWebSocket(mode);
                                             this.state = 2;
                                             observer.disconnect();
                                         } else if (this.state == 2) {
