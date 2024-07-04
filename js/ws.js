@@ -11,10 +11,6 @@ class WebSocketClient extends Base {
             console.log(`%c${this.getTranslation("websocket_ok")}`, "background: green; color: white; display: block;")
         };
 
-        this.socket.onmessage = (e) => {
-            this.actionOnDataReceived(e);
-        };
-
         this.socket.onclose = (e) => {
             if (e.wasClean) {
                 console.log(`%c${this.getTranslation("websocket_disconnected_clean")}`, "background: red; color: white; display: block;", { reason: e.reason });
@@ -38,32 +34,16 @@ class WebSocketClient extends Base {
     }
     sendDataViaWebSocket(odds, stake, currency) {
         if (this.socket.readyState === WebSocket.OPEN) {
-            this.socket.send(JSON.stringify({ action: "updateCalc", odds, stake, currency}));
+            this.socket.send(JSON.stringify({ "action": "updateCalc", odds, stake, currency }));
         } else {
             console.log(`%c${this.getTranslation("websocket_not_open")}`, "background: red; color: white; display: block;");
         }
     }
-    sendCommandViaWebSocket(mode) {
+    sendCommandViaWebSocket(state) {
         if (this.socket.readyState === WebSocket.OPEN) {
-            this.socket.send(JSON.stringify({ action: "switchMode", mode }));
+            this.socket.send(JSON.stringify({ action: "switchState", state }));
         } else {
             console.log(`%c${this.getTranslation("websocket_not_open")}`, "background: red; color: white; display: block;");
         }
     }
-    actionOnDataReceived(e) {
-        const data = JSON.parse(e.data);
-
-        switch (data.action) {
-            case "updateCalc":
-                this.updateCalc(data.odds, data.stake, data.currency);
-                break;
-            case "switchMode":
-                this.mode = data.mode;
-                console.log("switched_mode", "", { mode: data.mode });
-                break;
-            default:
-                console.log(`%c${this.getTranslation("unknown_data")}`, "background: red; color: white; display: block;", { data: e.data });
-        }
-    }
-    
 }
