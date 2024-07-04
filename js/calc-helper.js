@@ -15,6 +15,7 @@ class CalcHelper extends Base {
             console.log(data)
             switch (data.action) {
                 case "updateCalc":
+                    this.calc.setStakeBCurrency(this.calc.stakeACurrency);
                     this.updateCalc(data.currency, data.odds, data.stake);
                     this.state = 2;
                     break;
@@ -30,7 +31,6 @@ class CalcHelper extends Base {
     }
     updateCalc(currency = null, odds, stake = null) {
         if (this.state == 1) {
-            this.calc.setStakeBCurrency(this.calc.stakeACurrency);
             currency && this.calc.setStakeACurrency(currency);
             odds && this.calc.setOddsA(odds);
             stake && this.calc.setStakeA(stake);
