@@ -59,7 +59,7 @@ class Initialization extends Base {
             this.config = config;
             this.currentSiteData = this.getCurrentSiteData(config.accounts);
             this.nodeElements = this.getCurrentSiteElements();
-            new IpTracker(this);
+            //new IpTracker(this);
             new CalcHelper(this);
             this.parser = new Parser(this);
             return;
