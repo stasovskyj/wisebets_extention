@@ -18,7 +18,7 @@
     "message": "WebSocket не підключений. Не вдалося надіслати дані."
   },
   "unknown_data": {
-    "message": "WebSocket: Невідомі дані ${data}"
+    "message": "WebSocket: Невідомі дані"
   },
   "switched_mode": {
     "message": "Перемкнуто на режим: ${mode}"

@@ -29,14 +29,14 @@ class CalcHelper extends Base {
             console.error("Failed to parse JSON:", e.data, error);
         }
     }
-    updateCalc(currency = null, odds, stake = null) {
+    updateCalc(currency = null, odds = null, stake = null) {
         if (this.state == 1) {
             currency && this.calc.setStakeACurrency(currency);
-            odds && this.calc.setOddsA(odds);
-            stake && this.calc.setStakeA(stake);
+            odds && odds != this.calc.oddsA && this.calc.setOddsA(odds);
+            stake && stake != this.calc.stakeA && this.calc.setStakeA(stake);
         } else if (this.state == 2) {
-            currency && this.calc.setStakeBCurrency(currency);
-            odds && this.calc.setOddsB(odds);
+            currency && currency != this.calc.stakeBCurrency && this.calc.setStakeBCurrency(currency);
+            odds && odds != this.calc.oddsB && this.calc.setOddsB(odds);
             stake && this.updateSiteStakeBInput(this.InitInstanse.nodeElements.betslip.amountInputElement);
         }
     }
