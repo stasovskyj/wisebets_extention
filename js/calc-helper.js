@@ -37,7 +37,7 @@ class CalcHelper extends Base {
         } else if (this.state == 2) {
             currency && currency != this.calc.stakeBCurrency && this.calc.setStakeBCurrency(currency);
             odds && odds != this.calc.oddsB && this.calc.setOddsB(odds);
-            stake && this.updateSiteStakeBInput(this.InitInstanse.nodeElements.betslip.amountInputElement);
+            //stake && this.updateSiteStakeBInput(this.InitInstanse.nodeElements.betslip.amountInputElement);
         }
     }
 
@@ -82,8 +82,10 @@ class CalcHelper extends Base {
                                             observer.disconnect();
                                         } else if (this.state == 2) {
                                             this.WSClient.sendCommandViaWebSocket(1);
+                                            
                                             console.log('Ставка закрита');
-                                            observer.disconnect();
+                                            this.state = 1;
+                                           // observer.disconnect();
                                         }
                                     }
                                 }
