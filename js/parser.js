@@ -1,29 +1,26 @@
 class Parser {
     constructor(initInstance) {
-        this.keyWord = 'Stake';
+        this.keyWords = ['Stake','BET AMOUNT']; // Змінено на масив
         this.numbRegExp = /\d+/g;
-        this.currentAmountElement = initInstance.nodeElements.currentAmountElement
-        this.unsettledBetsElement = initInstance.nodeElements.unsettledBetsElement
-
+        this.currentAmountElement = initInstance.nodeElements.currentAmountElement;
+        this.unsettledBetsElement = initInstance.nodeElements.unsettledBetsElement;
     }
-   
+
     parseBalanse() {
-        let data = document.querySelector(this.currentAmountElement).innerText ?? false
+        let data = document.querySelector(this.currentAmountElement).innerText ?? false;
         return parseFloat(data.replace(/[^\d.,]+/g, '').replace(',', '.'));
-
     }
- 
-    parseUnsettledBets() {
 
+    parseUnsettledBets() {
         const betElements = document.querySelectorAll(this.unsettledBetsElement);
         if (!betElements) {
-            return false
+            return false;
         }
         const totalBets = Array.from(betElements).reduce((acc, item) => {
             item.innerText.split('\n').forEach((itemInner, i, arr) => {
                 const value = arr[i + 1];
 
-                if (itemInner.includes(this.keyWord) && typeof value === 'string') {
+                if (this.keyWords.some(keyWord => itemInner.includes(keyWord)) && typeof value === 'string') {
                     const arrValues = (() => {
                         const res = value.match(this.numbRegExp);
                         if (!res) {
@@ -39,6 +36,6 @@ class Parser {
 
             return acc;
         }, 0);
-        return totalBets
+        return totalBets;
     }
 }

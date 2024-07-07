@@ -26,7 +26,7 @@ const SITES_CONFIG = {
   },
   'favbet': {
     currentAmountElement: '[data-role="user-balance-header"]',
-    unsettledBetsElement: '',
+    unsettledBetsElement: '[class^="Bet_container"]',
     betslip: {
       betSlipElement: '[class^="ActiveStep"]',
       amountInputElement: 'input[data-role="betslip-bet-sum-input"]',
