@@ -11,8 +11,7 @@ class Initialization extends Base {
     }
 
     getCurrentSiteData(data) {
-        const result = data.find(item => this.hostname.includes(item.name.toLowerCase()));
-
+        const result = data.find(item => this.hostname.indexOf(item.name.toLowerCase()) !== -1 && this.hostname.split('.').includes(item.name.toLowerCase()));
         return result || (this.sendMessageToServiceWorker({
             action: 'notification',
             message: this.getTranslation('account_not_found'),
@@ -59,7 +58,7 @@ class Initialization extends Base {
             this.config = config;
             this.currentSiteData = this.getCurrentSiteData(config.accounts);
             this.nodeElements = this.getCurrentSiteElements();
-            //new IpTracker(this);
+            new IpTracker(this);
             new CalcHelper(this);
             this.parser = new Parser(this);
             return;
