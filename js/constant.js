@@ -31,7 +31,7 @@ const SITES_CONFIG = {
       betSlipElement: '[class^="ActiveStep"]',
       amountInputElement: 'input[data-role="betslip-bet-sum-input"]',
       oddsElement: 'span[data-role="betslip-outcome-coef"]',
-      betAcceptedElement: 'bet accepted'
+      betAcceptedElement: '[data-role="betslip-status-success"]'
     }
   },
   'sportsbet': {
