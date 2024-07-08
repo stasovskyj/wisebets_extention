@@ -37,16 +37,16 @@ class CalcHelper extends Base {
         } else if (this.state == 2) {
             currency && currency != this.calc.stakeBCurrency && this.calc.setStakeBCurrency(currency);
             odds && odds != this.calc.oddsB && this.calc.setOddsB(odds);
-            //stake && this.updateSiteStakeBInput(this.InitInstanse.nodeElements.betslip.amountInputElement);
+            stake && this.updateSiteStakeBInput(this.InitInstanse.nodeElements.betslip.amountInputElement);
         }
     }
-
+    // Автозаповнення суми ставки розрахованої калькулятором
     updateSiteStakeBInput(stakeElement) {
-        console.log(stakeElement)
-        console.log(this.calc.stakeB)
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+        nativeInputValueSetter?.call(stakeElement, this.calc.stakeB);
 
-        const StakeBSiteInput = document.getElementById(stakeElement);
-        this.calc.stakeB && (StakeBSiteInput.value = this.calc.stakeB);
+        const ev2 = new Event('change', { bubbles: true });
+        el.dispatchEvent(ev2);
     }
 
     fixValue(v) {
@@ -59,46 +59,51 @@ class CalcHelper extends Base {
 
     setupBetslipTracking() {
         const betslipConfig = this.InitInstanse.nodeElements.betslip;
+
+        if (!betslipConfig) {
+            return;
+        }
+
         const observer = new MutationObserver((mutationList) => {
             for (const mutation of mutationList) {
                 const betSlipElement = document.querySelector(betslipConfig.betSlipElement);
                 if (betSlipElement) {
                     calcContainer.style.display = 'block';
+
                     switch (mutation.type) {
                         case 'childList':
                             for (const node of mutation.addedNodes) {
                                 if (node.nodeType === Node.ELEMENT_NODE) {
+                                    // Відкриття купону
                                     if (node.querySelector(betslipConfig.betSlipElement)) {
-                                        let currency = this.InitInstanse.currentSiteData.currency;
-                                        let odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
-
+                                        const currency = this.InitInstanse.currentSiteData.currency;
+                                        const odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
                                         this.updateCalc(currency, odds);
-                                        console.log('спрацював childlist');
                                     }
+                                    // Дії коли ставка прийнята
                                     if (node.querySelector(betslipConfig.betAcceptedElement)) {
-                                        if (this.state == 1) {
+                                        if (this.state === 1) {
                                             this.WSClient.sendDataViaWebSocket(this.calc.oddsA, this.calc.stakeA, this.calc.stakeACurrency);
                                             this.state = 2;
                                             observer.disconnect();
-                                        } else if (this.state == 2) {
+                                        } else if (this.state === 2) {
                                             this.WSClient.sendCommandViaWebSocket(1);
-                                            
-                                            console.log('Ставка закрита');
                                             this.state = 1;
-                                           // observer.disconnect();
+                                            this.calc.setStakeACurrency(this.InitInstanse.currentSiteData.currency);
+                                            console.log('Ставка закрита');
                                         }
                                     }
                                 }
                             }
                             break;
-                        case 'attributes':
-                            let stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
-                            this.updateCalc(null, null, stake);
-                            console.log('спрацював attributes');
-                            break;
-                        case 'characterData':
-                            let odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
 
+                        case 'attributes':
+                            const stake = betSlipElement.querySelector(betslipConfig.amountInputElement)?.value;
+                            this.updateCalc(null, null, stake);
+                            break;
+
+                        case 'characterData':
+                            const odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
                             this.updateCalc(null, odds, betSlipElement.querySelector(betslipConfig.amountInputElement)?.value);
                             break;
                     }
@@ -108,6 +113,24 @@ class CalcHelper extends Base {
             }
         });
 
-        observer.observe(document.body, { attributes: true, attributeFilter: ["value"], characterData: true, childList: true, subtree: true });
+        //this.startObserve(betSlipElement);
+        observer.observe(document.body, {
+            attributes: true,
+            attributeFilter: ["value"],
+            characterData: true,
+            childList: true,
+            subtree: true
+        });
+    }
+
+    startObserve(betSlipElement) {
+        targetElement = betSlipElement ?? document.body;
+        observer.observe(targetElement, {
+            attributes: true,
+            attributeFilter: ["value"],
+            characterData: true,
+            childList: true,
+            subtree: true
+        });
     }
 }
