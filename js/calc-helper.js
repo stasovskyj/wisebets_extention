@@ -7,6 +7,7 @@ class CalcHelper extends Base {
         this.calc = new Calculator();
         this.setupBetslipTracking(this.InitInstanse);
         this.WSClient.socket.onmessage = (e) => this.actionOnDataReceived(e);
+        this.bindEvents();
     }
 
     actionOnDataReceived(e) {
@@ -29,7 +30,7 @@ class CalcHelper extends Base {
             console.error("Failed to parse JSON:", e.data, error);
         }
     }
-    setState(state){
+    setState(state) {
         this.state = state;
     }
     updateCalc(currency = null, odds = null, stake = null) {
@@ -77,7 +78,7 @@ class CalcHelper extends Base {
                         case 'childList':
                             for (const node of mutation.addedNodes) {
                                 if (node.nodeType === Node.ELEMENT_NODE) {
-                                   
+
                                     // Дії коли ставка прийнята
                                     if (node.querySelector(betslipConfig.betAcceptedElement)) {
                                         if (this.state === 1) {
@@ -92,8 +93,8 @@ class CalcHelper extends Base {
                                             console.log('Ставка закрита');
                                         }
                                     }
-                                     // Відкриття купону
-                                     if (node.querySelector(betslipConfig.betSlipElement)) {
+                                    // Відкриття купону
+                                    if (node.querySelector(betslipConfig.betSlipElement)) {
                                         const currency = this.InitInstanse.currentSiteData.currency;
                                         const odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
                                         this.updateCalc(currency, odds);
@@ -125,6 +126,17 @@ class CalcHelper extends Base {
             childList: true,
             subtree: true
         });
+    }
+    bindEvents() {
+        const observe = document.getElementById('observer');
+        const ws = document.getElementById('ws');
+        const state = document.getElementById('state');
+
+        observe.addEventListener('change', () => observe.checked ? this.enableObserver() : this.disableObserver());
+        //ws.addEventListener('change', () => ws.checked ? this.enableWebSocket() : this.disableWebSocket());
+        state.addEventListener('change', () => this.setState(state.checked ? 1 : 2));
+
+
     }
 
 }

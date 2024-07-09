@@ -33,10 +33,27 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
             <label for="profit">Прибуток:</label>
             <input type="number" id="profit" name="profit" step="0.01" class="calc-form-control" readonly>
           </div>
+          <div class="calc-form-row calc-form-row__v-center">
+              <button id="move-stake-on-risk" class="calc-button">Перенести</button>
+            </div>
+
+            <div class="calc-form-row calc-form-row__v-center">
+              <button id="reset-calc" class="calc-button">Скинути</button>
+            </div>
         </form>
-        <div class="calc-buttons">
-          <button id="move-stake-on-risk" class="calc-button">Перенести</button>
-          <button id="reset-calc" class="calc-button">Скинути</button>
+        <div class="calc-helper-buttons">
+           <div class="checkbox-wrapper-10">
+              <input class="tgl tgl-flip" id="observer" type="checkbox" checked />
+              <label class="tgl-btn" data-tg-off="OFF" data-tg-on="Observer" for="observer"></label>
+            </div>
+            <div class="checkbox-wrapper-10">
+              <input class="tgl tgl-flip" id="ws" type="checkbox" checked />
+              <label class="tgl-btn" data-tg-off="WS - OFF!" data-tg-on="WS" for="ws"></label>
+            </div>
+            <div class="checkbox-wrapper-10">
+              <input class="tgl tgl-flip" id="state" type="checkbox" checked />
+              <label class="tgl-btn" data-tg-off="РЕЖИМ 2" data-tg-on="РЕЖИМ 1" for="state"></label>
+            </div>
         </div>
       </div>
     </div>
@@ -51,34 +68,34 @@ const calcForm = document.getElementById('calc-form');
 
 // Відключення перетягування, коли клікнуто на поле вводу
 calcContainer.addEventListener('mousedown', (event) => {
-    if (event.target.tagName === 'INPUT') {
-        isDragging = false;
-    }
+  if (event.target.tagName === 'INPUT') {
+    isDragging = false;
+  }
 });
 
 // Увімкнення перетягування, коли клікнуто поза полями вводу
 calcContainer.addEventListener('mouseup', () => {
-    isDragging = true;
+  isDragging = true;
 });
 
 let isDragging = true;
 let offsetX, offsetY;
 
 calcContainer.addEventListener('mousedown', (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    offsetX = e.clientX - calcContainer.getBoundingClientRect().left;
-    offsetY = e.clientY - calcContainer.getBoundingClientRect().top;
-    window.addEventListener('mousemove', moveHandler);
-    window.addEventListener('mouseup', cleanup);
+  if (!isDragging) return;
+  e.preventDefault();
+  offsetX = e.clientX - calcContainer.getBoundingClientRect().left;
+  offsetY = e.clientY - calcContainer.getBoundingClientRect().top;
+  window.addEventListener('mousemove', moveHandler);
+  window.addEventListener('mouseup', cleanup);
 });
 
 function moveHandler(e) {
-    calcContainer.style.left = e.clientX - offsetX + 'px';
-    calcContainer.style.top = e.clientY - offsetY + 'px';
+  calcContainer.style.left = e.clientX - offsetX + 'px';
+  calcContainer.style.top = e.clientY - offsetY + 'px';
 }
 
 function cleanup() {
-    window.removeEventListener('mousemove', moveHandler);
-    window.removeEventListener('mouseup', cleanup);
+  window.removeEventListener('mousemove', moveHandler);
+  window.removeEventListener('mouseup', cleanup);
 }
