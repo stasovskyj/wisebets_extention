@@ -36,10 +36,10 @@ const SITES_CONFIG = {
   },
   'sportsbet': {
     unsettledBetsElement: '', // не підтримується
-    currentAmountElement: '[data-testid="balance-amount"]', //+
+    currentAmountElement: '[data-testid="balance-amount"]',
     betslip: {
-      betSlipElement: '[class^=BetslipContents]', // +
-      amountInputElement: '[data-test-id="betslip-moneyInputField"]', // +
+      betSlipElement: '[class^=BetslipContents]',
+      amountInputElement: '[data-test-id="betslip-moneyInputField"]',
       oddsElement: '[class^="BetslipContents"] [class^="FormattedOdds"] [class^="FormattedOdds"]',
       betAcceptedElement: '[class^=FullReceiptHeaderStyles__BetPlacedContainer]'
     }

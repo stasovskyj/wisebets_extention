@@ -17,10 +17,10 @@ class CalcHelper extends Base {
                 case "updateCalc":
                     this.calc.setStakeBCurrency(this.calc.stakeACurrency);
                     this.updateCalc(data.currency, data.odds, data.stake);
-                    this.state = 2;
+                    this.setState(2);
                     break;
                 case "switchState":
-                    this.state = data.state;
+                    this.setState(data.state);
                     break;
                 default:
                     console.log(`%c${this.getTranslation("unknown_data")}`, "background: red; color: white; display: block;", { data: e.data });
@@ -28,6 +28,9 @@ class CalcHelper extends Base {
         } catch (error) {
             console.error("Failed to parse JSON:", e.data, error);
         }
+    }
+    setState(state){
+        this.state = state;
     }
     updateCalc(currency = null, odds = null, stake = null) {
         if (this.state == 1) {
@@ -37,16 +40,16 @@ class CalcHelper extends Base {
         } else if (this.state == 2) {
             currency && currency != this.calc.stakeBCurrency && this.calc.setStakeBCurrency(currency);
             odds && odds != this.calc.oddsB && this.calc.setOddsB(odds);
-            stake && this.updateSiteStakeBInput(this.InitInstanse.nodeElements.betslip.amountInputElement);
+            this.updateSiteStakeBInput();
         }
     }
     // Автозаповнення суми ставки розрахованої калькулятором
-    updateSiteStakeBInput(stakeElement) {
+    updateSiteStakeBInput() {
+        const nodeElement = document.querySelector(this.InitInstanse.nodeElements.betslip.amountInputElement)
         const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
-        nativeInputValueSetter?.call(stakeElement, this.calc.stakeB);
-
+        nativeInputValueSetter?.call(nodeElement, this.calc.stakeB);
         const ev2 = new Event('change', { bubbles: true });
-        el.dispatchEvent(ev2);
+        nodeElement.dispatchEvent(ev2);
     }
 
     fixValue(v) {
@@ -74,24 +77,26 @@ class CalcHelper extends Base {
                         case 'childList':
                             for (const node of mutation.addedNodes) {
                                 if (node.nodeType === Node.ELEMENT_NODE) {
-                                    // Відкриття купону
-                                    if (node.querySelector(betslipConfig.betSlipElement)) {
-                                        const currency = this.InitInstanse.currentSiteData.currency;
-                                        const odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
-                                        this.updateCalc(currency, odds);
-                                    }
+                                   
                                     // Дії коли ставка прийнята
                                     if (node.querySelector(betslipConfig.betAcceptedElement)) {
                                         if (this.state === 1) {
                                             this.WSClient.sendDataViaWebSocket(this.calc.oddsA, this.calc.stakeA, this.calc.stakeACurrency);
-                                            this.state = 2;
+                                            this.setState(2);
                                             observer.disconnect();
                                         } else if (this.state === 2) {
                                             this.WSClient.sendCommandViaWebSocket(1);
-                                            this.state = 1;
+                                            observer.disconnect();
+                                            this.setState(1);
                                             this.calc.setStakeACurrency(this.InitInstanse.currentSiteData.currency);
                                             console.log('Ставка закрита');
                                         }
+                                    }
+                                     // Відкриття купону
+                                     if (node.querySelector(betslipConfig.betSlipElement)) {
+                                        const currency = this.InitInstanse.currentSiteData.currency;
+                                        const odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
+                                        this.updateCalc(currency, odds);
                                     }
                                 }
                             }
@@ -113,7 +118,6 @@ class CalcHelper extends Base {
             }
         });
 
-        //this.startObserve(betSlipElement);
         observer.observe(document.body, {
             attributes: true,
             attributeFilter: ["value"],
@@ -123,14 +127,4 @@ class CalcHelper extends Base {
         });
     }
 
-    startObserve(betSlipElement) {
-        targetElement = betSlipElement ?? document.body;
-        observer.observe(targetElement, {
-            attributes: true,
-            attributeFilter: ["value"],
-            characterData: true,
-            childList: true,
-            subtree: true
-        });
-    }
 }
