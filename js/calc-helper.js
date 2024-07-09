@@ -1,7 +1,7 @@
 class CalcHelper extends Base {
     constructor(InitInstanse) {
         super();
-        this.state = 1;
+        this.state = this.setState(1);
         this.InitInstanse = InitInstanse;
         this.WSClient = new WebSocketClient();
         this.calc = new Calculator();
@@ -41,7 +41,7 @@ class CalcHelper extends Base {
         } else if (this.state == 2) {
             currency && currency != this.calc.stakeBCurrency && this.calc.setStakeBCurrency(currency);
             odds && odds != this.calc.oddsB && this.calc.setOddsB(odds);
-            this.updateSiteStakeBInput();
+            odds !== this.calc.oddsB && this.updateSiteStakeBInput();
         }
     }
     // Автозаповнення суми ставки розрахованої калькулятором
@@ -118,7 +118,19 @@ class CalcHelper extends Base {
                 }
             }
         });
+    }
+    bindEvents() {
+        const observe = document.getElementById('observe');
+        const ws = document.getElementById('ws');
+        const state = document.getElementById('state');
+        const stakeOnRiskCurrencyElement = document.getElementById('stake-on-risk');
 
+        observe.addEventListener('change', () => observe.checked ? this.startObserver() : this.stopObserver());
+        //ws.addEventListener('change', () => ws.checked ? this.enableWebSocket() : this.disableWebSocket());
+        state.addEventListener('change', () => this.setState(state.checked ? 1 : 2));
+        stakeOnRiskCurrencyElement.addEventListener('input',  this.stopObserver());
+    }
+    startObserver(){
         observer.observe(document.body, {
             attributes: true,
             attributeFilter: ["value"],
@@ -127,16 +139,9 @@ class CalcHelper extends Base {
             subtree: true
         });
     }
-    bindEvents() {
-        const observe = document.getElementById('observer');
-        const ws = document.getElementById('ws');
-        const state = document.getElementById('state');
-
-        observe.addEventListener('change', () => observe.checked ? this.enableObserver() : this.disableObserver());
-        //ws.addEventListener('change', () => ws.checked ? this.enableWebSocket() : this.disableWebSocket());
-        state.addEventListener('change', () => this.setState(state.checked ? 1 : 2));
-
-
+    stopObserver(){
+        observer.disconnect();
     }
+
 
 }
