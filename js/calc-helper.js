@@ -1,14 +1,15 @@
 class CalcHelper extends Base {
     constructor(InitInstanse) {
         super();
-        this.state = 1;
         this.InitInstanse = InitInstanse;
         this.WSClient = new WebSocketClient();
         this.calc = new Calculator();
-        this.observer = null; // Додаємо це
+        this.observer = null;
         this.setupBetslipTracking(this.InitInstanse);
         this.WSClient.socket.onmessage = (e) => this.actionOnDataReceived(e);
         this.bindEvents();
+        this.setState(1);
+        
     }
 
     actionOnDataReceived(e) {
@@ -34,6 +35,9 @@ class CalcHelper extends Base {
 
     setState(state) {
         this.state = state;
+        const stateCheckbox = document.getElementById('state');
+        stateCheckbox.checked = this.state === 1 ? true : false;
+
     }
 
     updateCalc(currency = null, odds = null, stake = null) {
@@ -127,14 +131,15 @@ class CalcHelper extends Base {
 
     bindEvents() {
         const observe = document.getElementById('observe');
-        const ws = document.getElementById('ws');
+        //const ws = document.getElementById('ws');
         const state = document.getElementById('state');
-        const stakeOnRiskElement = document.getElementById('stakeOnRisk');
+        const incorrectStake = document.getElementById('incorrectStake');
 
+        
         observe.addEventListener('change', () => observe.checked ? this.startObserver() : this.stopObserver());
         //ws.addEventListener('change', () => ws.checked ? this.enableWebSocket() : this.disableWebSocket());
         state.addEventListener('change', () => this.setState(state.checked ? 1 : 2));
-        stakeOnRiskElement.addEventListener('input', () => this.stopObserver());
+        incorrectStake.addEventListener('input', () => this.stopObserver());
     }
 
     startObserver() {
@@ -145,9 +150,13 @@ class CalcHelper extends Base {
             childList: true,
             subtree: true
         });
+        const observeCheckbox = document.getElementById('observe');
+        observeCheckbox.checked = true;
     }
 
     stopObserver() {
         this.observer && this.observer.disconnect();
+        const observeCheckbox = document.getElementById('observe');
+        observeCheckbox.checked = false;
     }
 }
