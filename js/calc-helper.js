@@ -106,7 +106,7 @@ class CalcHelper extends Base {
                                     }
                                     // Відкриття купону
                                     if (node.querySelector(betslipConfig.betSlipElement)) {
-                                        const currency = this.InitInstanse.currentSiteData.currency;
+                                        const currency = this.InitInstanse.currentSiteData?.currency;
                                         const odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
                                         this.updateCalc(currency, odds);
                                     }
@@ -138,7 +138,6 @@ class CalcHelper extends Base {
         const state = document.getElementById('state');
         const incorrectStake = document.getElementById('incorrectStake');
 
-        
         observe.addEventListener('change', () => observe.checked ? this.startObserver() : this.stopObserver());
         //ws.addEventListener('change', () => ws.checked ? this.enableWebSocket() : this.disableWebSocket());
         state.addEventListener('change', () => this.setState(state.checked ? 1 : 2));
@@ -146,7 +145,7 @@ class CalcHelper extends Base {
     }
 
     startObserver() {
-        this.observer && this.observer.observe(document.body, {
+        this.observer.observe(document.body, {
             attributes: true,
             attributeFilter: ["value"],
             characterData: true,

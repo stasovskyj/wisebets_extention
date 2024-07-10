@@ -47,7 +47,7 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
               <label class="tgl-btn" data-tg-off="OFF" data-tg-on="Observer" for="observe"></label>
             </div>
             <div class="checkbox-wrapper-10">
-              <input class="tgl tgl-flip" id="ws" type="checkbox"/>
+              <input class="tgl tgl-flip" id="ws" disabled type="checkbox" checked/>
               <label class="tgl-btn" data-tg-off="WS - OFF!" data-tg-on="WS" for="ws"></label>
             </div>
             <div class="checkbox-wrapper-10">

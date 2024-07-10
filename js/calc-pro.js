@@ -183,8 +183,8 @@ class Calculator {
                     this.checkCalculation();
                 }
             }
-
         });
+        
         // Дії для кнопок управління
         moveStakeOnRiskButton.addEventListener('click', (e) => {
             e.preventDefault();
