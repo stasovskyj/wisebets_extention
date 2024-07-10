@@ -186,10 +186,12 @@ class Calculator {
 
         });
         // Дії для кнопок управління
-        moveStakeOnRiskButton.addEventListener('click', () => {
+        moveStakeOnRiskButton.addEventListener('click', (e) => {
+            e.preventDefault();
             this.moveStakeOnRisk();
         });
-        resetButton.addEventListener('click', () => {
+        resetButton.addEventListener('click', (e) => {
+            e.preventDefault();
             this.reset();
         });
     }

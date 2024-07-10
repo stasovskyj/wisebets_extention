@@ -97,7 +97,7 @@ class CalcHelper extends Base {
                                             this.WSClient.sendCommandViaWebSocket(1);
                                             this.observer.disconnect();
                                             this.setState(1);
-                                            this.calc.setStakeACurrency(this.InitInstanse.currentSiteData.currency);
+                                            this.calc.setStakeACurrency(this.InitInstanse.currentSiteData?.currency);
                                             console.log('Ставка закрита');
                                         }
                                     }
