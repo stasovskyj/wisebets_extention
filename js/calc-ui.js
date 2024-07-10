@@ -43,15 +43,15 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
         </form>
         <div class="calc-helper-buttons">
            <div class="checkbox-wrapper-10">
-              <input class="tgl tgl-flip" id="observe" type="checkbox" checked />
+              <input class="tgl tgl-flip" id="observe" type="checkbox"/>
               <label class="tgl-btn" data-tg-off="OFF" data-tg-on="Observer" for="observe"></label>
             </div>
             <div class="checkbox-wrapper-10">
-              <input class="tgl tgl-flip" id="ws" type="checkbox" checked />
+              <input class="tgl tgl-flip" id="ws" type="checkbox"/>
               <label class="tgl-btn" data-tg-off="WS - OFF!" data-tg-on="WS" for="ws"></label>
             </div>
             <div class="checkbox-wrapper-10">
-              <input class="tgl tgl-flip" id="state" type="checkbox" checked />
+              <input class="tgl tgl-flip" id="state" type="checkbox"/>
               <label class="tgl-btn" data-tg-off="РЕЖИМ 2" data-tg-on="РЕЖИМ 1" for="state"></label>
             </div>
         </div>
