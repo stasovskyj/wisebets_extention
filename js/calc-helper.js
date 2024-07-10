@@ -55,6 +55,9 @@ class CalcHelper extends Base {
     // Автозаповнення суми ставки розрахованої калькулятором
     updateSiteStakeBInput() {
         const nodeElement = document.querySelector(this.InitInstanse.nodeElements.betslip.amountInputElement);
+        if(!nodeElement){
+            return
+        }
         const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
         nativeInputValueSetter?.call(nodeElement, this.calc.stakeB);
         const ev2 = new Event('change', { bubbles: true });
