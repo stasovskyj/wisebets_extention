@@ -44,7 +44,7 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
         <div class="calc-helper-buttons">
            <div class="checkbox-wrapper-10">
               <input class="tgl tgl-flip" id="observe" type="checkbox" checked />
-              <label class="tgl-btn" data-tg-off="OFF" data-tg-on="Observer" for="observer"></label>
+              <label class="tgl-btn" data-tg-off="OFF" data-tg-on="Observer" for="observe"></label>
             </div>
             <div class="checkbox-wrapper-10">
               <input class="tgl tgl-flip" id="ws" type="checkbox" checked />

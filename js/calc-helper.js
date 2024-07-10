@@ -1,10 +1,11 @@
 class CalcHelper extends Base {
     constructor(InitInstanse) {
         super();
-        this.state = this.setState(1);
+        this.state = 1;
         this.InitInstanse = InitInstanse;
         this.WSClient = new WebSocketClient();
         this.calc = new Calculator();
+        this.observer = null; // Додаємо це
         this.setupBetslipTracking(this.InitInstanse);
         this.WSClient.socket.onmessage = (e) => this.actionOnDataReceived(e);
         this.bindEvents();
@@ -13,7 +14,7 @@ class CalcHelper extends Base {
     actionOnDataReceived(e) {
         try {
             const data = JSON.parse(e.data);
-            console.log(data)
+            console.log(data);
             switch (data.action) {
                 case "updateCalc":
                     this.calc.setStakeBCurrency(this.calc.stakeACurrency);
@@ -30,9 +31,11 @@ class CalcHelper extends Base {
             console.error("Failed to parse JSON:", e.data, error);
         }
     }
+
     setState(state) {
         this.state = state;
     }
+
     updateCalc(currency = null, odds = null, stake = null) {
         if (this.state == 1) {
             currency && this.calc.setStakeACurrency(currency);
@@ -44,9 +47,10 @@ class CalcHelper extends Base {
             odds !== this.calc.oddsB && this.updateSiteStakeBInput();
         }
     }
+
     // Автозаповнення суми ставки розрахованої калькулятором
     updateSiteStakeBInput() {
-        const nodeElement = document.querySelector(this.InitInstanse.nodeElements.betslip.amountInputElement)
+        const nodeElement = document.querySelector(this.InitInstanse.nodeElements.betslip.amountInputElement);
         const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
         nativeInputValueSetter?.call(nodeElement, this.calc.stakeB);
         const ev2 = new Event('change', { bubbles: true });
@@ -68,7 +72,7 @@ class CalcHelper extends Base {
             return;
         }
 
-        const observer = new MutationObserver((mutationList) => {
+        this.observer = new MutationObserver((mutationList) => {
             for (const mutation of mutationList) {
                 const betSlipElement = document.querySelector(betslipConfig.betSlipElement);
                 if (betSlipElement) {
@@ -84,10 +88,10 @@ class CalcHelper extends Base {
                                         if (this.state === 1) {
                                             this.WSClient.sendDataViaWebSocket(this.calc.oddsA, this.calc.stakeA, this.calc.stakeACurrency);
                                             this.setState(2);
-                                            observer.disconnect();
+                                            this.observer.disconnect();
                                         } else if (this.state === 2) {
                                             this.WSClient.sendCommandViaWebSocket(1);
-                                            observer.disconnect();
+                                            this.observer.disconnect();
                                             this.setState(1);
                                             this.calc.setStakeACurrency(this.InitInstanse.currentSiteData.currency);
                                             console.log('Ставка закрита');
@@ -118,20 +122,23 @@ class CalcHelper extends Base {
                 }
             }
         });
+        this.startObserver();
     }
+
     bindEvents() {
         const observe = document.getElementById('observe');
         const ws = document.getElementById('ws');
         const state = document.getElementById('state');
-        const stakeOnRiskCurrencyElement = document.getElementById('stake-on-risk');
+        const stakeOnRiskElement = document.getElementById('stakeOnRisk');
 
         observe.addEventListener('change', () => observe.checked ? this.startObserver() : this.stopObserver());
         //ws.addEventListener('change', () => ws.checked ? this.enableWebSocket() : this.disableWebSocket());
         state.addEventListener('change', () => this.setState(state.checked ? 1 : 2));
-        stakeOnRiskCurrencyElement.addEventListener('input',  this.stopObserver());
+        stakeOnRiskElement.addEventListener('input', () => this.stopObserver());
     }
-    startObserver(){
-        observer.observe(document.body, {
+
+    startObserver() {
+        this.observer && this.observer.observe(document.body, {
             attributes: true,
             attributeFilter: ["value"],
             characterData: true,
@@ -139,9 +146,8 @@ class CalcHelper extends Base {
             subtree: true
         });
     }
-    stopObserver(){
-        observer.disconnect();
+
+    stopObserver() {
+        this.observer && this.observer.disconnect();
     }
-
-
 }
