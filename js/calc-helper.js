@@ -3,13 +3,13 @@ class CalcHelper extends Base {
         super();
         this.InitInstanse = InitInstanse;
         this.WSClient = new WebSocketClient();
+        this.calcUI = new CalcUI();
         this.calc = new Calculator();
-        this.observer = null;
-        this.setupBetslipTracking(this.InitInstanse);
+        this.observer = this.setupBetslipTracking(this.InitInstanse);
         this.WSClient.socket.onmessage = (e) => this.actionOnDataReceived(e);
         this.bindEvents();
         this.setState(1);
-        
+
     }
 
     actionOnDataReceived(e) {
@@ -55,7 +55,7 @@ class CalcHelper extends Base {
     // Автозаповнення суми ставки розрахованої калькулятором
     updateSiteStakeBInput() {
         const nodeElement = document.querySelector(this.InitInstanse.nodeElements.betslip.amountInputElement);
-        if(!nodeElement){
+        if (!nodeElement) {
             return
         }
         const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
@@ -83,7 +83,7 @@ class CalcHelper extends Base {
             for (const mutation of mutationList) {
                 const betSlipElement = document.querySelector(betslipConfig.betSlipElement);
                 if (betSlipElement) {
-                    calcContainer.style.display = 'block';
+                    this.calcUI.calcContainer.style.display = 'block';
 
                     switch (mutation.type) {
                         case 'childList':
@@ -125,7 +125,7 @@ class CalcHelper extends Base {
                             break;
                     }
                 } else {
-                    calcContainer.style.display = 'none';
+                    this.calcUI.calcContainer.style.display = 'none';
                 }
             }
         });

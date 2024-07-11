@@ -1,6 +1,22 @@
 
-const calc = document.createElement('div');
-const CALC_CONTENT = `<div id="calc-container" class="calc-container">
+class CalcUI {
+  constructor() {
+    this.calc = document.createElement('div');
+    this.calc.innerHTML = this.getCalcContent();
+    document.body.append(this.calc);
+
+    this.calcContainer = document.getElementById('calc-container');
+    this.calcForm = document.getElementById('calc-form');
+    this.isDragging = true;
+    this.offsetX = 0;
+    this.offsetY = 0;
+
+    this.initEventListeners();
+  }
+
+  getCalcContent() {
+    return `
+  <div id="calc-container" class="calc-container">
     <div class="calc-card">
       <div class="card-body">
         <form class="calc" id="calc-form">
@@ -36,7 +52,6 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
           <div class="calc-form-row calc-form-row__v-center">
               <button id="move-stake-on-risk" class="calc-button">Перенести</button>
             </div>
-
             <div class="calc-form-row calc-form-row__v-center">
               <button id="reset-calc" class="calc-button">Скинути</button>
             </div>
@@ -57,45 +72,38 @@ const CALC_CONTENT = `<div id="calc-container" class="calc-container">
         </div>
       </div>
     </div>
-  </div>`;
-
-calc.innerHTML = CALC_CONTENT;
-
-document.body.append(calc);
-
-const calcContainer = document.getElementById('calc-container');
-const calcForm = document.getElementById('calc-form');
-
-// Відключення перетягування, коли клікнуто на поле вводу
-calcContainer.addEventListener('mousedown', (event) => {
-  if (event.target.tagName === 'INPUT') {
-    isDragging = false;
+  </div>
+    `;
   }
-});
 
-// Увімкнення перетягування, коли клікнуто поза полями вводу
-calcContainer.addEventListener('mouseup', () => {
-  isDragging = true;
-});
+  initEventListeners() {
+    this.calcContainer.addEventListener('mousedown', (event) => {
+      if (event.target.tagName === 'INPUT') {
+        this.isDragging = false;
+      }
+    });
 
-let isDragging = true;
-let offsetX, offsetY;
+    this.calcContainer.addEventListener('mouseup', () => {
+      this.isDragging = true;
+    });
 
-calcContainer.addEventListener('mousedown', (e) => {
-  if (!isDragging) return;
-  e.preventDefault();
-  offsetX = e.clientX - calcContainer.getBoundingClientRect().left;
-  offsetY = e.clientY - calcContainer.getBoundingClientRect().top;
-  window.addEventListener('mousemove', moveHandler);
-  window.addEventListener('mouseup', cleanup);
-});
+    this.calcContainer.addEventListener('mousedown', (e) => {
+      if (!this.isDragging) return;
+      e.preventDefault();
+      this.offsetX = e.clientX - this.calcContainer.getBoundingClientRect().left;
+      this.offsetY = e.clientY - this.calcContainer.getBoundingClientRect().top;
+      window.addEventListener('mousemove', this.moveHandler.bind(this));
+      window.addEventListener('mouseup', this.cleanup.bind(this));
+    });
+  }
 
-function moveHandler(e) {
-  calcContainer.style.left = e.clientX - offsetX + 'px';
-  calcContainer.style.top = e.clientY - offsetY + 'px';
-}
+  moveHandler(e) {
+    this.calcContainer.style.left = e.clientX - this.offsetX + 'px';
+    this.calcContainer.style.top = e.clientY - this.offsetY + 'px';
+  }
 
-function cleanup() {
-  window.removeEventListener('mousemove', moveHandler);
-  window.removeEventListener('mouseup', cleanup);
+  cleanup() {
+    window.removeEventListener('mousemove', this.moveHandler.bind(this));
+    window.removeEventListener('mouseup', this.cleanup.bind(this));
+  }
 }
