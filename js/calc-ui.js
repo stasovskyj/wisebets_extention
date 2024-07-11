@@ -78,32 +78,35 @@ class CalcUI {
 
   initEventListeners() {
     this.calcContainer.addEventListener('mousedown', (event) => {
-      if (event.target.tagName === 'INPUT') {
+      if (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON') {
         this.isDragging = false;
+      } else {
+        this.isDragging = true;
       }
     });
-
+  
     this.calcContainer.addEventListener('mouseup', () => {
       this.isDragging = true;
     });
-
+  
     this.calcContainer.addEventListener('mousedown', (e) => {
       if (!this.isDragging) return;
       e.preventDefault();
       this.offsetX = e.clientX - this.calcContainer.getBoundingClientRect().left;
       this.offsetY = e.clientY - this.calcContainer.getBoundingClientRect().top;
-      window.addEventListener('mousemove', this.moveHandler.bind(this));
-      window.addEventListener('mouseup', this.cleanup.bind(this));
+      window.addEventListener('mousemove', this.boundMoveHandler = this.moveHandler.bind(this));
+      window.addEventListener('mouseup', this.boundCleanup = this.cleanup.bind(this));
     });
   }
 
   moveHandler(e) {
+    if (!this.isDragging) return;
     this.calcContainer.style.left = e.clientX - this.offsetX + 'px';
     this.calcContainer.style.top = e.clientY - this.offsetY + 'px';
   }
 
   cleanup() {
-    window.removeEventListener('mousemove', this.moveHandler.bind(this));
-    window.removeEventListener('mouseup', this.cleanup.bind(this));
+    window.removeEventListener('mousemove', this.boundMoveHandler);
+    window.removeEventListener('mouseup', this.boundCleanup);
   }
 }
