@@ -83,7 +83,7 @@ class CalcHelper extends Base {
             for (const mutation of mutationList) {
                 const betSlipElement = document.querySelector(betslipConfig.betSlipElement);
                 if (betSlipElement) {
-                    this.calcUI.calcContainer.style.display = 'block';
+                    this.calcUI.setCalcVisibility(true);
 
                     switch (mutation.type) {
                         case 'childList':
@@ -121,11 +121,12 @@ class CalcHelper extends Base {
 
                         case 'characterData':
                             const odds = this.fixValue(betSlipElement.querySelector(betslipConfig.oddsElement)?.innerText);
+
                             this.updateCalc(null, odds, betSlipElement.querySelector(betslipConfig.amountInputElement)?.value);
                             break;
                     }
                 } else {
-                    this.calcUI.calcContainer.style.display = 'none';
+                    this.calcUI.setCalcVisibility(false);
                 }
             }
         });

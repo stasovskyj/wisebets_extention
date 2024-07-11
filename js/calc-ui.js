@@ -84,11 +84,11 @@ class CalcUI {
         this.isDragging = true;
       }
     });
-  
+
     this.calcContainer.addEventListener('mouseup', () => {
       this.isDragging = true;
     });
-  
+
     this.calcContainer.addEventListener('mousedown', (e) => {
       if (!this.isDragging) return;
       e.preventDefault();
@@ -108,5 +108,9 @@ class CalcUI {
   cleanup() {
     window.removeEventListener('mousemove', this.boundMoveHandler);
     window.removeEventListener('mouseup', this.boundCleanup);
+  }
+
+  setCalcVisibility(v) {
+    this.calcContainer.style.display = v ? 'block' : 'none';
   }
 }
