@@ -95,10 +95,10 @@ class CalcHelper extends Base {
                                         if (this.state === 1) {
                                             this.WSClient.sendDataViaWebSocket(this.calc.oddsA, this.calc.stakeA, this.calc.stakeACurrency);
                                             this.setState(2);
-                                            this.observer.disconnect();
+                                            this.stopObserver();
                                         } else if (this.state === 2) {
                                             this.WSClient.sendCommandViaWebSocket(1);
-                                            this.observer.disconnect();
+                                            this.stopObserver();
                                             this.setState(1);
                                             this.calc.setStakeACurrency(this.InitInstanse.currentSiteData?.currency);
                                             console.log('Ставка закрита');
