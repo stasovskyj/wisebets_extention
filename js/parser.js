@@ -1,6 +1,6 @@
 class Parser {
     constructor(initInstance) {
-        this.keyWords = ['Stake','BET AMOUNT']; // Змінено на масив
+        this.keyWords = ['Stake','BET AMOUNT','Ставка'];
         this.numbRegExp = /\d+/g;
         this.currentAmountElement = initInstance.nodeElements.currentAmountElement;
         this.unsettledBetsElement = initInstance.nodeElements.unsettledBetsElement;
