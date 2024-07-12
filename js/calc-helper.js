@@ -49,6 +49,7 @@ class CalcHelper extends Base {
             currency && currency != this.calc.stakeBCurrency && this.calc.setStakeBCurrency(currency);
             odds && odds != this.calc.oddsB && this.calc.setOddsB(odds);
             this.updateSiteStakeBInput();
+            this.updateSiteStakeBInput();
         }
     }
 
