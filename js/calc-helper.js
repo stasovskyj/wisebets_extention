@@ -49,7 +49,6 @@ class CalcHelper extends Base {
             currency && currency != this.calc.stakeBCurrency && this.calc.setStakeBCurrency(currency);
             odds && odds != this.calc.oddsB && this.calc.setOddsB(odds);
             this.updateSiteStakeBInput();
-            this.updateSiteStakeBInput();
         }
     }
 
@@ -134,6 +133,7 @@ class CalcHelper extends Base {
             }
         });
         this.startObserver();
+        return this.observer;
     }
 
     bindEvents() {
@@ -149,6 +149,9 @@ class CalcHelper extends Base {
     }
 
     startObserver() {
+        if (!this.observer) {
+            this.setupBetslipTracking();
+        }
         this.observer.observe(document.body, {
             attributes: true,
             attributeFilter: ["value"],
