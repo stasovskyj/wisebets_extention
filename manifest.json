@@ -39,7 +39,8 @@
         "*://sportsbet.io/*",
         "*://*.sportsbetting.ag/*",
         "*://*.goldenpalacesports.be/*",
-        "*://*.betvictor.com/*"
+        "*://*.betvictor.com/*",
+        "*://22bet.com/*"
       ],
       "js": [
         "js/constant.js",

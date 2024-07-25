@@ -55,10 +55,10 @@ const SITES_CONFIG = {
       betAcceptedElement: '[data-testid="ЗАМІНИТИ"]'
     }
   },
-  'sportsbetting': {
+  'betonline': {
     currentAmountElement: 'button.userBalance',
     betslip: {
-      betSlipElement: '',
+      betSlipElement: '.betslip-container',
       amountInputElement: '',
       oddsElement: '',
       cancelBetElement: ''
@@ -82,6 +82,16 @@ const SITES_CONFIG = {
       amountInputElement: 'input[data-component="betslip-input-field"]',
       oddsElement: 'div[data-component="quick-betslip-odds"]',
       betAcceptedElement: '[data-component="quick-betslip-place-bet-again"]' //+
+    }
+  },
+  '22bet': {
+    currentAmountElement: '.top-b-acc__amount', // +
+    unsettledBetsElement: '.bet-position-summary', // +
+    betslip: {
+      betSlipElement: '#price_bets',
+      amountInputElement: '#bet_input',
+      oddsElement: '.bet.coef-change',
+      betAcceptedElement: '.cpn-possible-win.c-coupon-modal__win-info' //+
     }
   },
 };
