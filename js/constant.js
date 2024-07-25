@@ -85,13 +85,13 @@ const SITES_CONFIG = {
     }
   },
   '22bet': {
-    currentAmountElement: '.top-b-acc__amount', // +
-    unsettledBetsElement: '.bet-position-summary', // +
+    currentAmountElement: '.top-b-acc__amount',
+    unsettledBetsElement: '.bet-position-summary',
     betslip: {
-      betSlipElement: '#price_bets',
+      betSlipElement: '.coupon-rates',
       amountInputElement: '#bet_input',
       oddsElement: '.bet.coef-change',
-      betAcceptedElement: '.cpn-possible-win.c-coupon-modal__win-info' //+
+      betAcceptedElement: '.cpn-possible-win.c-coupon-modal__win-info'
     }
   },
 };

@@ -2,6 +2,8 @@
 class CalcUI {
   constructor() {
     this.calc = document.createElement('div');
+    this.calc.id = "calc-container"
+    this.calc.className = "calc-container"
     this.calc.innerHTML = this.getCalcContent();
     document.body.append(this.calc);
 
@@ -16,7 +18,6 @@ class CalcUI {
 
   getCalcContent() {
     return `
-  <div id="calc-container" class="calc-container">
     <div class="calc-card">
       <div class="card-body">
         <form class="calc" id="calc-form">
@@ -72,7 +73,7 @@ class CalcUI {
         </div>
       </div>
     </div>
-  </div>
+
     `;
   }
 
