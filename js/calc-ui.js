@@ -22,7 +22,7 @@ class CalcUI {
       <div class="card-body">
         <form class="calc" id="calc-form">
           <div class="calc-form-row">
-            <label for="stakeA">Сума: <span id="stake-a-currency"></span></label>
+            <label for="stakeA">Сума A: <span id="stake-a-currency"></span></label>
             <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
             </div>
           <div class="calc-form-row">

@@ -60,8 +60,12 @@ class CalcHelper extends Base {
         }
         const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
         nativeInputValueSetter?.call(nodeElement, this.calc.stakeB);
+        const ev1 = new Event('input', { bubbles: true });
         const ev2 = new Event('change', { bubbles: true });
+
+        nodeElement.focus();
         nodeElement.dispatchEvent(ev2);
+        nodeElement.dispatchEvent(ev1);
     }
 
     fixValue(v) {

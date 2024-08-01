@@ -71,22 +71,22 @@ const SITES_CONFIG = {
       betSlipElement: 'div[data-test="betslip-bet"]',
       amountInputElement: 'input[data-test="input-bet-amount"]',
       oddsElement: 'div.odds span',
-      betAcceptedElement: '.d'
+      betAcceptedElement: '.d' //-
     }
   },
   'cloudbet': {
-    currentAmountElement: '[data-dd-action-name="AccountButton balance"]', // +
-    unsettledBetsElement: '.bet-position-summary', // +
+    currentAmountElement: '[data-dd-action-name="AccountButton balance"]',
+    unsettledBetsElement: '.bet-position-summary',
     betslip: {
       betSlipElement: 'div[data-component="quick-betslip-card"]',
       amountInputElement: 'input[data-component="betslip-input-field"]',
       oddsElement: 'div[data-component="quick-betslip-odds"]',
-      betAcceptedElement: '[data-component="quick-betslip-place-bet-again"]' //+
+      betAcceptedElement: '[data-component="quick-betslip-place-bet-again"]'
     }
   },
   '22bet': {
     currentAmountElement: '.top-b-acc__amount',
-    unsettledBetsElement: '.bet-position-summary',
+    unsettledBetsElement: '.apm-panel-head__info',// -
     betslip: {
       betSlipElement: '.coupon-rates',
       amountInputElement: '#bet_input',
