@@ -62,8 +62,7 @@ class CalcHelper extends Base {
         nativeInputValueSetter?.call(nodeElement, this.calc.stakeB);
         const ev1 = new Event('input', { bubbles: true });
         const ev2 = new Event('change', { bubbles: true });
-
-        nodeElement.focus();
+        //nodeElement.focus();
         nodeElement.dispatchEvent(ev2);
         nodeElement.dispatchEvent(ev1);
     }
