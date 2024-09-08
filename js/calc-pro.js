@@ -12,11 +12,11 @@ class Calculator {
         this.stakeOnRiskCurrency = null;
         this.conversionRates = {
             'USD': {
-                'EUR': 0.92,
+                'EUR': 0.9,
                 'UAH': 42
             },
             'EUR': {
-                'USD': 1.08,
+                'USD': 1.1,
                 'UAH': 45
             },
             'UAH': {
