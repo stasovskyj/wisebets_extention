@@ -13,8 +13,8 @@ class EventEmitter {
         this.events[eventName] = this.events[eventName].filter(eventCallback => callback !== eventCallback);
     }
 
-    emit(eventName, args) {
+    emit(eventName, ...args) {
         const event = this.events[eventName];
-        event && event.forEach(callback => callback(args));
+        event && event.forEach(callback => callback(...args));
     }
 }
