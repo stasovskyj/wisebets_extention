@@ -3,6 +3,9 @@ const ACCOUNTS_URI = "scapegoat/accounts/";
 const ACCOUNT_URI = "account/";
 const IPTRACKER_URI = "iptracker/track/";
 const WSS = "wss://wisebets.pp.ua/ws/";
+const LOG_ERROR = "background: red; color: white; display: block;"
+const LOG_SUCCESS = "background: green; color: white; display: block;"
+const LOG_WARNING = "background: orange; color: white; display: block;"
 const SITES_CONFIG = {
   'pinnacle': {
     currentAmountElement: '[data-test-id="QuickCashier-BankRoll"]',//+

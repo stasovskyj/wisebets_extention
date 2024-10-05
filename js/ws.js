@@ -2,33 +2,37 @@ class WebSocketClient extends Base {
     constructor() {
         super();
         this.WSS = WSS;
-        this.reconnectInterval = 1000;
+        this.reconnectInterval = 5000;
         this.connect();
+        //this.eventEmitter.on("tab_focus", this.reconnect)
     }
     connect() {
         this.socket = new WebSocket(this.WSS);
         this.socket.onopen = () => {
-            console.log(`%c${this.getTranslation("websocket_ok")}`, "background: green; color: white; display: block;")
+            this.eventEmitter.emit("websocket", true)
+            console.log(`%c${this.getTranslation("websocket_ok")} `, LOG_SUCCESS)
         };
 
         this.socket.onclose = (e) => {
             if (e.wasClean) {
-                console.log(`%c${this.getTranslation("websocket_disconnected_clean")}`, "background: red; color: white; display: block;", { reason: e.reason });
+                console.log(`%c${this.getTranslation("websocket_disconnected_clean")}`, LOG_ERROR, { reason: e.reason });
             } else {
-                console.log(`%c${this.getTranslation("websocket_disconnected_unclean")}`, "background: red; color: white; display: block;");
+                console.log(`%c${this.getTranslation("websocket_disconnected_unclean")}`, LOG_ERROR);
+                this.eventEmitter.emit("websocket", false)
+                this.reconnect();
             }
-            this.reconnect();
         };
 
         this.socket.onerror = () => {
-            console.log(`%c${this.getTranslation("websocket_error")}`, "background: red; color: white; display: block;");
+            console.log(`%c${this.getTranslation("websocket_error")}`, LOG_ERROR);
+            this.eventEmitter.emit("websocket", false)
             this.reconnect();
         };
     }
 
     reconnect() {
         setTimeout(() => {
-            console.log(`%c${this.getTranslation("websocket_reconnect")}`, "background: orange; color: white; display: block;");
+            console.log(`%c${this.getTranslation("websocket_reconnecting")}`, LOG_WARNING);
             this.connect();
         }, this.reconnectInterval);
     }
@@ -36,14 +40,14 @@ class WebSocketClient extends Base {
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify({ "action": "updateCalc", odds, stake, currency }));
         } else {
-            console.log(`%c${this.getTranslation("websocket_not_open")}`, "background: red; color: white; display: block;");
+            console.log(`%c${this.getTranslation("websocket_not_open")}`, LOG_ERROR);
         }
     }
     sendCommandViaWebSocket(state) {
         if (this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify({ action: "switchState", state }));
         } else {
-            console.log(`%c${this.getTranslation("websocket_not_open")}`, "background: red; color: white; display: block;");
+            console.log(`%c${this.getTranslation("websocket_not_open")}`, LOG_ERROR);
         }
     }
 }

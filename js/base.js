@@ -12,3 +12,4 @@ class Base {
         return this;
     }
 }
+Base.prototype.eventEmitter = new EventEmitter();

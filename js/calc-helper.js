@@ -9,6 +9,8 @@ class CalcHelper extends Base {
         this.WSClient.socket.onmessage = (e) => this.actionOnDataReceived(e);
         this.bindEvents();
         this.setState(1);
+        this.eventEmitter.on('stateIndicator', this.setState)
+        this.eventEmitter.on('observerIndicator', (action) => action ? this.startObserver() : this.stopObserver());
 
     }
 
@@ -26,18 +28,16 @@ class CalcHelper extends Base {
                     this.setState(data.state);
                     break;
                 default:
-                    console.log(`%c${this.getTranslation("unknown_data")}`, "background: red; color: white; display: block;", { data: e.data });
+                    console.log(`%c${this.getTranslation("unknown_data")}`, LOG_ERROR, { data: e.data });
             }
         } catch (error) {
             console.error("Failed to parse JSON:", e.data, error);
         }
     }
 
-    setState(state) {
+    setState = (state) => {
+        this.eventEmitter.emit('state', (state === 1) ? true : false)
         this.state = state;
-        const stateCheckbox = document.getElementById('state');
-        stateCheckbox.checked = this.state === 1 ? true : false;
-
     }
 
     updateCalc(currency = null, odds = null, stake = null) {
@@ -62,7 +62,7 @@ class CalcHelper extends Base {
         nativeInputValueSetter?.call(nodeElement, this.calc.stakeB);
         const ev1 = new Event('input', { bubbles: true });
         const ev2 = new Event('change', { bubbles: true });
-        //nodeElement.focus();
+
         nodeElement.dispatchEvent(ev2);
         nodeElement.dispatchEvent(ev1);
     }
@@ -138,19 +138,7 @@ class CalcHelper extends Base {
         return this.observer;
     }
 
-    bindEvents() {
-        const observe = document.getElementById('observe');
-        //const ws = document.getElementById('ws');
-        const state = document.getElementById('state');
-        const incorrectStake = document.getElementById('incorrectStake');
-
-        observe.addEventListener('change', () => observe.checked ? this.startObserver() : this.stopObserver());
-        //ws.addEventListener('change', () => ws.checked ? this.enableWebSocket() : this.disableWebSocket());
-        state.addEventListener('change', () => this.setState(state.checked ? 1 : 2));
-        incorrectStake.addEventListener('input', () => this.stopObserver());
-    }
-
-    startObserver() {
+    startObserver = () => {
         if (!this.observer) {
             this.setupBetslipTracking();
         }
@@ -161,13 +149,11 @@ class CalcHelper extends Base {
             childList: true,
             subtree: true
         });
-        const observeCheckbox = document.getElementById('observe');
-        observeCheckbox.checked = true;
+        this.eventEmitter.emit('observer', true)
     }
 
-    stopObserver() {
+    stopObserver = () => {
         this.observer && this.observer.disconnect();
-        const observeCheckbox = document.getElementById('observe');
-        observeCheckbox.checked = false;
+        this.eventEmitter.emit('observer', false)
     }
 }

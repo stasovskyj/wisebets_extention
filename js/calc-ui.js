@@ -1,11 +1,19 @@
 
-class CalcUI {
+class CalcUI extends Base {
   constructor() {
+    super();
     this.calc = document.createElement('div');
     this.calc.id = "calc-container"
     this.calc.className = "calc-container"
+
     this.calc.innerHTML = this.getCalcContent();
     document.body.append(this.calc);
+
+    this.observerIndicator = document.getElementById('observe');
+    this.webSocketIndicator = document.getElementById('ws');
+    this.stateIndicator = document.getElementById('state');
+
+    this.incorrectStake = document.getElementById('incorrectStake');
 
     this.calcContainer = document.getElementById('calc-container');
     this.calcForm = document.getElementById('calc-form');
@@ -14,6 +22,10 @@ class CalcUI {
     this.offsetY = 0;
 
     this.initEventListeners();
+
+    this.eventEmitter.on("websocket", this.setWebSocketIndicator)
+    this.eventEmitter.on("observer", this.setObserverIndicator)
+    this.eventEmitter.on("state", this.setStateIndicator)
   }
 
   getCalcContent() {
@@ -63,7 +75,7 @@ class CalcUI {
               <label class="tgl-btn" data-tg-off="OFF" data-tg-on="Observer" for="observe"></label>
             </div>
             <div class="checkbox-wrapper-10">
-              <input class="tgl tgl-flip" id="ws" disabled type="checkbox" checked/>
+              <input class="tgl tgl-flip" id="ws" disabled type="checkbox"/>
               <label class="tgl-btn" data-tg-off="WS - OFF!" data-tg-on="WS" for="ws"></label>
             </div>
             <div class="checkbox-wrapper-10">
@@ -79,6 +91,7 @@ class CalcUI {
 
   initEventListeners() {
     this.calcContainer.addEventListener('mousedown', (event) => {
+      if (event.button !== 0) return;
       if (event.target.tagName === 'INPUT' || event.target.tagName === 'BUTTON') {
         this.isDragging = false;
       } else {
@@ -91,13 +104,20 @@ class CalcUI {
     });
 
     this.calcContainer.addEventListener('mousedown', (e) => {
-      if (!this.isDragging) return;
+      if (e.button !== 0 || !this.isDragging) return;
       e.preventDefault();
       this.offsetX = e.clientX - this.calcContainer.getBoundingClientRect().left;
       this.offsetY = e.clientY - this.calcContainer.getBoundingClientRect().top;
       window.addEventListener('mousemove', this.boundMoveHandler = this.moveHandler.bind(this));
       window.addEventListener('mouseup', this.boundCleanup = this.cleanup.bind(this));
     });
+
+    this.stateIndicator.addEventListener('change', (e) => this.eventEmitter.emit('stateIndicator', e.target.checked ? 1 : 2))
+
+    this.observerIndicator.addEventListener('change', (e) => this.eventEmitter.emit('observerIndicator', e.target.checked))
+    // Виключити Observer при вводі в поле неправильна ставка
+    this.incorrectStake.addEventListener('input', () => this.eventEmitter.emit('observerIndicator', false));
+
   }
 
   moveHandler(e) {
@@ -111,7 +131,16 @@ class CalcUI {
     window.removeEventListener('mouseup', this.boundCleanup);
   }
 
-  setCalcVisibility(v) {
-    this.calcContainer.style.display = v ? 'block' : 'none';
+  setCalcVisibility(value) {
+    this.calcContainer.style.display = value ? 'block' : 'none';
+  }
+  setObserverIndicator = (value) => {
+    this.observerIndicator.checked = value;
+  }
+  setWebSocketIndicator = (value) => {
+    this.webSocketIndicator.checked = value;
+  }
+  setStateIndicator = (value) => {
+    this.stateIndicator.checked = value;
   }
 }

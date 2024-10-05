@@ -9,9 +9,9 @@
     "message": "WebSocket DOWN!"
   },
   "websocket_error": {
-    "message": "WebSocket DOWN!"
+    "message": "WebSocket ERROR!"
   },
-  "websocket_reconnect": {
+  "websocket_reconnecting": {
     "message": "Спроба перепідключення..."
   },
   "websocket_not_open": {
