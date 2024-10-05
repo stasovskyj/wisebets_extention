@@ -7,7 +7,6 @@ class CalcHelper extends Base {
         this.calc = new Calculator();
         this.observer = this.setupBetslipTracking(this.InitInstanse);
         this.WSClient.socket.onmessage = (e) => this.actionOnDataReceived(e);
-        this.bindEvents();
         this.setState(1);
         this.eventEmitter.on('stateIndicator', this.setState)
         this.eventEmitter.on('observerIndicator', (action) => action ? this.startObserver() : this.stopObserver());
