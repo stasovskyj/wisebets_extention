@@ -9,7 +9,7 @@ class CalcHelper extends Base {
         this.WSClient.socket.onmessage = (e) => this.actionOnDataReceived(e);
         this.setState(1);
         this.eventEmitter.on('stateIndicator', this.setState)
-        this.eventEmitter.on('observerIndicator', (action) => action ? this.startObserver() : this.stopObserver());
+        this.eventEmitter.on('observerIndicator', (action, fromUI) => { action ? this.startObserver(action, fromUI) : this.stopObserver(action, fromUI) })
 
     }
 
@@ -34,9 +34,9 @@ class CalcHelper extends Base {
         }
     }
 
-    setState = (state) => {
-        this.eventEmitter.emit('state', (state === 1) ? true : false)
+    setState = (state, fromUI) => {
         this.state = state;
+        if (!fromUI) this.eventEmitter.emit('state', state)
     }
 
     updateCalc(currency = null, odds = null, stake = null) {
@@ -137,7 +137,7 @@ class CalcHelper extends Base {
         return this.observer;
     }
 
-    startObserver = () => {
+    startObserver = (action = true, fromUI = false) => {
         if (!this.observer) {
             this.setupBetslipTracking();
         }
@@ -148,11 +148,11 @@ class CalcHelper extends Base {
             childList: true,
             subtree: true
         });
-        this.eventEmitter.emit('observer', true)
+        if (!fromUI) this.eventEmitter.emit('observer', true)
     }
 
-    stopObserver = () => {
+    stopObserver = (action = false, fromUI = false) => {
         this.observer && this.observer.disconnect();
-        this.eventEmitter.emit('observer', false)
+        if (!fromUI) this.eventEmitter.emit('observer', false)
     }
 }

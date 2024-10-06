@@ -9,14 +9,18 @@ class CalcUI extends Base {
     this.calc.innerHTML = this.getCalcContent();
     document.body.append(this.calc);
 
+    this.calcContainer = document.getElementById('calc-container');
+    this.calcForm = document.getElementById('calc-form');
+
     this.observerIndicator = document.getElementById('observe');
     this.webSocketIndicator = document.getElementById('ws');
     this.stateIndicator = document.getElementById('state');
 
     this.incorrectStake = document.getElementById('incorrectStake');
 
-    this.calcContainer = document.getElementById('calc-container');
-    this.calcForm = document.getElementById('calc-form');
+    this.moveStakeOnRiskButton = document.getElementById('move-stake-on-risk');
+    this.resetButton = document.getElementById('reset-calc');
+
     this.isDragging = true;
     this.offsetX = 0;
     this.offsetY = 0;
@@ -36,6 +40,7 @@ class CalcUI extends Base {
           <div class="calc-form-row">
             <label for="stakeA">Сума A: <span id="stake-a-currency"></span></label>
             <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
+            <input type="hidden" id="stakeAcurrency" name="stakeAcurrency" class="calc-form-control" >
             </div>
           <div class="calc-form-row">
             <label for="oddsA">Коеф A:</label>
@@ -53,6 +58,7 @@ class CalcUI extends Base {
           <div class="calc-form-row">
             <label for="stakeB">Сума B:<span id="stake-b-currency"></span></label>
             <input type="number" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
+            <input type="hidden" id="stakeBcurrency" name="stakeBcurrency" class="calc-form-control" >
           </div>
           <div class="calc-form-row">
             <label for="stakeOnRisk">Відкрито: <span id="stake-on-risk-currency"></span></label>
@@ -112,12 +118,19 @@ class CalcUI extends Base {
       window.addEventListener('mouseup', this.boundCleanup = this.cleanup.bind(this));
     });
 
-    this.stateIndicator.addEventListener('change', (e) => this.eventEmitter.emit('stateIndicator', e.target.checked ? 1 : 2))
+    this.stateIndicator.addEventListener('change', (e) => this.eventEmitter.emit('stateIndicator', e.target.checked ? 1 : 2, true))
 
-    this.observerIndicator.addEventListener('change', (e) => this.eventEmitter.emit('observerIndicator', e.target.checked))
+    this.observerIndicator.addEventListener('change', (e) => this.eventEmitter.emit('observerIndicator', e.target.checked, true))
     // Виключити Observer при вводі в поле неправильна ставка
-    this.incorrectStake.addEventListener('input', () => this.eventEmitter.emit('observerIndicator', false));
+    this.incorrectStake.addEventListener('input', () => {
+      if (this.observerIndicator.checked) this.eventEmitter.emit('observerIndicator', false)
+    });
 
+    this.calcForm.addEventListener('focus', (e) => {
+      if (e.target.tagName === 'INPUT') {
+        e.target.value = '';
+      }
+    }, true);
   }
 
   moveHandler(e) {
@@ -141,6 +154,6 @@ class CalcUI extends Base {
     this.webSocketIndicator.checked = value;
   }
   setStateIndicator = (value) => {
-    this.stateIndicator.checked = value;
+    this.stateIndicator.checked = (value == 1) ? true : false;
   }
 }
