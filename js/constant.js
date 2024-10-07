@@ -55,16 +55,15 @@ const SITES_CONFIG = {
       betSlipElement: '[data-testid="bet-slip-opportunity"]',
       amountInputElement: 'div[data-testid="bet-slip-opportunity"] div div div div input',
       oddsElement: '._2fedc7e',
-      betAcceptedElement: '[data-testid="ЗАМІНИТИ"]'
+      betAcceptedElement: '._cd37ac9'
     }
   },
   'betonline': {
     currentAmountElement: 'button.userBalance',
     betslip: {
       betSlipElement: '.betslip-container',
-      amountInputElement: '',
-      oddsElement: '',
-      cancelBetElement: ''
+      amountInputElement: '.risk__input input',
+      oddsElement: '.bet-pick__title',
     }
   },
   'stake': {
