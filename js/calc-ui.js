@@ -20,9 +20,12 @@ class CalcUI extends Base {
     this.moveStakeOnRiskButton = document.getElementById('move-stake-on-risk');
     this.resetButton = document.getElementById('reset-calc');
 
-    this.stakeACurrencyElement = document.getElementById('stakeACurrency');
-    this.stakeBCurrencyElement = document.getElementById('stakeBCurrency');
-    this.stakeOnRiskCurrencyElement = document.getElementById('stakeOnRiskCurrency');
+    this.stakeACurrencyInput = document.getElementById('stakeACurrency');
+    this.stakeACurrencyElement = document.getElementById('stake-a-currency');
+    this.stakeBCurrencyElement = document.getElementById('stake-b-currency');
+    this.stakeBCurrencyInput = document.getElementById('stakeBCurrency');
+    this.stakeOnRiskCurrencyElement = document.getElementById('stake-on-risk-currency');
+    this.stakeOnRiskCurrencyInput = document.getElementById('stakeOnRiskCurrency');
 
     this.isDragging = true;
     this.offsetX = 0;
@@ -45,7 +48,7 @@ class CalcUI extends Base {
           <div class="calc-form-row">
             <label for="stakeA">Сума A: <span id="stake-a-currency"></span></label>
             <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
-            <input type="hidden" id="stakeAcurrency" name="stakeACurrency" class="calc-form-control" >
+            <input type="hidden" id="stakeACurrency" name="stakeACurrency">
             </div>
           <div class="calc-form-row">
             <label for="oddsA">Коеф A:</label>
@@ -63,11 +66,12 @@ class CalcUI extends Base {
           <div class="calc-form-row">
             <label for="stakeB">Сума B:<span id="stake-b-currency"></span></label>
             <input type="number" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
-            <input type="hidden" id="stakeBcurrency" name="stakeBCurrency" class="calc-form-control" >
+            <input type="hidden" id="stakeBCurrency" name="stakeBCurrency">
           </div>
           <div class="calc-form-row">
             <label for="stakeOnRisk">Відкрито: <span id="stake-on-risk-currency"></span></label>
             <input type="number" id="stakeOnRisk" name="stakeOnRisk" step="0.01" class="calc-form-control" readonly>
+            <input type="hidden" id="stakeOnRiskCurrency" name="stakeBCurrency">
           </div>
           <div class="calc-form-row">
             <label for="profit">Прибуток:</label>
@@ -170,7 +174,10 @@ class CalcUI extends Base {
 
   updateForm(propertyName, value) {
     const input = this.calcForm.elements[propertyName];
-    if (input) input.value = value !== null ? value : '';
+    if (input) {
+      input.value = value !== null ? value : '';
+      this.showCurrency()
+    }
   }
 
   setCalcVisibility(value) {
@@ -186,8 +193,8 @@ class CalcUI extends Base {
     this.stateIndicator.checked = (value == 1) ? true : false;
   }
   showCurrency() {
-    this.stakeACurrencyElement.innerText = this.stakeACurrency ?? "";
-    this.stakeBCurrencyElement.innerText = this.stakeBCurrency ?? "";
-    this.stakeOnRiskCurrencyElement.innerText = this.stakeOnRiskCurrency ?? "";
+    this.stakeACurrencyElement.innerText = this.stakeACurrencyInput.value ?? "";
+    this.stakeBCurrencyElement.innerText = this.stakeBCurrencyInput.value ?? "";
+    this.stakeOnRiskCurrencyElement.innerText = this.stakeOnRiskCurrencyInput.value ?? "";
   }
 }
