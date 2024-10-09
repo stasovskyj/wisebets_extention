@@ -136,9 +136,8 @@ class CalcUI extends Base {
     });
     // Метод очистки поля при focus
     this.calcForm.addEventListener('focus', (e) => {
-      if (e.target.tagName === 'INPUT') {
+      if (e.target.tagName === 'INPUT' && !e.target.hasAttribute('readonly'))
         e.target.value = '';
-      }
     }, true);
     // синхронізація даних в обєкті калькулятора
     this.calcForm.addEventListener('input', (e) => {
