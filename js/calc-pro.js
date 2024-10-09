@@ -1,5 +1,6 @@
-class Calculator {
+class Calculator extends Base {
     constructor() {
+        super();
         this.stakeA = null;
         this.stakeACurrency = null;
         this.stakeB = null;
@@ -23,56 +24,57 @@ class Calculator {
                 'USD': 0.0238,
                 'EUR': 0.0222
             }
-
         };
-        this.bindEvents();
+        this.eventEmitter.on("formUpdated", this.updateData.bind(this))
+        this.eventEmitter.on("moveStakeOnRisk", this.moveStakeOnRisk.bind(this))
+        this.eventEmitter.on("reset", this.moveStakeOnRisk.bind(this))
     }
     setStakeA(v) {
         this.stakeA = parseFloat(v) || null;
-        this.updateForm();
+        this.eventEmitter.emit('calcUpdated', 'stakeA', v);
     }
     setStakeB(v) {
         this.stakeB = parseFloat(v) || null;
+        this.eventEmitter.emit('calcUpdated', 'stakeB', v);
     }
     setStakeBCurrency(v) {
         this.stakeBCurrency = v;
-        this.showCurrency();
+        this.eventEmitter.emit('calcUpdated', 'stakeBCurrency', v);
     }
     setStakeOnRiskCurrency(v) {
         this.stakeOnRiskCurrency = v;
-        this.showCurrency();
+        this.eventEmitter.emit('calcUpdated', 'stakeOnRiskCurrency', v);
     }
     setStakeACurrency(v) {
         this.stakeACurrency = v;
-        this.showCurrency();
+        this.eventEmitter.emit('calcUpdated', 'stakeACurrency', v);
     }
     setOddsA(v) {
         this.oddsA = parseFloat(v) || null;
-        this.updateForm();
+        this.eventEmitter.emit('calcUpdated', 'oddsA', v);
         this.checkCalculation()
     }
     setOddsB(v) {
         this.oddsB = parseFloat(v) || null;
-        this.updateForm();
+        this.eventEmitter.emit('calcUpdated', 'oddsB', v);
         this.checkCalculation()
     }
     setProfit(v) {
         this.profit = parseFloat(v);
-        this.updateForm();
+        this.eventEmitter.emit('calcUpdated', 'profit', v);
     }
     setIncorrectStake(v) {
         this.incorrectStake = parseFloat(v) || null;
-        this.updateForm();
+        this.eventEmitter.emit('calcUpdated', 'incorrectStake', v);
     }
     setStakeOnRisk(v) {
         this.stakeOnRisk = parseFloat(v) || null;
         this.setStakeOnRiskCurrency(this.getStakeOnRiskCurrency());
-        this.updateForm();
+        this.eventEmitter.emit('calcUpdated', 'stakeOnRisk', v);
     }
     stakeBCalc(stakeA, oddsA, oddsB) {
         return (stakeA * oddsA / oddsB).toFixed(2);
     }
-
     profitCalc(stakeA, oddsA, oddsB) {
         const stakeB = parseFloat(this.stakeBCalc(stakeA, oddsA, oddsB));
         return ((stakeA * oddsA) - (stakeA + stakeB)).toFixed(2);
@@ -120,87 +122,42 @@ class Calculator {
                 this.setStakeOnRisk(null);
             }
         } else {
-            this.profit = null
-            this.stakeB = null
+            this.setProfit(null)
+            this.setStakeB(null)
+        }
+    }
+    //Оновлення властивостей обєкта з форми
+    updateData(propertyName, value) {
+        if (propertyName in this) {
+            this[propertyName] = value;
+            this.checkCalculation();
         }
     }
     moveStakeOnRisk() {
         if (this.incorrectStake < this.stakeB) {
             this.setStakeA(this.stakeOnRisk)
-            this.stakeB = null
-            this.profit = null;
-            this.incorrectStake = null;
-            this.stakeOnRisk = null;
-            this.checkCalculation()
+            this.setStakeB(null)
+            this.setProfit(null);
+            this.setIncorrectStake(null);
+            this.setStakeOnRisk(null);
         } else {
             this.setStakeBCurrency(this.stakeACurrency);
             this.setStakeACurrency(this.stakeOnRiskCurrency);
             this.setStakeOnRiskCurrency(null);
-            this.stakeA = this.stakeOnRisk;
-            this.oddsA = this.oddsB;
-            this.profit = null;
-            this.incorrectStake = null;
-            this.stakeOnRisk = null;
-            this.stakeB = null;
-            this.oddsB = null;
-            this.updateForm();
-            this.checkCalculation()
+            this.setStakeA(this.stakeOnRisk);
+            this.setOddsA(this.oddsB);
+            this.setProfit(null);
+            this.setIncorrectStake(null);
+            this.setStakeOnRisk(null);
+            this.setStakeB(null)
+            this.setOddsB(null);
         }
-
+        this.checkCalculation();
     }
     reset() {
         for (let key of Object.keys(this)) {
             if (key === 'conversionRates') continue;
             this[key] = null;
-            this.showCurrency()
         }
-        this.updateForm();
-    }
-    // Оновлення веб-форми на основі властивостей калькулятора
-    updateForm() {
-        const form = document.getElementById('calc-form');
-        const formFields = form.querySelectorAll('input');
-        formFields.forEach(field => {
-            if (this.hasOwnProperty(field.id)) {
-                field.value = this[field.id];
-            }
-        });
-    }
-
-    bindEvents() {
-        const moveStakeOnRiskButton = document.getElementById('move-stake-on-risk');
-        const resetButton = document.getElementById('reset-calc');
-        const form = document.getElementById('calc-form');
-        // Відслідковування вводу даних в форму
-        form.addEventListener('input', (e) => {
-            const { id, value } = e.target;
-            const numericValue = parseFloat(value) || null;
-            const regex = /^(?:\d+\.(?:0)?)$/
-            if (!regex.test(value)) {
-                if (id in this) {
-
-                    this[id] = numericValue;
-                    this.checkCalculation();
-                }
-            }
-        });
-        
-        // Дії для кнопок управління
-        moveStakeOnRiskButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.moveStakeOnRisk();
-        });
-        resetButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.reset();
-        });
-    }
-    showCurrency() {
-        const stakeACurrencyElement = document.getElementById('stake-a-currency');
-        const stakeBCurrencyElement = document.getElementById('stake-b-currency');
-        const stakeOnRiskCurrencyElement = document.getElementById('stake-on-risk-currency');
-        stakeACurrencyElement.innerText = this.stakeACurrency ?? "";
-        stakeBCurrencyElement.innerText = this.stakeBCurrency ?? "";
-        stakeOnRiskCurrencyElement.innerText = this.stakeOnRiskCurrency ?? "";
     }
 }

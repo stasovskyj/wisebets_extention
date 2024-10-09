@@ -1,4 +1,3 @@
-
 class CalcUI extends Base {
   constructor() {
     super();
@@ -21,6 +20,10 @@ class CalcUI extends Base {
     this.moveStakeOnRiskButton = document.getElementById('move-stake-on-risk');
     this.resetButton = document.getElementById('reset-calc');
 
+    this.stakeACurrencyElement = document.getElementById('stakeACurrency');
+    this.stakeBCurrencyElement = document.getElementById('stakeBCurrency');
+    this.stakeOnRiskCurrencyElement = document.getElementById('stakeOnRiskCurrency');
+
     this.isDragging = true;
     this.offsetX = 0;
     this.offsetY = 0;
@@ -30,6 +33,8 @@ class CalcUI extends Base {
     this.eventEmitter.on("websocket", this.setWebSocketIndicator)
     this.eventEmitter.on("observer", this.setObserverIndicator)
     this.eventEmitter.on("state", this.setStateIndicator)
+    this.eventEmitter.on("calcUpdated", this.updateForm.bind(this))
+    
   }
 
   getCalcContent() {
@@ -40,7 +45,7 @@ class CalcUI extends Base {
           <div class="calc-form-row">
             <label for="stakeA">Сума A: <span id="stake-a-currency"></span></label>
             <input type="number" id="stakeA" name="stakeA" class="calc-form-control" step="0.01" inputmode="decimal">
-            <input type="hidden" id="stakeAcurrency" name="stakeAcurrency" class="calc-form-control" >
+            <input type="hidden" id="stakeAcurrency" name="stakeACurrency" class="calc-form-control" >
             </div>
           <div class="calc-form-row">
             <label for="oddsA">Коеф A:</label>
@@ -58,7 +63,7 @@ class CalcUI extends Base {
           <div class="calc-form-row">
             <label for="stakeB">Сума B:<span id="stake-b-currency"></span></label>
             <input type="number" id="stakeB" name="stakeB" step="0.01" class="calc-form-control" readonly>
-            <input type="hidden" id="stakeBcurrency" name="stakeBcurrency" class="calc-form-control" >
+            <input type="hidden" id="stakeBcurrency" name="stakeBCurrency" class="calc-form-control" >
           </div>
           <div class="calc-form-row">
             <label for="stakeOnRisk">Відкрито: <span id="stake-on-risk-currency"></span></label>
@@ -125,14 +130,32 @@ class CalcUI extends Base {
     this.incorrectStake.addEventListener('input', () => {
       if (this.observerIndicator.checked) this.eventEmitter.emit('observerIndicator', false)
     });
-
+    // Метод очистки поля при focus
     this.calcForm.addEventListener('focus', (e) => {
       if (e.target.tagName === 'INPUT') {
         e.target.value = '';
       }
     }, true);
-  }
+    // синхронізація даних в обєкті калькулятора
+    this.calcForm.addEventListener('input', (e) => {
+      const { id, value } = e.target;
+      const numericValue = parseFloat(value) || null;
+      const regex = /^(?:\d+\.(?:0)?)$/
+      if (!regex.test(value)) {
+        this.eventEmitter.emit('formUpdated', id, numericValue)
+      }
+    });
+    this.moveStakeOnRiskButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.eventEmitter.emit('moveStakeOnRisk');
+    });
+    this.resetButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.eventEmitter.emit('reset');
+      this.calcForm.reset();
+    });
 
+  }
   moveHandler(e) {
     if (!this.isDragging) return;
     this.calcContainer.style.left = e.clientX - this.offsetX + 'px';
@@ -142,6 +165,11 @@ class CalcUI extends Base {
   cleanup() {
     window.removeEventListener('mousemove', this.boundMoveHandler);
     window.removeEventListener('mouseup', this.boundCleanup);
+  }
+
+  updateForm(propertyName, value) {
+    const input = this.calcForm.elements[propertyName];
+    if (input) input.value = value !== null ? value : '';
   }
 
   setCalcVisibility(value) {
@@ -155,5 +183,11 @@ class CalcUI extends Base {
   }
   setStateIndicator = (value) => {
     this.stateIndicator.checked = (value == 1) ? true : false;
+  }
+  showCurrency() {
+
+    this.stakeACurrencyElement.innerText = this.stakeACurrency ?? "";
+    this.stakeBCurrencyElement.innerText = this.stakeBCurrency ?? "";
+    this.stakeOnRiskCurrencyElement.innerText = this.stakeOnRiskCurrency ?? "";
   }
 }

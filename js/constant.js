@@ -8,8 +8,8 @@ const LOG_SUCCESS = "background: green; color: white; display: block;"
 const LOG_WARNING = "background: orange; color: white; display: block;"
 const SITES_CONFIG = {
   'pinnacle': {
-    currentAmountElement: '[data-test-id="QuickCashier-BankRoll"]',//+
-    unsettledBetsElement: '[data-test-id="betCard"]',//+
+    currentAmountElement: '[data-test-id="QuickCashier-BankRoll"]',
+    unsettledBetsElement: '[data-test-id="betCard"]',
     betslip: {
       betSlipElement: '[data-test-id="Betslip-ScrollContainer"]', // Селектор елементу betslip
       amountInputElement: '[data-test-id="Betslip-StakeWinInput"] div div input', // Сума
