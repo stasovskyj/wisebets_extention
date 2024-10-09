@@ -27,7 +27,7 @@ class Calculator extends Base {
         };
         this.eventEmitter.on("formUpdated", this.updateData.bind(this))
         this.eventEmitter.on("moveStakeOnRisk", this.moveStakeOnRisk.bind(this))
-        this.eventEmitter.on("reset", this.moveStakeOnRisk.bind(this))
+        this.eventEmitter.on("reset", this.reset.bind(this))
     }
     setStakeA(v) {
         this.stakeA = parseFloat(v) || null;
