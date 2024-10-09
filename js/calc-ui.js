@@ -34,7 +34,7 @@ class CalcUI extends Base {
     this.eventEmitter.on("observer", this.setObserverIndicator)
     this.eventEmitter.on("state", this.setStateIndicator)
     this.eventEmitter.on("calcUpdated", this.updateForm.bind(this))
-    
+
   }
 
   getCalcContent() {
@@ -147,7 +147,8 @@ class CalcUI extends Base {
     });
     this.moveStakeOnRiskButton.addEventListener('click', (e) => {
       e.preventDefault();
-      this.eventEmitter.emit('moveStakeOnRisk');
+      if (this.calcForm.elements['stakeOnRisk'].value != '')
+        this.eventEmitter.emit('moveStakeOnRisk');
     });
     this.resetButton.addEventListener('click', (e) => {
       e.preventDefault();
@@ -185,7 +186,6 @@ class CalcUI extends Base {
     this.stateIndicator.checked = (value == 1) ? true : false;
   }
   showCurrency() {
-
     this.stakeACurrencyElement.innerText = this.stakeACurrency ?? "";
     this.stakeBCurrencyElement.innerText = this.stakeBCurrency ?? "";
     this.stakeOnRiskCurrencyElement.innerText = this.stakeOnRiskCurrency ?? "";
