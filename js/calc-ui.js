@@ -138,13 +138,15 @@ class CalcUI extends Base {
     this.calcForm.addEventListener('focus', (e) => {
       if (e.target.tagName === 'INPUT' && !e.target.hasAttribute('readonly'))
         e.target.value = '';
+      this.eventEmitter.emit('formUpdated', e.target.id, null)
+
     }, true);
     // синхронізація даних в обєкті калькулятора
     this.calcForm.addEventListener('input', (e) => {
       const { id, value } = e.target;
       const numericValue = parseFloat(value) || null;
-      const regex = /^(?:\d+\.(?:0)?)$/
-      if (!regex.test(value)) {
+      const regex = /^(?:\d+(?:[.,]\d*[1-9])?)$/
+      if (regex.test(value)) {
         this.eventEmitter.emit('formUpdated', id, numericValue)
       }
     });
